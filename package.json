@@ -1,0 +1,11 @@
+{
+  "name": "web-companions",
+  "private": true,
+  "scripts": {
+    "prepublishOnly": "node scripts/prepublish.js",
+    "release": "RELEASE_MODE=true node scripts/release.js"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
