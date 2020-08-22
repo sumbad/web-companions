@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    // resolve modules as you would expect
+    "moduleResolution": "node",
+    // produce a source map
+    "sourceMap": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "inlineSources": true,
+    "rootDir": "../src",
+    "baseUrl": "../",
+    "outDir": "../lib",
+    "paths": {
+      "*": ["src/*", "node_modules/*"]
+    },
+    "esModuleInterop": true
+  },
+  "include": [
+    "../src/**/*.ts"
+  ],
+  "compileOnSave": false
+}
