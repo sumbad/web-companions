@@ -1,20 +1,10 @@
 import { component, virtual } from 'haunted';
 import type { Component } from 'haunted/lib/component';
+import type { ElementOptions, VirtualComponentFunc, ElementComponentFunc } from './index.type';
 
-type Constructor<P extends object> = new (...args: unknown[]) => Component<P>;
-interface Options<P> {
-  baseElement?: Constructor<{}>;
-  observedAttributes?: (keyof P)[];
-  useShadowDOM?: boolean;
-  shadowRootInit?: ShadowRootInit;
-}
 
-export function defineElement<P extends object>(
-  name: string,
-  func: (host: Component<P>) => unknown | void,
-  options?: ElementDefinitionOptions & Options<P>
-) {
-  let componentOptions: Options<P>;
+export function defineElement<P extends object>(name: string, func: (host: Component<P>) => unknown | void, options?: ElementOptions<P>) {
+  let componentOptions: ElementOptions<P>;
   let _component: Function;
 
   if (Array.isArray(options?.observedAttributes)) {
@@ -44,26 +34,14 @@ export function defineElement<P extends object>(
   };
 }
 
-interface ElementFuncComponent<P extends object> {
-  (host: Component<P>): unknown | void;
-}
-
-interface VirtualFuncComponent<P> {
-  (props?: P): unknown | void;
-}
-
-export function createVirtual<P extends object>(func: VirtualFuncComponent<P>) {
-  const result = virtual(func as VirtualFuncComponent<unknown>);
+export function createVirtual<P extends object>(func: VirtualComponentFunc<P>) {
+  const result = virtual(func as VirtualComponentFunc<unknown>);
   return result as typeof func;
 }
 
-
-export function FC<P extends object>(
-  func: ElementFuncComponent<P> | VirtualFuncComponent<P>,
-  defaultOptions?: ElementDefinitionOptions & Options<P>
-) {
+export function FC<P extends object>(func: ElementComponentFunc<P> | VirtualComponentFunc<P>, defaultOptions?: ElementOptions<P>) {
   return {
-    element: (name: string, options: (ElementDefinitionOptions & Options<P>) | undefined = defaultOptions) => defineElement(name, func, options),
-    virtual: () => createVirtual(func as VirtualFuncComponent<P>),
+    element: (name: string, options: ElementOptions<P> | undefined = defaultOptions) => defineElement(name, func, options),
+    virtual: () => createVirtual(func as VirtualComponentFunc<P>),
   };
 }
