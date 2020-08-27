@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'haunted';
+import { useState, useRef, useCallback } from 'haunted';
 import { FC } from '@web-companions/fc';
 import { loadingProgressBar } from './loadingProgressBar';
 
