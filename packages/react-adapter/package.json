@@ -1,0 +1,43 @@
+{
+  "name": "@web-companions/react-adapter",
+  "version": "0.0.0",
+  "description": "To use web components as React component",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run transpile && node ./scripts/.make-lib",
+    "transpile": "rimraf ./lib && tsc",
+    "prepublishOnly": "npm run build",
+    "pub": "npm publish ./lib",
+    "pub:beta": "npm publish ./lib --tag beta"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumbad/web-companions.git"
+  },
+  "keywords": [
+    "web components",
+    "React"
+  ],
+  "author": "sumbad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumbad/web-companions/issues"
+  },
+  "homepage": "https://github.com/sumbad/web-companions#readme",
+  "peerDependencies": {
+    "react": "16.x"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.47",
+    "concurrently": "^5.2.0",
+    "fs-extra": "9.0.1",
+    "glob": "7.1.6",
+    "rimraf": "3.0.2",
+    "terser": "4.8.0",
+    "typescript": "3.9.7"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "lib"
+  }
+}
