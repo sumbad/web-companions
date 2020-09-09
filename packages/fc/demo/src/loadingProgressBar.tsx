@@ -1,11 +1,14 @@
 import style from './style.css';
-import { useState, useCallback, useEffect } from 'haunted';
+// import { useState, useCallback, useEffect } from 'haunted';
+import { useState, useCallback, useEffect } from 'augmentor';
 import { FC } from '@web-companions/fc';
 
 
-export const loadingProgressBar = FC(function (prop: { ref: any }) {
+export const loadingProgressBar = FC(
+  function () {
   const [animationName, setAnimationName] = useState('f0');
 
+  // console.log('111111', prop.ref);
   useEffect(() => {
     const generator = function* () {
       yield setAnimationName('f1');
@@ -20,20 +23,22 @@ export const loadingProgressBar = FC(function (prop: { ref: any }) {
       yield setAnimationName('f10');
     };
 
-    console.log(222, prop.ref);
-    prop.ref.current = this ?? {};
-    prop.ref.current.generateProgress = generator();
+    // console.log(222, prop.ref, this);
+    this.generateProgress = generator();
+    // prop.ref.current = this ?? {};
+    // prop.ref.current.generateProgress = generator();
   }, []);
 
   const [isPause, setIsPause] = useState(false);
 
   const handlePause = useCallback(() => {
-    setIsPause(!isPause);
-  }, [isPause]);
+    setIsPause((_isPause: boolean) => !_isPause);
+  }, [setIsPause]);
 
   return (
     <>
       <style>{style}</style>
+      111
       <div class={`animated yt-loader ${isPause ? 'pause' : ''}`} style={`animation-name: ${animationName}`}></div>
       <button onclick={handlePause}>Pause</button>
     </>

@@ -7,10 +7,13 @@ export interface ElementOptions<P> extends ElementDefinitionOptions {
   observedAttributes?: (keyof P)[];
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
+  
+  
+  reflectAttr: Record<string, string>;
 }
 
-export interface ElementComponentFunc<P extends object> {
-  (host: Component<P>): unknown | void;
+export interface ComponentFunc<Props extends object> {
+  (props: Props): unknown | void;
 }
 
 export interface VirtualComponentFunc<P> {

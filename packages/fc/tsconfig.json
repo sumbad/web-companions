@@ -1,3 +1,48 @@
 {
-  "extends": "./tsconfig/tsconfig.esm.json"
+  "compilerOptions": {
+    // Project Options
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedModules": false,
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "module": "ESNext",
+    "outDir": "./lib",
+    "removeComments": true,
+    "rootDir": "./src",
+    "sourceMap": true,
+    "target": "ES2019",
+
+    // Module Resolution
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*", "node_modules/*"]
+    },
+    "esModuleInterop": true,
+
+    // Strict Checks
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+
+    // Linter Checks
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Experimental
+    "experimentalDecorators": true,
+
+    // Source Maps
+    "inlineSources": true,
+
+    // Advanced
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*.ts"],
+  "compileOnSave": false
 }

@@ -6,13 +6,11 @@
       {
         "tag": "html",
         "import": {
-          "module": "lit-html",
+          "module": "uhtml",
           "export": "html"
         },
         "attributes": [
-          {
-            "preset": "lit-html"
-          }
+          
         ]
       }
     ]
