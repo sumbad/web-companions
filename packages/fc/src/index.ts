@@ -290,7 +290,7 @@ export type ComponentFunc<P> = (props: P) => unknown | void;
 // export function defineElement1<P>(...prop:  P extends object ? [ElementProperties<P>, (props: P) => unknown | void] : [(props: P) => unknown | void]) {}
 // export function defineElement1<P>(props: ElementProperties<P> | ComponentFunc<ElementProperties<P>>, ...args:  P extends object ? [ComponentFunc<ElementProperties<P>>, ElementConfig<P>?] : [ElementConfig<P>?]) {}
 // export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<unknown>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<PP>, ElementConfig<P>?]) {}
-export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {}
+export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P> | ComponentFunc<P>>(props: PP, ...args: PP extends Function ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {}
 
 
 // type mff = Filter<string | undefined | null, undefined | string>;
@@ -330,9 +330,16 @@ defineElement1<{b?: string}>(
 
 
 defineElement1(
-  () => {
-    console.log();
-});
+  function () {
+      console.log();
+  }
+);
+
+defineElement1(
+    () => {
+      console.log();
+  }
+);
 
 
 const aa = String();
@@ -340,8 +347,7 @@ const aa = String();
 
 
 
-
-export function FC<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {
+export function FC<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P> | ComponentFunc<P>>(props: PP, ...args: PP extends Function ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {
   let func: any//ComponentFunc<unknown | P extends object ? P : defProp<PP>>;
   let elProps: PP;
   const defaultElementConfig = args[1];
@@ -351,7 +357,7 @@ export function FC<P, PP extends ElementProperties<P> | ComponentFunc<P> = Eleme
     func = props as ComponentFunc<unknown>;
   } else if (typeof args[0] === 'function') {
     elProps = props;
-    func = args[0] as ComponentFunc<P extends object ? P : defProp<PP>>;
+    func = args[0];
   }
   return {
     element: (name: string, config: ElementConfig<P> | undefined = defaultElementConfig) => createElement<P, PP>(name, func, elProps, config),
