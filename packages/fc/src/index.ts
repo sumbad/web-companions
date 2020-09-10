@@ -54,7 +54,7 @@ function reflectAttrFromProp(el: Element, attrName: string, value: any) {
 }
 
 
-export function defineElement<P, EP>(name: string, func: ComponentFunc<EP>, elProps?: EP, config?: ElementConfig<P>) {
+export function defineElement<P, EP>(name: string, func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
   let _mapper = function <T extends keyof P>(props: P, key: T | any, value: any): P {
     if (props === undefined || value !== props[key]) {
       return { ...props, [key]: value };
@@ -204,10 +204,10 @@ export function defineElement<P, EP>(name: string, func: ComponentFunc<EP>, elPr
 }
 
 
-export function createElement<P, EP>(name: string, func: ComponentFunc<EP>, elProps?: EP, config?: ElementConfig<P>) {
+export function createElement<P, EP>(name: string, func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<any>) {
   defineElement(name, func, elProps, config);
 
-  const createInstance = async (properties?: defProp<EP> & Partial<HTMLElement> & {ref: {}}) => {
+  const createInstance = async (properties?: P & Partial<HTMLElement> & {ref: {}}) => {
     const elClass = await customElements.whenDefined(name).then(() => customElements.get(name));
     // TODO: need check, as I can see it doesn't work
     if (typeof properties === 'object') {
@@ -251,9 +251,28 @@ export type ElementProperties<P> = {
 
 type a = ReturnType<typeof String>;
 
-export type defProp<EP> = {[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : EP[K] extends ElementConfigProp<any> ? EP[K]['init'] : unknown;};
+type Diff<T, U> = T extends U ? never : T;
+
+export type defProp1<EP> = {[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : EP[K] extends ElementConfigProp<any> ? EP[K]['init'] : unknown;};
+// export type defProp<EP> = Partial<{[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : EP[K] extends ElementConfigProp<any> ? EP[K]['init'] : unknown;}>;
+// export type defProp1<EP> = {[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : EP[K] extends ElementConfigProp<any> ? (EP[K]['init'] extends undefined ? unknown : EP[K]['init']) : unknown;};
+// export type defProp2<EP> = {[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : EP[K] extends ElementConfigProp<any> ? (EP[K]['init'] extends undefined ? EP[K]['init'] : unknown) : unknown;};
+type AtLeastOne<T, U = {[K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+type RequireOnlyOne<T> =
+    Pick<T, Exclude<keyof T, keyof {[L in keyof T]: T[L] extends object ? T[L] : never}>>;
+    // & {
+    //     [K in Keys]-?:
+    //         Required<Pick<T, K>>
+    //         & Partial<Record<Exclude<Keys, K>, undefined>>
+    // }[Keys]
+// export type defProp<EP> = AtLeastOne<defProp1<EP>, {[K in keyof defProp1<EP>]: defProp1<EP>[K] extends undefined ? defProp1<EP>[K]: never}>;
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+// export type defProp<EP> = Optional<defProp1<EP>, ({[I in keyof EP]: EP[I] extends ElementConfigProp<unknown | undefined> ? I : never})[keyof EP]>;//RequireOnlyOne<defProp1<EP>>;
+type Filter<T, U> = T extends U ? T : never;
+export type defProp<EP> = Optional<defProp1<EP>, ({[K in keyof defProp1<EP>]: Filter<defProp1<EP>[K], undefined> extends never ? never : K})[keyof defProp1<EP>]>;//RequireOnlyOne<defProp1<EP>>;
+// ({[I in keyof defProp1<EP>]: defProp1<EP>[I] extends (defProp1<EP>[I] & undefined) ? I : never})[keyof EP]
 // type ComponentFunc<P, EP> = (props: P & {[K in keyof EP]: EP[K] extends StringConstructor ? ReturnType<EP[K]> : never;}) => unknown | void;
-export type ComponentFunc<EP> = (props: defProp<EP>) => unknown | void;
+export type ComponentFunc<P> = (props: P) => unknown | void;
 
 
 // type ttt = ComponentFunc<{a: }, {a: StringConstructor}>
@@ -271,20 +290,36 @@ export type ComponentFunc<EP> = (props: defProp<EP>) => unknown | void;
 // export function defineElement1<P>(...prop:  P extends object ? [ElementProperties<P>, (props: P) => unknown | void] : [(props: P) => unknown | void]) {}
 // export function defineElement1<P>(props: ElementProperties<P> | ComponentFunc<ElementProperties<P>>, ...args:  P extends object ? [ComponentFunc<ElementProperties<P>>, ElementConfig<P>?] : [ElementConfig<P>?]) {}
 // export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<unknown>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<PP>, ElementConfig<P>?]) {}
-export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<unknown>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<PP>, ElementConfig<P>?]) {}
+export function defineElement1<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {}
+
+
+// type mff = Filter<string | undefined | null, undefined | string>;
+// type mff<EP> = ({[K in keyof EP]: Filter<EP[K], undefined> extends never ? never : K})[keyof EP];
+
+// const fff: mff<{b: string; a: number | undefined }>;
+// fff.
+
+// type mf = defProp<{b: { init: string | undefined }}>;
+
+// type aa = mf;
+// const bbb: aa;
+// bbb
 
 
 defineElement1(
   {
     a: String,
-    b: {init: '1'}
+    b: {
+        init: '' as string | undefined
+      }
   },
   function aaa (props) {
-    console.log(props.a);
+    console.log(props);
   }
 )
 
-defineElement1(
+defineElement1<{b?: string}>(
+// defineElement1(
   {
     b: {init: '1'}
   },
@@ -294,22 +329,20 @@ defineElement1(
 )
 
 
-// defineElement1(
-//   (p: {a: string}) => {
-// });
-
-// defineElement1(
-//   (p: {a: string}) => {
-//     // console.log(props.b);
-//   }
-// )
+defineElement1(
+  () => {
+    console.log();
+});
 
 
 const aa = String();
 
 
-export function FC<P, PP extends ElementProperties<P> | ComponentFunc<unknown>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<PP>, ElementConfig<P>?]) {
-  let func: ComponentFunc<unknown | PP>;
+
+
+
+export function FC<P, PP extends ElementProperties<P> | ComponentFunc<P> = ElementProperties<P>>(props: PP, ...args: PP extends ComponentFunc<unknown> ? [ElementConfig<P>?] : [ComponentFunc<P extends object ? P : defProp<PP>>, ElementConfig<P>?]) {
+  let func: any//ComponentFunc<unknown | P extends object ? P : defProp<PP>>;
   let elProps: PP;
   const defaultElementConfig = args[1];
   
@@ -318,10 +351,10 @@ export function FC<P, PP extends ElementProperties<P> | ComponentFunc<unknown>>(
     func = props as ComponentFunc<unknown>;
   } else if (typeof args[0] === 'function') {
     elProps = props;
-    func = args[0] as ComponentFunc<unknown>;
+    func = args[0] as ComponentFunc<P extends object ? P : defProp<PP>>;
   }
   return {
-    element: (name: string, config: ElementConfig<P> | undefined = defaultElementConfig) => createElement(name, func, elProps, config),
+    element: (name: string, config: ElementConfig<P> | undefined = defaultElementConfig) => createElement<P, PP>(name, func, elProps, config),
     virtual: () => augmentor(func),
   };
 }
