@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "augmentor": "^2.2.0",
+    "dom-augmentor": "^2.0.8",
     "uhtml": "^2.1.1"
   }
 }
