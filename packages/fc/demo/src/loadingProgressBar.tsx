@@ -1,6 +1,5 @@
 import style from './style.css';
-// import { useState, useCallback, useEffect } from 'haunted';
-import { useState, useCallback, useEffect } from 'augmentor';
+import { useState, useCallback, useEffect } from 'dom-augmentor';
 import { FC } from '@web-companions/fc';
 
 export const loadingProgressBar = FC(function () {
@@ -19,10 +18,7 @@ export const loadingProgressBar = FC(function () {
       yield setAnimationName('f10');
     };
 
-    // console.log(222, prop.ref, this);
     this.generateProgress = generator();
-    // prop.ref.current = this ?? {};
-    // prop.ref.current.generateProgress = generator();
   }, []);
 
   const [isPause, setIsPause] = useState(false);
@@ -39,5 +35,3 @@ export const loadingProgressBar = FC(function () {
     </>
   );
 });
-
-// export default loadingProgressBar.element('a-a');
