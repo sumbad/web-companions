@@ -1,5 +1,5 @@
 import style from './style.css';
-import { useState, useCallback, useEffect } from 'dom-augmentor';
+import { useState, useCallback, useEffect } from 'augmentor';
 import { FC } from '@web-companions/fc';
 
 export const loadingProgressBar = FC(function () {
@@ -19,6 +19,9 @@ export const loadingProgressBar = FC(function () {
     };
 
     this.generateProgress = generator();
+
+    console.log('connected loadingProgressBar');
+    return () => console.log('disconnected loadingProgressBar');
   }, []);
 
   const [isPause, setIsPause] = useState(false);

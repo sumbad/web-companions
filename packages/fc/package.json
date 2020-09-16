@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "peerDependencies": {
-    "dom-augmentor": "2.x",
+    "augmentor": "2.x",
     "uhtml": "2.x"
   },
   "devDependencies": {
@@ -38,12 +38,12 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@insum/webpack.config": "^2.1.1",
+    "augmentor": "^2.2.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-jsx-to-tt": "^0.2.0",
     "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^6.1.0",
     "core-js": "^3.6.5",
-    "dom-augmentor": "^2.0.8",
     "fs-extra": "9.0.1",
     "glob": "7.1.6",
     "raw-loader": "^4.0.1",

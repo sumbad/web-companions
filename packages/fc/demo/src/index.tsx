@@ -1,5 +1,5 @@
 import { FC } from '@web-companions/fc';
-import { useEffect, useRef, useState, useCallback } from 'dom-augmentor';
+import { useEffect, useRef, useState, useCallback } from 'augmentor';
 import { loadingProgressBar } from './loadingProgressBar';
 
 
@@ -11,8 +11,8 @@ const CounterVirtual = FC(
     const [count, setCount] = useState(0);
     
     useEffect(()=>{
-      console.log('connected');
-      return () => console.log('disconnected');
+      console.log('connected CounterVirtual');
+      return () => console.log('disconnected CounterVirtual');
     }, []);
 
     return (
