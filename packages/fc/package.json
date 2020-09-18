@@ -27,8 +27,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "peerDependencies": {
-    "augmentor": "2.x",
-    "uhtml": "2.x"
+    "augmentor": "2.x"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",

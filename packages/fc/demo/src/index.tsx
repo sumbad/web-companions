@@ -1,7 +1,7 @@
 import { EFC, VFC } from '@web-companions/fc';
 import { useEffect, useRef, useState, useCallback } from 'augmentor';
 import { loadingProgressBar } from './loadingProgressBar';
-import { render } from 'uhtml';
+import { html, render } from 'uhtml';
 
 // const html = String.raw;
 // function html(strings) {
@@ -26,7 +26,7 @@ const CounterVirtual = VFC((prop: { msg: string }) => {
       <i>{count}</i>
     </>
   );
-});
+}, html.for);
 
 const LoadingProgressBarEl = loadingProgressBar.define('loading-progress-bar');
 

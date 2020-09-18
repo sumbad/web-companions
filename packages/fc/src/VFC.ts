@@ -1,11 +1,10 @@
 import { augmentor, useRef } from 'augmentor';
 import type { ComponentFunc } from './common.model';
-import { html } from 'uhtml';
 
-export function VFC<P>(func: ComponentFunc<P>) {
+export function VFC<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?: string | undefined) => any) {
   const nodeFuncMap = new WeakMap();
 
-  const vRender = (props: any) => {
+  return (props: P) => {
     const currentNode = useRef(null);
     let currentFunc = nodeFuncMap.get(currentNode);
     if (currentFunc !== undefined) {
@@ -13,7 +12,8 @@ export function VFC<P>(func: ComponentFunc<P>) {
       const pFunc = new Proxy(func, {
         apply: (target, thisArg, args) => {
           const temp = Reflect.apply(target, thisArg, args);
-          return html.for(currentNode)`${temp}`;
+
+          return keyedRender(currentNode)`${temp}`;
         },
       });
 
@@ -22,9 +22,5 @@ export function VFC<P>(func: ComponentFunc<P>) {
     }
 
     return currentFunc(props);
-  };
-
-  return function (props: P) {
-    return vRender(props);
   };
 }
