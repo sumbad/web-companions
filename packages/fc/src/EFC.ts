@@ -7,7 +7,6 @@ import type {
   ComponentFuncWithoutParams,
   defProp,
 } from './common.model';
-// import { render } from 'uhtml';
 import { reflectAttrFromProp } from './utils';
 
 function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
@@ -18,15 +17,13 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
       return props;
     }
   };
-  // const renderFunc = (container: Element | ShadowRoot | DocumentFragment, template: any) => {
-  //   render(container, template);
-  // };
   
   const renderFunc = config?.render || ((c, t) => c instanceof DocumentFragment ? c.textContent = t : c.innerHTML = t)
 
-  const propsEntriesMap = elProps === undefined ? [] : Object.entries<ElementConfigProp<P>>(elProps as any);
+  const propEntMap = elProps === undefined ? [] : Object.entries<ElementConfigProp<P>>(elProps as any);
 
   const elClass = class extends HTMLElement {
+    // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
       return Object.values(this.attributes);
@@ -49,28 +46,15 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
      * Render function
      */
     render: (props: P) => unknown | void;
-    /**
-     * Attach the current template to DOM
-     */
-    // private _attach: () => void;
 
-    // prettier-ignore
     constructor() {
         super();
-    
-        // const attach = (container: Element | ShadowRoot | DocumentFragment) => {
-        //   if (this.connected) {         
-        //     console.log(44444);
-        //     this.render(this.props);
-        //   }
-        // };
     
         const container = config?.shadow !== undefined ? this.attachShadow(config.shadow) : this;
 
         func = new Proxy(func, {
           apply: (target, tA, args) => {
             const temp = Reflect.apply(target, this, args);
-            // console.log(333333, temp, this.connected, target, thisArg, args);
             if (this.connected) {
               renderFunc(container, temp);
             }
@@ -78,13 +62,10 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
           }
         });
 
-        // this._attach = attach.bind(null, container);
-
         this.render = augmentor(func);
         
-        for (const [pKey, pValue] of propsEntriesMap) {
+        for (const [pKey, pValue] of propEntMap) {
           const reflectAttr = pValue?.reflect ? pValue.attribute ?? pKey : undefined;
-          // makePropertyMapper(this, arg, _mapper, reflectAttr);
           Reflect.defineProperty(this, pKey, {
             get: () => {
               return this.props[pKey];
@@ -138,13 +119,13 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
 
   const attrKey = 'attributes';
   const attributes = Reflect.get(elClass, attrKey);
-  propsEntriesMap
+  propEntMap
     .filter((e) => e[1]?.attribute)
-    .forEach(([pKey, pValue]) => {
+    .forEach(([pK, pV]) => {
       Reflect.defineProperty(elClass, attrKey, {
         value: {
           ...attributes,
-          [pKey]: pValue?.attribute,
+          [pK]: pV?.attribute,
         },
         enumerable: true,
         writable: true,
@@ -152,12 +133,6 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
     });
 
   return elClass;
-
-  // try {
-  //   customElements.define(name, elementClass, config?.elementDefinitionOptions);
-  // } catch (error) {
-  //   console.warn(error);
-  // }
 }
 
 export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutParams = ElementProperties<P> | ComponentFuncWithoutParams>(
@@ -169,7 +144,6 @@ export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutPar
   let func: any; //ComponentFunc<unknown | P extends object ? P : defProp<PP>>;
   let elProps: PP | undefined;
   let conf: ElementConfig<P> | undefined;
-  // const defaultElementConfig = args[1];
 
   // TODO: remove types casting
   if (typeof props === 'function') {
@@ -181,9 +155,6 @@ export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutPar
     conf = args[1];
   }
   
-  console.log(111, conf);
-  
-
   const element = createElement<P, PP>(func, elProps, conf);
 
   return {
