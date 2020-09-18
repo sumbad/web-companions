@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/fc",
-  "version": "0.1.0-test-u.3",
+  "version": "0.1.0-test-u.4",
   "description": "To write functional web components with JSX/TSX template",
   "main": "index.js",
   "scripts": {
