@@ -9,21 +9,3 @@ export async function createInstance<P>(properties?: P & Partial<HTMLElement> & 
 
   return elClass;
 }
-
-
-export function reflectAttrFromProp(el: Element, attrName: string, value: any) {
-  if (el instanceof Element) {
-    switch (typeof value) {
-      case 'boolean':
-        if (value) {
-          el.setAttribute(attrName, '');
-        } else {
-          el.removeAttribute(attrName);
-        }
-        break;
-      default:
-        el.setAttribute(attrName, String(value));
-        break;
-    }
-  }
-}

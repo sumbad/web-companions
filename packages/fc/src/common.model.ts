@@ -1,13 +1,12 @@
 export interface ElementConfig<P> {
   render?: (container: Element | ShadowRoot | DocumentFragment, template: any) => void;
-  mapper?: (state: P, key: string, value: any) => {} | void;
+  mapper?: (state: P, key: string, value: any, attribute?: string) => P;
   shadow?: ShadowRootInit;
   elementDefinitionOptions?: ElementDefinitionOptions;
 }
 
 export type ElementConfigProp<G> = {
   attribute?: string;
-  reflect?: boolean;
   init?: G;
 };
 

@@ -7,10 +7,9 @@ import type {
   ComponentFuncWithoutParams,
   defProp,
 } from './common.model';
-import { reflectAttrFromProp } from './utils';
 
 function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
-  let _mapper = function <T extends keyof P>(props: P, key: T | any, value: any): P {
+  let mapper = config?.mapper || function <T extends keyof P>(props: P, key: T | any, value: any): P {
     if (props === undefined || value !== props[key]) {
       return { ...props, [key]: value };
     } else {
@@ -65,16 +64,12 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
         this.render = augmentor(func);
         
         for (const [pKey, pValue] of propEntMap) {
-          const reflectAttr = pValue?.reflect ? pValue.attribute ?? pKey : undefined;
           Reflect.defineProperty(this, pKey, {
             get: () => {
               return this.props[pKey];
             },
             set: (value: keyof P) => {
-              this.props = _mapper(this.props, pKey, value);
-              if (reflectAttr !== undefined) {
-                reflectAttrFromProp(this, reflectAttr, this.props[pKey]);
-              }
+              this.props = mapper.apply(this, [this.props, pKey, value, pValue.attribute])
             },
             enumerable: true,
           });
