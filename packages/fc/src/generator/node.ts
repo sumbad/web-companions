@@ -13,7 +13,7 @@ export function NG<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?:
         return keyedRender(node)`${tpl}`;
       };
 
-      const pF = TNG(fn, func)[0];
+      const pF = TNG(func, fn);
       node2Fn.set(node, fn);
     }
 

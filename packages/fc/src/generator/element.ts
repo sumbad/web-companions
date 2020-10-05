@@ -62,7 +62,7 @@ function makeEl<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementCon
         }
       };
 
-      const aFunc = TNG(this.render, func)[0];
+      const aFunc = TNG(func, this.render);
 
       for (const [pKey, pValue] of propEntMap) {
         Reflect.defineProperty(this, pKey, {
