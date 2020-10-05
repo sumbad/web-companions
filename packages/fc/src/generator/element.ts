@@ -1,4 +1,5 @@
-import { augmentor } from 'augmentor';
+import { TNG } from '../hooks';
+
 import type {
   ComponentFunc,
   ElementConfig,
@@ -6,18 +7,20 @@ import type {
   ElementProperties,
   ComponentFuncWithoutParams,
   defProp,
-} from './common.model';
+} from '../common.model';
 
-function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
-  let mapper = config?.mapper || function <T extends keyof P>(props: P, key: T | any, value: any): P {
-    if (props === undefined || value !== props[key]) {
-      return { ...props, [key]: value };
-    } else {
-      return props;
-    }
-  };
-  
-  const renderFunc = config?.render || ((c, t) => c instanceof DocumentFragment ? c.textContent = t : c.innerHTML = t)
+function makeEl<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
+  let mapper =
+    config?.mapper ||
+    function <T extends keyof P>(props: P, key: T | any, value: any): P {
+      if (props === undefined || value !== props[key]) {
+        return { ...props, [key]: value };
+      } else {
+        return props;
+      }
+    };
+
+  const renderFunc = config?.render || ((c, t) => (c instanceof DocumentFragment ? (c.textContent = t) : (c.innerHTML = t)));
 
   const propEntMap = elProps === undefined ? [] : Object.entries<ElementConfigProp<P>>(elProps as any);
 
@@ -44,40 +47,38 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
     /**
      * Render function
      */
-    render: (props: P) => unknown | void;
+    render: ComponentFunc<P>;
 
     constructor() {
-        super();
-    
-        const container = config?.shadow !== undefined ? this.attachShadow(config.shadow) : this;
+      super();
 
-        func = new Proxy(func, {
-          apply: (target, tA, args) => {
-            const temp = Reflect.apply(target, this, args);
-            if (this.connected) {
-              renderFunc(container, temp);
-            }
-            return temp;
-          }
+      const container = config?.shadow !== undefined ? this.attachShadow(config.shadow) : this;
+
+      this.render = () => {
+        const tpl = Reflect.apply(aFunc, this, [this.props]);
+
+        if (this.connected) {
+          renderFunc(container, tpl);
+        }
+      };
+
+      const aFunc = TNG(this.render, func)[0];
+
+      for (const [pKey, pValue] of propEntMap) {
+        Reflect.defineProperty(this, pKey, {
+          get: () => {
+            return this.props[pKey];
+          },
+          set: (value: keyof P) => {
+            this.props = mapper.apply(this, [this.props, pKey, value, pValue.attribute]);
+          },
+          enumerable: true,
         });
 
-        this.render = augmentor(func);
-        
-        for (const [pKey, pValue] of propEntMap) {
-          Reflect.defineProperty(this, pKey, {
-            get: () => {
-              return this.props[pKey];
-            },
-            set: (value: keyof P) => {
-              this.props = mapper.apply(this, [this.props, pKey, value, pValue.attribute])
-            },
-            enumerable: true,
-          });
-
-          if (pValue?.init !== undefined) {
-            this.props[pKey] = pValue.init;
-          }
+        if (pValue?.init !== undefined) {
+          this.props[pKey] = pValue.init;
         }
+      }
     }
 
     /**
@@ -130,7 +131,7 @@ function createElement<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: Ele
   return elClass;
 }
 
-export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutParams = ElementProperties<P> | ComponentFuncWithoutParams>(
+export function EG<P, PP extends ElementProperties<P> | ComponentFuncWithoutParams = ElementProperties<P> | ComponentFuncWithoutParams>(
   props: PP,
   ...args: PP extends ComponentFuncWithoutParams
     ? [ElementConfig<P>?]
@@ -149,8 +150,8 @@ export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutPar
     func = args[0];
     conf = args[1];
   }
-  
-  const element = createElement<P, PP>(func, elProps, conf);
+
+  const element = makeEl<P, PP>(func, elProps, conf);
 
   return {
     element,
@@ -160,7 +161,7 @@ export function EFC<P, PP extends ElementProperties<P> | ComponentFuncWithoutPar
       } catch (error) {
         console.warn(error);
       }
-      return async (p: P) => {
+      return async (p: (P extends object ? P : defProp<PP>) | { ref: any }) => {
         return customElements.whenDefined(name).then(() => customElements.get(name));
       };
     },

@@ -1,6 +1,5 @@
 import style from './style.css';
-import { useState, useCallback, useEffect } from 'augmentor';
-import { EFC } from '@web-companions/fc';
+import { EG, useCallback, useEffect, useState } from '@web-companions/fc';
 import { render } from 'uhtml';
 
 // const html = String.raw;
@@ -10,8 +9,16 @@ import { render } from 'uhtml';
 //   return strings.raw[0];
 // }
 
-export const loadingProgressBar = EFC(
-  function () {
+export const loadingProgressBarEl = EG(
+  {
+    config: {
+      init: {
+        a: 2,
+        b: '3'
+      }
+    }
+  },
+  function (props) {
     const [animationName, setAnimationName] = useState('f0');
     useEffect(() => {
       const generator = function* () {
@@ -44,6 +51,8 @@ export const loadingProgressBar = EFC(
         <style>{style}</style>
         <div class={`animated yt-loader ${isPause ? 'pause' : ''}`} style={`animation-name: ${animationName}`}></div>
         <button onclick={handlePause}>Pause</button>
+        <div>{props.config.a}</div>
+        <div>{props.config.b}</div>
       </>
     );
   },

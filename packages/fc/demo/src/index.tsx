@@ -1,16 +1,8 @@
-import { EFC, VFC } from '@web-companions/fc';
-import { useEffect, useRef, useState, useCallback } from 'augmentor';
-import { loadingProgressBar } from './loadingProgressBar';
+import { EG, NG, useCallback, useEffect, useRef, useState } from '@web-companions/fc';
+import { loadingProgressBarEl } from './loadingProgressBar';
 import { html, render } from 'uhtml';
 
-// const html = String.raw;
-// function html(strings) {
-//   console.log(strings);
-
-//   return strings.raw[0];
-// }
-
-const CounterVirtual = VFC((prop: { msg: string }) => {
+const CounterVirtual = NG((prop: { msg: string }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -28,12 +20,12 @@ const CounterVirtual = VFC((prop: { msg: string }) => {
   );
 }, html.for);
 
-const LoadingProgressBarEl = loadingProgressBar.define('loading-progress-bar');
+const LoadingProgressBarEl = loadingProgressBarEl.define('loading-progress-bar');
 
 /**
  * ROOT element
  */
-EFC(
+EG(
   () => {
     const myRef = useRef<{ generateProgress?: Generator }>({});
 
@@ -46,7 +38,13 @@ EFC(
 
     return (
       <>
-        <LoadingProgressBarEl ref={myRef}></LoadingProgressBarEl>
+        <LoadingProgressBarEl
+          config={{
+            a: 1,
+            b: '2',
+          }}
+          ref={myRef}
+        ></LoadingProgressBarEl>
         <button onclick={handleProgress}>Progress loading</button>
         <br />
         <br />

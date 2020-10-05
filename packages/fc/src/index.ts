@@ -1,4 +1,4 @@
-export { EFC } from './EFC';
-export { VFC } from './VFC';
+export { EG } from './generator/element';
+export { NG } from './generator/node';
 
-export { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'augmentor';
+export { useCallback, useEffect, useMemo, useReducer, useRef, useState } from './hooks';

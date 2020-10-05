@@ -20,6 +20,7 @@ export type defProp1<EP> = {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 type Filter<T, U> = T extends U ? T : never;
+
 export type defProp<EP> = Optional<
   defProp1<EP>,
   { [K in keyof defProp1<EP>]: Filter<defProp1<EP>[K], undefined> extends never ? never : K }[keyof defProp1<EP>]
