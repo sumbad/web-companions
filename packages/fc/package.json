@@ -26,9 +26,6 @@
     "url": "https://github.com/sumbad/web-companions/issues"
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
-  "peerDependencies": {
-    "augmentor": "2.x"
-  },
   "devDependencies": {
     "@babel/core": "^7.11.5",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -37,7 +34,6 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/runtime": "^7.11.2",
     "@insum/webpack.config": "^2.1.1",
-    "augmentor": "^2.2.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-jsx-to-tt": "^0.2.0",
     "concurrently": "^5.3.0",
