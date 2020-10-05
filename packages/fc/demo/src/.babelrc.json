@@ -10,7 +10,17 @@
           "export": "html"
         },
         "attributes": [
-          
+          {
+            "preset": "global"
+          },
+          {
+            "prefix": "",
+            "attributes": ["ref"]
+          },
+          {
+            "prefix": ".",
+            "attributes": [".*"]
+          }          
         ]
       }
     ]
