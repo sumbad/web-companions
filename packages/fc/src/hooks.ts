@@ -1,23 +1,38 @@
 type Bucket = {
-  isApplying: boolean;
-  nextStateSlotIdx: number;
-  nextEffectIdx: number;
-  nextMemoizationIdx: number;
-  stateSlots: any;
-  effects: any;
-  memoizations: any[];
-  hasUpdatedState: boolean;
-  cleanups: (Function | undefined)[];
+  /** nextStateSlotIdx */
+  nSSI: number;
+
+  /** nextEffectIdx */
+  nEI: number;
+
+  /** nextMemoizationIdx */
+  nMI: number;
+
+  /** stateSlots */
+  sS: any[];
+
+  /** effects */
+  e: any[];
+
+  /** memoizations */
+  m: any[];
+
+  /** hasUpdatedState */
+  hUS: boolean;
+
+  /** cleanups */
+  c: (Function | undefined)[];
+
+  /** callback function for AF if a state was changed */
   cb?: Function;
 };
 
 const buckets = new WeakMap<Function, Bucket>();
-const tngStack: any[] = [];
+const afStack: any[] = [];
 
 function getCurrentBucket() {
-  let tngf = tngStack[tngStack.length - 1];
-
-  const bucket = buckets.get(tngf);
+  const af = afStack[afStack.length - 1];
+  const bucket = buckets.get(af);
   if (bucket !== undefined) {
     return bucket;
   } else {
@@ -53,36 +68,37 @@ function guardsChanged(guards1: any[] | undefined, guards2: any[] | undefined) {
   return false;
 }
 
-// ******************
+function fnWrap(fnOrO: Function | object | undefined, args?: any[]) {
+  return typeof fnOrO == 'function' ? fnOrO.apply(null, args) : fnOrO;
+}
 
-export function TNG<T extends Function>(fns: T, cb: Function) {
-  tngf.reset = reset;
-  return tngf;
+////////////////////////////////////////////////////////
 
-  // ******************
+export function AF<T extends Function>(fns: T, cb: Function) {
+  af.reset = reset;
+  return af;
 
-  function tngf(this: any, ...args: any[]) {
-    tngStack.push(tngf);
+  function af(this: any, ...args: any[]) {
+    afStack.push(af);
 
-    let bucket = buckets.get(tngf);
+    let bucket = buckets.get(af);
     if (bucket === undefined) {
       bucket = {
-        nextStateSlotIdx: 0,
-        nextEffectIdx: 0,
-        nextMemoizationIdx: 0,
-        stateSlots: [],
-        effects: [],
-        cleanups: [],
-        memoizations: [],
-        hasUpdatedState: false,
-        isApplying: false,
+        nSSI: 0,
+        nEI: 0,
+        nMI: 0,
+        sS: [],
+        e: [],
+        c: [],
+        m: [],
+        hUS: false,
         cb,
       };
-      buckets.set(tngf, bucket);
+      buckets.set(af, bucket);
     } else {
-      bucket.nextStateSlotIdx = 0;
-      bucket.nextEffectIdx = 0;
-      bucket.nextMemoizationIdx = 0;
+      bucket.nSSI = 0;
+      bucket.nEI = 0;
+      bucket.nMI = 0;
     }
 
     try {
@@ -93,10 +109,10 @@ export function TNG<T extends Function>(fns: T, cb: Function) {
       try {
         runEffects(bucket);
       } finally {
-        tngStack.pop();
+        afStack.pop();
 
-        if (bucket.hasUpdatedState) {
-          bucket.hasUpdatedState = false;
+        if (bucket.hUS) {
+          bucket.hUS = false;
           cb();
         }
       }
@@ -104,37 +120,37 @@ export function TNG<T extends Function>(fns: T, cb: Function) {
   }
 
   function runEffects(bucket: Bucket) {
-    for (let [idx, [effect]] of bucket.effects.entries()) {
+    for (let [idx, [effect]] of bucket.e.entries()) {
       try {
         fnWrap(effect);
       } finally {
-        bucket.effects[idx][0] = undefined;
+        bucket.e[idx][0] = undefined;
       }
     }
   }
 
   function reset() {
-    tngStack.push(tngf);
+    afStack.push(af);
     const bucket = getCurrentBucket();
     try {
       // run all pending cleanups
-      for (let cleanup of bucket.cleanups) {
+      for (let cleanup of bucket.c) {
         fnWrap(cleanup);
       }
     } finally {
-      tngStack.pop();
-      bucket.stateSlots.length = 0;
-      bucket.effects.length = 0;
-      bucket.cleanups.length = 0;
-      bucket.memoizations.length = 0;
-      bucket.nextStateSlotIdx = 0;
-      bucket.nextEffectIdx = 0;
-      bucket.nextMemoizationIdx = 0;
+      afStack.pop();
+      bucket.sS.length = 0;
+      bucket.e.length = 0;
+      bucket.c.length = 0;
+      bucket.m.length = 0;
+      bucket.nSSI = 0;
+      bucket.nEI = 0;
+      bucket.nMI = 0;
     }
   }
 }
 
-export function useState<T extends Function | object | any>(initialVal: T) {
+export function useState<T extends Function | object | any>(initialVal?: T) {
   return useReducer(function reducer(prevVal: any, vOrFn: (arg0: any) => any) {
     return fnWrap(vOrFn);
   }, initialVal);
@@ -148,23 +164,23 @@ export function useReducer(
   var bucket = getCurrentBucket();
 
   // need to create this state-slot for this bucket?
-  if (!(bucket.nextStateSlotIdx in bucket.stateSlots)) {
+  if (!(bucket.nSSI in bucket.sS)) {
     let slot = [
       fnWrap(initialVal),
       function updateSlot(v: any) {
         slot[0] = reducerFn(slot[0], v);
-        tngStack.length > 0 ? (bucket.hasUpdatedState = true) : fnWrap(bucket.cb);
+        afStack.length > 0 ? (bucket.hUS = true) : fnWrap(bucket.cb);
       },
     ];
-    bucket.stateSlots[bucket.nextStateSlotIdx] = slot;
+    bucket.sS[bucket.nSSI] = slot;
 
     // run the reducer initially?
     if (initialReduction.length > 0) {
-      bucket.stateSlots[bucket.nextStateSlotIdx][1](initialReduction[0]);
+      bucket.sS[bucket.nSSI][1](initialReduction[0]);
     }
   }
 
-  return [...bucket.stateSlots[bucket.nextStateSlotIdx++]];
+  return [...bucket.sS[bucket.nSSI++]];
 }
 
 export function useEffect(fn: () => any, ...guards: any[][]) {
@@ -184,12 +200,12 @@ export function useEffect(fn: () => any, ...guards: any[][]) {
   const bucket = getCurrentBucket();
 
   // need to create this effect-slot for this bucket?
-  if (!(bucket.nextEffectIdx in bucket.effects)) {
-    bucket.effects[bucket.nextEffectIdx] = [];
+  if (!(bucket.nEI in bucket.e)) {
+    bucket.e[bucket.nEI] = [];
   }
 
-  let effectIdx = bucket.nextEffectIdx;
-  let effect = bucket.effects[effectIdx];
+  let effectIdx = bucket.nEI;
+  let effect = bucket.e[effectIdx];
 
   // check guards?
   if (guardsChanged(effect[1], guards)) {
@@ -200,9 +216,9 @@ export function useEffect(fn: () => any, ...guards: any[][]) {
       // if (typeof bucket.cleanups[effectIdx] == 'function') {
       try {
         // bucket.cleanups[effectIdx]();
-        fnWrap(bucket.cleanups[effectIdx]);
+        fnWrap(bucket.c[effectIdx]);
       } finally {
-        bucket.cleanups[effectIdx] = undefined;
+        bucket.c[effectIdx] = undefined;
       }
       // }
 
@@ -211,13 +227,13 @@ export function useEffect(fn: () => any, ...guards: any[][]) {
 
       // cleanup function returned, to be saved?
       if (typeof ret == 'function') {
-        bucket.cleanups[effectIdx] = ret;
+        bucket.c[effectIdx] = ret;
       }
     };
     effect[1] = guards;
   }
 
-  bucket.nextEffectIdx++;
+  bucket.nEI++;
 }
 
 export function useMemo(fn: () => any, ...inputGuards: (any | { (): any })[]) {
@@ -235,14 +251,14 @@ export function useMemo(fn: () => any, ...inputGuards: (any | { (): any })[]) {
     inputGuards = [fn];
   }
 
-  var bucket = getCurrentBucket();
+  const bucket = getCurrentBucket();
 
   // need to create this memoization-slot for this bucket?
-  if (!(bucket.nextMemoizationIdx in bucket.memoizations)) {
-    bucket.memoizations[bucket.nextMemoizationIdx] = [];
+  if (!(bucket.nMI in bucket.m)) {
+    bucket.m[bucket.nMI] = [];
   }
 
-  let memoization = bucket.memoizations[bucket.nextMemoizationIdx];
+  const memoization = bucket.m[bucket.nMI];
 
   // check input-guards?
   if (guardsChanged(memoization[1], inputGuards)) {
@@ -255,7 +271,7 @@ export function useMemo(fn: () => any, ...inputGuards: (any | { (): any })[]) {
     }
   }
 
-  bucket.nextMemoizationIdx++;
+  bucket.nMI++;
 
   // return the memoized value
   return memoization[0];
@@ -272,10 +288,4 @@ export function useRef<T>(initialValue: T) {
   // save it in a state slot
   var [ref] = useState({ current: initialValue });
   return ref;
-}
-
-////////////////////////////////////////////////////////
-
-function fnWrap(fnOrO: Function | object | undefined, args?: any[]) {
-  return typeof fnOrO == 'function' ? fnOrO.apply(null, args) : fnOrO;
 }

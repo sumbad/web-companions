@@ -1,4 +1,4 @@
-import { TNG, useRef } from '../hooks';
+import { AF, useRef } from '../hooks';
 import type { ComponentFunc } from '../common.model';
 
 export function NG<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?: string | undefined) => any) {
@@ -13,7 +13,7 @@ export function NG<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?:
         return keyedRender(node)`${tpl}`;
       };
 
-      const pF = TNG(func, fn);
+      const pF = AF(func, fn);
       node2Fn.set(node, fn);
     }
 

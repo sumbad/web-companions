@@ -1,4 +1,4 @@
-import { TNG } from '../hooks';
+import { AF } from '../hooks';
 
 import type {
   ComponentFunc,
@@ -62,7 +62,7 @@ function makeEl<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementCon
         }
       };
 
-      const aFunc = TNG(func, this.render);
+      const aFunc = AF(func, this.render);
 
       for (const [pKey, pValue] of propEntMap) {
         Reflect.defineProperty(this, pKey, {
