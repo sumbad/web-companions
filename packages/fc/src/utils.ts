@@ -9,3 +9,11 @@ export async function createInstance<P>(properties?: P & Partial<HTMLElement> & 
 
   return elClass;
 }
+
+export function isFn(v: unknown) {
+  return typeof v == 'function';
+}
+
+export function fnWrap(fnOrO: Function | object | undefined, args?: any[]) {
+  return isFn(fnOrO) ? (fnOrO as Function).apply(null, args) : fnOrO;
+}

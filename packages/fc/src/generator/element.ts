@@ -7,7 +7,9 @@ import type {
   ElementProperties,
   ComponentFuncWithoutParams,
   defProp,
+  AdapterFunc,
 } from '../common.model';
+import { isFn } from '../utils';
 
 function makeEl<P, EP>(func: ComponentFunc<P>, elProps?: EP, config?: ElementConfig<P>) {
   let mapper =
@@ -142,10 +144,10 @@ export function EG<P, PP extends ElementProperties<P> | ComponentFuncWithoutPara
   let conf: ElementConfig<P> | undefined;
 
   // TODO: remove types casting
-  if (typeof props === 'function') {
+  if (isFn(props)) {
     func = props as ComponentFunc<unknown>;
     conf = args[0] as ElementConfig<P> | undefined;
-  } else if (typeof args[0] === 'function') {
+  } else if (isFn(args[0])) {
     elProps = props;
     func = args[0];
     conf = args[1];
@@ -153,18 +155,27 @@ export function EG<P, PP extends ElementProperties<P> | ComponentFuncWithoutPara
 
   const element = makeEl<P, PP>(func, elProps, conf);
 
+  const define = (name: string, options: ElementDefinitionOptions | undefined = conf?.elementDefinitionOptions) => {
+    try {
+      customElements.define(name, element, options);
+    } catch (e) {
+      console.warn(e);
+    }
+    return async (p: (P extends object ? P : defProp<PP>) | { ref: any }) => {
+      return customElements.whenDefined(name).then(() => customElements.get(name));
+    };
+  };
+
+  const adapter = <T>(func: AdapterFunc<P, T>, name: string, defaultProps?: P) => {
+    try {
+      customElements.define(name, element);
+    } catch (e) {}
+    return func(name, defaultProps);
+  };
+
   return {
     element,
-    define: (name: string, options: ElementDefinitionOptions | undefined = conf?.elementDefinitionOptions) => {
-      try {
-        customElements.define(name, element, options);
-      } catch (error) {
-        console.warn(error);
-      }
-      return async (p: (P extends object ? P : defProp<PP>) | { ref: any }) => {
-        return customElements.whenDefined(name).then(() => customElements.get(name));
-      };
-    },
-    adapter: <T>(func: (elTagName: string, props?: P) => T, defaultProps?: P) => func(name, defaultProps),
+    define,
+    adapter,
   };
 }

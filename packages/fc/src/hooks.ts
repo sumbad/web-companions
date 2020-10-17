@@ -1,3 +1,5 @@
+import { fnWrap } from './utils';
+
 type Bucket = {
   /** nextStateSlotIdx */
   nSSI: number;
@@ -66,10 +68,6 @@ function guardsChanged(guards1: any[] | undefined, guards2: any[] | undefined) {
 
   // assume no change in guards
   return false;
-}
-
-function fnWrap(fnOrO: Function | object | undefined, args?: any[]) {
-  return typeof fnOrO == 'function' ? fnOrO.apply(null, args) : fnOrO;
 }
 
 ////////////////////////////////////////////////////////

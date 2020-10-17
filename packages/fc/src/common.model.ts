@@ -27,3 +27,5 @@ export type defProp<EP> = Optional<
 >;
 export type ComponentFunc<P> = (props: P) => unknown | void;
 export type ComponentFuncWithoutParams = () => unknown | void;
+
+export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
