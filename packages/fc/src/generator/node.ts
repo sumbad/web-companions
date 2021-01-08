@@ -1,6 +1,10 @@
 import { AF, useRef } from '../hooks';
 import type { ComponentFunc } from '../common.model';
 
+/**
+ * Node Generator
+ * @param options
+ */
 export function NG<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?: string | undefined) => any) {
   const node2Fn = new WeakMap();
 
@@ -8,8 +12,10 @@ export function NG<P>(func: ComponentFunc<P>, keyedRender: (object: object, id?:
     const node = useRef(null);
     let fn = node2Fn.get(node);
     if (fn === undefined) {
+      // TODO: ??? fn = (_props = props)
       fn = () => {
         const tpl = pF(props);
+        // TODO: hole keyedRender function should be passed out
         return keyedRender(node)`${tpl}`;
       };
 
