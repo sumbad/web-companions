@@ -27,12 +27,16 @@ export type ComponentFuncWithoutParams = () => unknown | void;
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
-export type EGMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
-export type EGRender<T> = (container: Element | ShadowRoot | DocumentFragment, template: T) => void;
+export type ElementMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
+export type ElementRender<T> = (container: Element | ShadowRoot | DocumentFragment, template: T) => void;
 
-export interface EGOptions<P, PP, RT> {
+export interface ElementIniConfig<P, PP, RT> {
+  render: ElementRender<RT>;
   props?: (ElementProperties<P> & PP) | undefined;
-  render?: EGRender<RT> | undefined;
-  mapper?: EGMapper<P> | undefined;
+  mapper?: ElementMapper<P> | undefined;
   shadow?: ShadowRootInit | undefined;
+}
+
+export interface NodeIniConfig {
+  render: <R = Node, T = any>(ref: { current: R | null }, tpl: T) => any;
 }

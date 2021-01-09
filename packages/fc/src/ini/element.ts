@@ -1,18 +1,26 @@
 import { AF } from '../hooks';
 
-import type { ComponentFunc, ElementProperties, AdapterFunc, Optional, EGMapper, EGRender, EGOptions } from '../common.model';
-import { defRender, defMapper } from '../utils';
+import type {
+  ComponentFunc,
+  ElementProperties,
+  AdapterFunc,
+  Optional,
+  ElementMapper,
+  ElementRender,
+  ElementIniConfig,
+} from '../common.model';
+import { defMapper } from '../utils';
 
 /**
- * Element Generator
- * @param options
+ * Initialize Element Generator
  */
-export function EG<P, PP extends ElementProperties<P>, RT>(options: EGOptions<P, PP, RT> = {}) {
-  const render = options.render || defRender;
-  const mapper = options.mapper || defMapper;
+export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>, RT = any>(config: ElementIniConfig<P, PP, RT>) {
+  const mapper = config.mapper || defMapper;
 
   return (func: ComponentFunc<P>) => {
-    const element = build(func, options.props || {}, render, mapper, options.shadow);
+    const element = build(func, config.props || {}, config.render, mapper, config.shadow);
+
+    type OP = Optional<P, { [k in keyof PP]: PP[k] extends { default: any } ? k : never }[keyof P]>;
 
     return {
       element,
@@ -23,13 +31,11 @@ export function EG<P, PP extends ElementProperties<P>, RT>(options: EGOptions<P,
           console.warn(e);
         }
 
-        type OP = Optional<P, { [k in keyof PP]: PP[k] extends { default: any } ? k : never }[keyof P]>;
-
         return async (_p: OP & { ref?: any }) => {
           return customElements.whenDefined(name).then(() => customElements.get(name));
         };
       },
-      adapter: <T>(func: AdapterFunc<P, T>, name: string, defaultProps?: P) => {
+      adapter: <T>(func: AdapterFunc<OP, T>, name: string, defaultProps?: OP) => {
         try {
           customElements.define(name, element);
         } catch (e) {}
@@ -50,8 +56,8 @@ export function EG<P, PP extends ElementProperties<P>, RT>(options: EGOptions<P,
 function build<P, RT>(
   func: ComponentFunc<P>,
   props: ElementProperties<any>,
-  render: EGRender<RT>,
-  mapper: EGMapper<P>,
+  render: ElementRender<RT>,
+  mapper: ElementMapper<P>,
   shadow?: ShadowRootInit | undefined
 ) {
   const elClass = class extends HTMLElement {

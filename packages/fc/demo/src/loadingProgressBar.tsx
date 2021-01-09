@@ -3,17 +3,11 @@ import { EG, useCallback, useEffect, useState } from '@web-companions/fc';
 import { render } from 'uhtml';
 import type { TypeConstructor } from '@web-companions/fc/common.model';
 
-// const html = String.raw;
-// function html(strings) {
-//   console.log(strings);
-
-//   return strings.raw[0];
-// }
-
 export const loadingProgressBarEl = EG({
   props: {
     test: {
-      type: String
+      type: String,
+      default: undefined,
     },
     config: {
       type: {} as TypeConstructor<{ a: number; b: string }>,
@@ -24,7 +18,7 @@ export const loadingProgressBarEl = EG({
     },
   },
   render,
-})(function (props) {
+})(function ({ config, test = '123' }) {
   const [animationName, setAnimationName] = useState('f0');
   useEffect(() => {
     const generator = function* () {
@@ -57,9 +51,9 @@ export const loadingProgressBarEl = EG({
       <style>{style}</style>
       <div class={`animated yt-loader ${isPause ? 'pause' : ''}`} style={`animation-name: ${animationName}`}></div>
       <button onclick={handlePause}>Pause</button>
-      <div>{props.config.a}</div>
-      <div>{props.config.b}</div>
-      <div>{props.test}</div>
+      <div>{config.a}</div>
+      <div>{config.b}</div>
+      <div>{test}</div>
     </>
   );
 });
