@@ -28,7 +28,7 @@ export type ComponentFuncWithoutParams = () => unknown | void;
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
 export type ElementMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
-export type ElementRender<T> = (container: Element | ShadowRoot | DocumentFragment, template: T) => void;
+export type ElementRender<T> = (template: T, container: Element | ShadowRoot | DocumentFragment) => void;
 
 export interface ElementIniConfig<P, PP, RT> {
   render: ElementRender<RT>;
@@ -37,6 +37,9 @@ export interface ElementIniConfig<P, PP, RT> {
   shadow?: ShadowRootInit | undefined;
 }
 
-export interface NodeIniConfig {
-  render: <R = Node, T = any>(ref: { current: R | null }, tpl: T) => any;
+
+export type NodeRender<T> = (template: T, ref: { current: object | null }) => any;
+
+export interface NodeIniConfig<T> {
+  render: NodeRender<T>;
 }

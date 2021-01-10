@@ -2,7 +2,7 @@ import { EG, NG, useCallback, useEffect, useRef, useState } from '@web-companion
 import { loadingProgressBarEl } from './loadingProgressBar';
 import { html, render } from 'uhtml';
 
-const CounterVirtual = NG({ render: (n, t) => html.for(n)`${t}` })((prop: { msg: string }) => {
+const CounterVirtual = NG({ render: (t, n) => html.for(n)`${t}` })((prop: { msg: string }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const LoadingProgressBarEl = loadingProgressBarEl.define('loading-progress-bar')
 /**
  * ROOT element
  */
-EG({ render })(() => {
+EG({ render: (t, n) => render(n, t) })(() => {
   const myRef = useRef<{ generateProgress?: Generator }>({});
 
   const handleProgress = useCallback(() => {

@@ -4,8 +4,8 @@ import type { ComponentFunc, NodeIniConfig } from '../common.model';
 /**
  * Initialize Node Generator
  */
-export function NG(config: NodeIniConfig) {
-  return <P>(func: ComponentFunc<P>) => {
+export function NG<P, RT>(config: NodeIniConfig<RT>) {
+  return <FP = P>(func: ComponentFunc<FP>) => {
     const node2Fn = new WeakMap();
 
     return (props: P) => {
@@ -14,7 +14,7 @@ export function NG(config: NodeIniConfig) {
       if (fn === undefined) {
         fn = (p = props) => {
           const tpl = pF(p);
-          return config.render(node, tpl);
+          return config.render(tpl, node);
         };
 
         const pF = AF(func, fn);

@@ -2,7 +2,7 @@ export function isFn(v: unknown) {
   return typeof v == 'function';
 }
 
-export function fnWrap(fnOrO: Function | object | undefined, args?: any[]) {
+export function fnWrap(fnOrO: any, args?: any[]) {
   return isFn(fnOrO) ? (fnOrO as Function).apply(null, args) : fnOrO;
 }
 

@@ -85,7 +85,7 @@ function build<P, RT>(
 
       this.render = () => {
         const tpl = Reflect.apply(aFunc, this, [this.props]);
-        render(ctr, tpl);
+        render(tpl, ctr);
       };
 
       const aFunc = AF(func, this.render);

@@ -11,7 +11,7 @@ type Bucket = {
   nMI: number;
 
   /** stateSlots */
-  sS: any[];
+  sS: [any, any][];
 
   /** effects */
   e: any[];
@@ -148,22 +148,22 @@ export function AF<T extends Function>(fns: T, cb: Function) {
   }
 }
 
-export function useState<T extends Function | object | any>(initialVal?: T) {
-  return useReducer(function reducer(prevVal: any, vOrFn: (arg0: any) => any) {
+export function useState<T>(initialVal?: T): [T, (data: T | ((v: T) => T)) => T] {
+  return useReducer<T>(function reducer(prevVal: T, vOrFn: (arg0: any) => T) {
     return fnWrap(vOrFn);
   }, initialVal);
 }
 
-export function useReducer(
+export function useReducer<T>(
   reducerFn: { (prevVal: any, vOrFn: any): any; (arg0: any, arg1: any): any },
-  initialVal: Function | object | any,
+  initialVal?: T,
   ...initialReduction: undefined[]
-) {
+): [T, (data: T | ((v: T) => T)) => T] {
   var bucket = getCurrentBucket();
 
   // need to create this state-slot for this bucket?
   if (!(bucket.nSSI in bucket.sS)) {
-    let slot = [
+    let slot: [any, (v: any) => any] = [
       fnWrap(initialVal),
       function updateSlot(v: any) {
         slot[0] = reducerFn(slot[0], v);

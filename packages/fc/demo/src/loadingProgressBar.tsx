@@ -17,7 +17,7 @@ export const loadingProgressBarEl = EG({
       },
     },
   },
-  render,
+  render: (t, n) => render(n, t),
 })(function ({ config, test = '123' }) {
   const [animationName, setAnimationName] = useState('f0');
   useEffect(() => {
