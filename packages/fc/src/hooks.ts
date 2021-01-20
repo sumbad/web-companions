@@ -148,7 +148,7 @@ export function AF<T extends Function>(fns: T, cb: Function) {
   }
 }
 
-export function useState<T>(initialVal?: T): [T, (data: T | ((v: T) => T)) => T] {
+export function useState<T>(initialVal?: T | ((v: T) => T)): [T, (data: T | ((v: T) => T)) => T] {
   return useReducer<T>(function reducer(prevVal: T, vOrFn: (arg0: any) => T) {
     return fnWrap(vOrFn);
   }, initialVal);
@@ -156,7 +156,7 @@ export function useState<T>(initialVal?: T): [T, (data: T | ((v: T) => T)) => T]
 
 export function useReducer<T>(
   reducerFn: { (prevVal: any, vOrFn: any): any; (arg0: any, arg1: any): any },
-  initialVal?: T,
+  initialVal?: T | ((v: T) => T),
   ...initialReduction: undefined[]
 ): [T, (data: T | ((v: T) => T)) => T] {
   var bucket = getCurrentBucket();
@@ -234,7 +234,7 @@ export function useEffect(fn: () => any, ...guards: any[][]) {
   bucket.nEI++;
 }
 
-export function useMemo(fn: () => any, ...inputGuards: (any | { (): any })[]) {
+export function useMemo<T>(fn: () => T, ...inputGuards: (any | { (): any })[]) {
   // passed in any input-guards?
   if (inputGuards.length > 0) {
     // only passed a single inputGuards list?
@@ -275,7 +275,7 @@ export function useMemo(fn: () => any, ...inputGuards: (any | { (): any })[]) {
   return memoization[0];
 }
 
-export function useCallback(fn: any, ...inputGuards: any[]) {
+export function useCallback<T>(fn: T, ...inputGuards: any[]): T {
   return useMemo(function callback() {
     return fn;
   }, ...inputGuards);

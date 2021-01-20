@@ -3,7 +3,7 @@ import { EG, useCallback, useEffect, useState } from '@web-companions/fc';
 import { render } from 'uhtml';
 import type { TypeConstructor } from '@web-companions/fc/common.model';
 
-export const loadingProgressBarEl = EG({
+export const loadingProgressBarElement = EG({
   props: {
     test: {
       type: String,

@@ -8,6 +8,7 @@ import type {
   ElementMapper,
   ElementRender,
   ElementIniConfig,
+  ElementComponent,
 } from '../common.model';
 import { defMapper } from '../utils';
 
@@ -17,36 +18,32 @@ import { defMapper } from '../utils';
 export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>, RT = any>(config: ElementIniConfig<P, PP, RT>) {
   const mapper = config.mapper || defMapper;
 
+  type OP = Optional<P, { [k in keyof PP]: PP[k] extends { default: any } ? k : never }[keyof P]>;
+
   return (func: ComponentFunc<P>) => {
     const element = build(func, config.props || {}, config.render, mapper, config.shadow);
 
-    type OP = Optional<P, { [k in keyof PP]: PP[k] extends { default: any } ? k : never }[keyof P]>;
+    return (name: string, options?: ElementDefinitionOptions): ElementComponent<typeof element, OP> => {
+      try {
+        customElements.define(name, element, options);
+      } catch (e) {
+        console.warn(e);
+      }
 
-    return {
-      element,
-      define: (name: string, options?: ElementDefinitionOptions) => {
-        try {
-          customElements.define(name, element, options);
-        } catch (e) {
-          console.warn(e);
-        }
+      const component = (async (_p: OP & { ref?: any }) => {
+        return customElements.whenDefined(name).then(() => customElements.get(name));
+      }) as ElementComponent<typeof element, OP>;
 
-        return async (_p: OP & { ref?: any }) => {
-          return customElements.whenDefined(name).then(() => customElements.get(name));
-        };
-      },
-      adapter: <T>(func: AdapterFunc<OP, T>, name: string, defaultProps?: OP) => {
-        try {
-          customElements.define(name, element);
-        } catch (e) {}
-        return func(name, defaultProps);
-      },
+      component.element = element;
+      component.adapter = <T>(func: AdapterFunc<OP, T>, defaultProps?: OP) => func(name, defaultProps);
+
+      return component;
     };
   };
 }
 
 /**
- *  Build a new element class
+ *  Build a new custom element class
  * @param func
  * @param props
  * @param render
@@ -60,7 +57,7 @@ function build<P, RT>(
   mapper: ElementMapper<P>,
   shadow?: ShadowRootInit | undefined
 ) {
-  const elClass = class extends HTMLElement {
+  const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
@@ -144,12 +141,12 @@ function build<P, RT>(
 
   // TODO: change to Symbol
   const attrKey = 'attributes';
-  const attributes = Reflect.get(elClass, attrKey);
+  const attributes = Reflect.get(customEl, attrKey);
 
   for (const pK in props) {
     const pV = props[pK];
     if ('type' in pV && pV.attribute !== undefined) {
-      Reflect.defineProperty(elClass, attrKey, {
+      Reflect.defineProperty(customEl, attrKey, {
         value: {
           ...attributes,
           [pK]: pV.attribute,
@@ -160,5 +157,5 @@ function build<P, RT>(
     }
   }
 
-  return elClass;
+  return customEl;
 }

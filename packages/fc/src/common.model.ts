@@ -23,7 +23,6 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 export type Filter<T, U> = T extends U ? T : never;
 
 export type ComponentFunc<P> = (props: P) => unknown | void;
-export type ComponentFuncWithoutParams = () => unknown | void;
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
@@ -37,9 +36,14 @@ export interface ElementIniConfig<P, PP, RT> {
   shadow?: ShadowRootInit | undefined;
 }
 
-
-export type NodeRender<T> = (template: T, ref: { current: object | null }) => any;
+export type NodeRender<T> = (template: T, ref: { current: object | Node | null }) => any;
 
 export interface NodeIniConfig<T> {
   render: NodeRender<T>;
+}
+
+export interface ElementComponent<E, OP> {
+  (_p: OP & { ref?: any }): any;
+  element: E;
+  adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }

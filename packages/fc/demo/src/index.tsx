@@ -1,8 +1,18 @@
 import { EG, NG, useCallback, useEffect, useRef, useState } from '@web-companions/fc';
-import { loadingProgressBarEl } from './loadingProgressBar';
+import { loadingProgressBarElement } from './loadingProgressBar';
 import { html, render } from 'uhtml';
 
-const CounterVirtual = NG({ render: (t, n) => html.for(n)`${t}` })((prop: { msg: string }) => {
+const counterNode = NG({
+  render: (t, n) => {
+    if (n.current instanceof Node) {
+      render(n.current, html`${t}`);
+      return undefined;
+    } else {
+      const a = html.for(n)`${t}`;
+      return a;
+    }
+  },
+})((prop: { msg: string }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -13,14 +23,17 @@ const CounterVirtual = NG({ render: (t, n) => html.for(n)`${t}` })((prop: { msg:
   return (
     <>
       <button type="button" onclick={() => setCount(count + 1)}>
-        {prop.msg}
+        {prop?.msg}
       </button>
       <i>{count}</i>
     </>
   );
 });
 
-const LoadingProgressBarEl = loadingProgressBarEl.define('loading-progress-bar');
+const CounterNode = counterNode();
+const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
+
+new LoadingProgressBarElement.element();
 
 /**
  * ROOT element
@@ -35,15 +48,27 @@ EG({ render: (t, n) => render(n, t) })(() => {
     }
   }, []);
 
+  const [DemoCounterPortalEl, setDemoCounterPortalEl] = useState<typeof CounterNode>();
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const demoCounterPortalEl = document.querySelector('#demoCounterPortal');
+      if (demoCounterPortalEl != null) {
+        setDemoCounterPortalEl(() => counterNode({ current: demoCounterPortalEl }));
+      }
+    });
+  }, []);
+
   return (
     <>
-      <LoadingProgressBarEl ref={myRef}></LoadingProgressBarEl>
+      {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>}
+      <LoadingProgressBarElement ref={myRef}></LoadingProgressBarElement>
       <button onclick={handleProgress}>Progress loading</button>
       <br />
       <br />
-      {CounterVirtual({ msg: 'Virtual Counter as Expression' })}
+      {CounterNode({ msg: 'Node Counter as Expression' })}
       <br />
-      <CounterVirtual msg="Virtual Counter as Element"></CounterVirtual>
+      <CounterNode msg="Node Counter as Element"></CounterNode>
     </>
   );
-}).define('demo-fc');
+})('demo-fc');
