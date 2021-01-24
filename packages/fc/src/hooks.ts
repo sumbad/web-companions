@@ -150,12 +150,12 @@ export function AF<T extends Function>(fns: T, cb: Function) {
 
 export function useState<T>(initialVal?: T | ((v: T) => T)): [T, (data: T | ((v: T) => T)) => T] {
   return useReducer<T>(function reducer(prevVal: T, vOrFn: (arg0: any) => T) {
-    return fnWrap(vOrFn);
+    return fnWrap(vOrFn, [prevVal]);
   }, initialVal);
 }
 
 export function useReducer<T>(
-  reducerFn: { (prevVal: any, vOrFn: any): any; (arg0: any, arg1: any): any },
+  reducer: { (prevVal: any, vOrFn: any): any; (arg0: any, arg1: any): any },
   initialVal?: T | ((v: T) => T),
   ...initialReduction: undefined[]
 ): [T, (data: T | ((v: T) => T)) => T] {
@@ -166,7 +166,7 @@ export function useReducer<T>(
     let slot: [any, (v: any) => any] = [
       fnWrap(initialVal),
       function updateSlot(v: any) {
-        slot[0] = reducerFn(slot[0], v);
+        slot[0] = reducer(slot[0], v);
         afStack.length > 0 ? (bucket.hUS = true) : fnWrap(bucket.cb);
       },
     ];
@@ -276,7 +276,7 @@ export function useMemo<T>(fn: () => T, ...inputGuards: (any | { (): any })[]) {
 }
 
 export function useCallback<T>(fn: T, ...inputGuards: any[]): T {
-  return useMemo(function callback() {
+  return useMemo(function cb() {
     return fn;
   }, ...inputGuards);
 }
