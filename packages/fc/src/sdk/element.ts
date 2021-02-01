@@ -132,7 +132,7 @@ function build<P, RT>(
      * Render function
      */
     render() {
-      Reflect.apply(this.aFunc, this, [this.props]);
+      this.isConnected && Reflect.apply(this.aFunc, this, [this.props]);
     }
   };
 
