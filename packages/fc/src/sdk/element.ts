@@ -75,17 +75,14 @@ function build<P, RT>(
       return this._props as P;
     }
 
+    aFunc: ComponentFunc<P>;
+
     constructor() {
       super();
 
       const ctr = shadow !== undefined ? this.attachShadow(shadow) : this;
 
-      this.render = () => {
-        const tpl = Reflect.apply(aFunc, this, [this.props]);
-        render(tpl, ctr);
-      };
-
-      const aFunc = AF(func, this.render);
+      this.aFunc = AF(func, (r: any) => render(r, ctr));
 
       for (const pK in props) {
         const pV = props[pK];
@@ -106,8 +103,6 @@ function build<P, RT>(
           enumerable: true,
         });
       }
-
-      Object.keys(props).forEach((pKey) => {});
     }
 
     /**
@@ -136,7 +131,9 @@ function build<P, RT>(
     /**
      * Render function
      */
-    render: () => void;
+    render() {
+      Reflect.apply(this.aFunc, this, [this.props]);
+    }
   };
 
   // TODO: change to Symbol

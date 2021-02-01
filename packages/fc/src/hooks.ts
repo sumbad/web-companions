@@ -19,18 +19,21 @@ type Bucket = {
   /** memoizations */
   m: any[];
 
-  /** hasUpdatedState */
+  /** hasUpdatedState shows if a state was changed */
   hUS: boolean;
 
   /** cleanups */
   c: (Function | undefined)[];
 
-  /** callback function for AF if a state was changed */
-  cb?: Function;
+  /** callback function */
+  cb: Function;
+
+  /** articulated function */
+  af: Function;
 };
 
 const buckets = new WeakMap<Function, Bucket>();
-const afStack: any[] = [];
+const afStack: Function[] = [];
 
 function getCurrentBucket() {
   const af = afStack[afStack.length - 1];
@@ -80,7 +83,7 @@ export function AF<T extends Function>(fns: T, cb: Function) {
     afStack.push(af);
 
     let bucket = buckets.get(af);
-    if (bucket === undefined) {
+    if (bucket == null) {
       bucket = {
         nSSI: 0,
         nEI: 0,
@@ -91,28 +94,32 @@ export function AF<T extends Function>(fns: T, cb: Function) {
         m: [],
         hUS: false,
         cb,
+        af: () => af(...args),
       };
       buckets.set(af, bucket);
     } else {
       bucket.nSSI = 0;
       bucket.nEI = 0;
       bucket.nMI = 0;
+      bucket.af = () => af(...args);
     }
 
+    let r;
     try {
-      bucket;
-      return fns.apply(this, args);
+      r = fns.apply(this, args);
     } finally {
       // run (cleanups and) effects, if any
       try {
         runEffects(bucket);
-      } finally {
-        afStack.pop();
 
+        return bucket.cb(r);
+      } finally {
         if (bucket.hUS) {
           bucket.hUS = false;
-          cb();
+          bucket.af();
         }
+
+        afStack.pop();
       }
     }
   }
@@ -144,6 +151,7 @@ export function AF<T extends Function>(fns: T, cb: Function) {
       bucket.nSSI = 0;
       bucket.nEI = 0;
       bucket.nMI = 0;
+      //TODO: cleanup af and cb
     }
   }
 }
@@ -167,7 +175,10 @@ export function useReducer<T>(
       fnWrap(initialVal),
       function updateSlot(v: any) {
         slot[0] = reducer(slot[0], v);
-        afStack.length > 0 ? (bucket.hUS = true) : fnWrap(bucket.cb);
+        // if a state was changed:
+        // - immediately => set the hasUpdatedState flat
+        // - after main threat was done => invoke AF
+        afStack.length > 0 ? (bucket.hUS = true) : bucket.af();
       },
     ];
     bucket.sS[bucket.nSSI] = slot;

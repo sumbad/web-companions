@@ -1,6 +1,8 @@
 import { EG, NG, useCallback, useEffect, useRef, useState } from '@web-companions/fc';
 import { loadingProgressBarElement } from './loadingProgressBar';
 import { html, render } from 'uhtml';
+import { sumDeferred } from './sumDeferred';
+import { sumImmediate } from './sumImmediate';
 
 const counterNode = NG({
   render: (t, n) => {
@@ -32,13 +34,16 @@ const counterNode = NG({
 
 const CounterNode = counterNode();
 const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
+const SumDeferredElement = sumDeferred('sum-deferred');
+const SumImmediateElement = sumImmediate('sum-immediate');
 
-new LoadingProgressBarElement.element();
 
 /**
  * ROOT element
  */
-EG({ render: (t, n) => render(n, t) })(() => {
+EG({
+  render: (t, n) => render(n, t),
+})(() => {
   const myRef = useRef<{ generateProgress?: Generator }>({});
 
   const handleProgress = useCallback(() => {
@@ -50,6 +55,8 @@ EG({ render: (t, n) => render(n, t) })(() => {
 
   const [DemoCounterPortalEl, setDemoCounterPortalEl] = useState<typeof CounterNode>();
 
+  const [state, setState] = useState<number>(1);
+
   useEffect(() => {
     requestAnimationFrame(() => {
       const demoCounterPortalEl = document.querySelector('#demoCounterPortal');
@@ -57,18 +64,25 @@ EG({ render: (t, n) => render(n, t) })(() => {
         setDemoCounterPortalEl(() => counterNode({ current: demoCounterPortalEl }));
       }
     });
+    setTimeout(() => {
+      setState(10);
+    }, 3000);
   }, []);
 
   return (
     <>
       {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>}
-      <LoadingProgressBarElement ref={myRef}></LoadingProgressBarElement>
+      <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={myRef}></LoadingProgressBarElement>
       <button onclick={handleProgress}>Progress loading</button>
+
       <br />
       <br />
       {CounterNode({ msg: 'Node Counter as Expression' })}
       <br />
       <CounterNode msg="Node Counter as Element"></CounterNode>
+      <br />
+      <SumDeferredElement></SumDeferredElement>
+      <SumImmediateElement></SumImmediateElement>
     </>
   );
 })('demo-fc');
