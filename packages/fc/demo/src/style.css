@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+}
+.animated {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.yt-loader {
+    /* -webkit-animation-name: horizontalProgressBar; */
+    animation-name: f1;
+    /* -webkit-animation-timing-function: ease; */
+    animation-timing-function: ease;
+    /* animation-timing-function: steps(2, start); */
+    animation-fill-mode: both;
+    /* animation: f1 4s steps(2, end); */
+    background: #ef534e;
+    height: 3px;
+    left: 0;
+    top: 0;
+    width: 0%;
+    z-index: 9999;
+    position:relative;
+}
+
+.pause {
+  animation-play-state: paused;
+}
+
+.yt-loader:after{
+  display: block;
+  position: absolute;
+  content:'';
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  /* box-shadow: #ef534e 1px 0 6px 1px; */
+  opacity: 0.5;
+}
+
+@keyframes f1
+{
+    from  {width: 0%;}
+    to  {width: 10%;}
+}
+
+@keyframes f2
+{
+    from  {width: 10%;}
+    to  {width: 20%;}
+}
+
+@keyframes f3
+{
+    from  {width: 20%;}
+    to  {width: 30%;}
+}
+
+@keyframes f4
+{
+    from  {width: 30%;}
+    to  {width: 40%;}
+}
+
+@keyframes f5
+{
+    from  {width: 40%;}
+    to  {width: 50%;}
+}
+
+@keyframes f6
+{
+    from  {width: 50%;}
+    to  {width: 60%;}
+}
+
+@keyframes f7
+{
+    from  {width: 60%;}
+    to  {width: 70%;}
+}
+
+@keyframes f8
+{
+    from  {width: 70%;}
+    to  {width: 80%;}
+}
+
+@keyframes f9
+{
+    from  {width: 80%;}
+    to  {width: 90%;}
+}
+
+@keyframes f10
+{
+    from  {width: 90%;}
+    to  {width: 100%;}
+}
+
+
+
+@keyframes horizontalProgressBar
+{
+    0%   {width: 0%;}
+    20%  {width: 10%;}
+    30%  {width: 15%;}
+    40%  {width: 18%;}
+    50%  {width: 20%;}
+    60%  {width: 22%;}
+    100% {width: 30%;}
+    /* 100% {width: 100%;} */
+}
+
+@keyframes horizontalProgressBar2
+{
+    0%   {width: 0%;}
+    20%  {width: 10%;}
+    30%  {width: 15%;}
+    40%  {width: 18%;}
+    50%  {width: 20%;}
+    60%  {width: 22%;}
+    100% {width: 40%;}
+    /* 100% {width: 100%;} */
+}
