@@ -1,7 +1,7 @@
 {
   "name": "@web-companions/fc",
   "version": "0.1.0",
-  "description": "To write functional web components with JSX/TSX template",
+  "description": "Functional Components. A wrapper for creating Web components like React.js components with hooks",
   "main": "index.js",
   "scripts": {
     "build": "npm run transpile && node ./scripts/.make-lib",
@@ -16,9 +16,8 @@
     "url": "git+https://github.com/sumbad/web-companions.git"
   },
   "keywords": [
-    "hooks",
-    "web components",
-    "JSX"
+    "Web Components",
+    "hooks"
   ],
   "author": "sumbad",
   "license": "MIT",

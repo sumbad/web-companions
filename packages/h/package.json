@@ -1,24 +1,15 @@
 {
   "name": "@web-companions/h",
-  "version": "0.1.0-develop.0",
-  "description": "To write functional web components with JSX/TSX template",
+  "version": "0",
+  "description": "TODO",
   "main": "index.js",
   "scripts": {
-    "build": "npm run transpile && node ./scripts/.make-lib",
-    "transpile": "rimraf ./lib && tsc -p ./tsconfig/tsconfig.esm.json && tsc -p ./tsconfig/tsconfig.cjs.json",
-    "dev": "npm run transpile && concurrently --raw \"tsc -w -p ./tsconfig/tsconfig.esm.json\" \"webpack-dev-server --config ./demo/webpack.config.js\"",
-    "prepublishOnly": "npm run build",
-    "pub": "npm publish ./lib",
-    "pub:beta": "npm publish ./lib --tag beta"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumbad/web-companions.git"
   },
   "keywords": [
-    "hooks",
-    "web components",
-    "JSX"
   ],
   "author": "sumbad",
   "license": "MIT",
@@ -26,36 +17,6 @@
     "url": "https://github.com/sumbad/web-companions/issues"
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
-  "peerDependencies": {
-    "haunted": "4.x",
-    "lit-html": "1.x"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.11.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/polyfill": "^7.10.4",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/runtime": "^7.11.0",
-    "@insum/webpack.config": "^2.1.1",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-transform-jsx-to-tt": "^0.2.0",
-    "concurrently": "^5.2.0",
-    "copy-webpack-plugin": "^6.0.3",
-    "core-js": "^3.6.5",
-    "fs-extra": "9.0.1",
-    "glob": "7.1.6",
-    "haunted": "^4.7.0",
-    "lit-html": "^1.2.1",
-    "raw-loader": "^4.0.1",
-    "rimraf": "3.0.2",
-    "terser": "4.8.0",
-    "ts-loader": "^8.0.2",
-    "typescript": "3.9.7",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
-  },
   "publishConfig": {
     "access": "public",
     "directory": "lib"
