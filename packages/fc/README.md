@@ -50,6 +50,6 @@ EG({ render })(() => {
 })('demo-fc');
 ```
 
-More examples are [here](/demo/src).
+More examples are [here](https://github.com/sumbad/web-companions/tree/master/packages/fc/demo/src).
 
 ---
