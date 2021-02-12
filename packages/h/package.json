@@ -1,16 +1,14 @@
 {
   "name": "@web-companions/h",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "TODO",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumbad/web-companions.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "sumbad",
   "license": "MIT",
   "bugs": {
