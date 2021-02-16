@@ -9,6 +9,7 @@ import type {
   ElementRender,
   ElementIniConfig,
   ElementComponent,
+  ElementComponentProps,
 } from '../common.model';
 import { defMapper } from '../utils';
 
@@ -23,16 +24,19 @@ export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>, RT
   return (func: ComponentFunc<P>) => {
     const element = build(func, config.props || {}, config.render, mapper, config.shadow);
 
-    return (name: string, options?: ElementDefinitionOptions): ElementComponent<typeof element, OP> => {
+    return (
+      name: string,
+      options?: ElementDefinitionOptions
+    ): ElementComponent<typeof element, OP> => {
       try {
         customElements.define(name, element, options);
       } catch (e) {
         console.warn(e);
       }
 
-      const component = (async (_p: OP & { ref?: any }) => {
+      const component = async (_p: ElementComponentProps<OP>) => {
         return customElements.whenDefined(name).then(() => customElements.get(name));
-      }) as ElementComponent<typeof element, OP>;
+      };
 
       component.element = element;
       component.adapter = <T>(func: AdapterFunc<OP, T>, defaultProps?: OP) => func(name, defaultProps);

@@ -4,6 +4,8 @@ import { html, render } from 'uhtml';
 import { sumDeferred } from './sumDeferred';
 import { sumImmediate } from './sumImmediate';
 
+const css = String.raw;
+
 const counterNode = NG({
   render: (t, n) => {
     if (n.current instanceof Node) {
@@ -37,7 +39,6 @@ const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-ba
 const SumDeferredElement = sumDeferred('sum-deferred');
 const SumImmediateElement = sumImmediate('sum-immediate');
 
-
 /**
  * ROOT element
  */
@@ -69,20 +70,40 @@ EG({
     }, 3000);
   }, []);
 
-  return (
-    <>
-      {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>}
-      <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={myRef}></LoadingProgressBarElement>
-      <button onclick={handleProgress}>Progress loading</button>
+  const sectionStyle = css`
+    margin-top: 10px;
+  `;
 
-      <br />
-      <br />
-      {CounterNode({ msg: 'Node Counter as Expression' })}
-      <br />
-      <CounterNode msg="Node Counter as Element"></CounterNode>
-      <br />
-      <SumDeferredElement></SumDeferredElement>
-      <SumImmediateElement></SumImmediateElement>
-    </>
+  return (
+    <div
+      style={css`
+        margin: 10px;
+      `}
+    >
+      <section style={sectionStyle}>
+        {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>}
+      </section>
+
+      <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={myRef}></LoadingProgressBarElement>
+
+      <button onclick={handleProgress} style={sectionStyle}>
+        Progress loading
+      </button>
+
+      <hr />
+
+      <section style={sectionStyle}>{CounterNode({ msg: 'Node Counter as Expression' })}</section>
+
+      <section style={sectionStyle}>
+        <CounterNode msg="Node Counter as Element"></CounterNode>
+      </section>
+
+      <section style={sectionStyle}>
+        <SumDeferredElement></SumDeferredElement>
+        <SumImmediateElement></SumImmediateElement>
+      </section>
+
+      <hr />
+    </div>
   );
 })('demo-fc');

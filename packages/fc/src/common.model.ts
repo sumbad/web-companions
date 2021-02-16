@@ -42,8 +42,40 @@ export interface NodeIniConfig<T> {
   render: NodeRender<T>;
 }
 
+export type ElementComponentProps<OP> = OP & {
+  ref?: { current: object | Node | null };
+  // Global attributes
+  accesskey?: string;
+  autocapitalize?: string;
+  class?: string;
+  contenteditable?: boolean;
+  contextmenu?: string;
+  dir?: string;
+  draggable?: boolean;
+  dropzone?: string;
+  exportparts?: string;
+  hidden?: boolean;
+  id?: string;
+  inputmode?: string;
+  is?: string;
+  itemid?: string;
+  itemprop?: string;
+  itemref?: string;
+  itemscope?: string;
+  itemtype?: string;
+  lang?: string;
+  part?: string;
+  role?: string;
+  slot?: string;
+  spellcheck?: boolean;
+  style?: string;
+  tabindex?: number;
+  title?: string;
+  translate?: string;
+} & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
+
 export interface ElementComponent<E, OP> {
-  (_p: OP & { ref?: any }): any;
+  (_p: ElementComponentProps<OP>): any;
   element: E;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }
