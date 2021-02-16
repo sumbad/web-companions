@@ -7,9 +7,9 @@
     "build": "npm run transpile && node ./scripts/.make-lib",
     "transpile": "rimraf ./lib && tsc",
     "dev": "npm run transpile && concurrently --raw \"tsc -w\" \"webpack-dev-server --config ./demo/webpack.config.js\"",
-    "prepublishOnly": "npm run build",
-    "pub": "npm publish ./lib",
-    "pub:beta": "npm publish ./lib --tag beta"
+    "prepublishOnly": "node scripts/prepublish.js && npm run build",
+    "release": "RELEASE_MODE=true npm publish ./lib",
+    "release:next": "npm publish ./lib --tag next"
   },
   "repository": {
     "type": "git",

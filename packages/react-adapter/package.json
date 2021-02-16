@@ -6,9 +6,9 @@
   "scripts": {
     "build": "npm run transpile && node ./scripts/.make-lib",
     "transpile": "rimraf ./lib && tsc",
-    "prepublishOnly": "npm run build",
-    "pub": "npm publish ./lib",
-    "pub:beta": "npm publish ./lib --tag beta"
+    "prepublishOnly": "node scripts/prepublish.js && npm run build",
+    "release": "RELEASE_MODE=true npm publish ./lib",
+    "release:next": "npm publish ./lib --tag next"
   },
   "repository": {
     "type": "git",
