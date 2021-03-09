@@ -10,15 +10,15 @@ export function NG<FP, RT>(this: any, config: NodeIniConfig<RT>) {
       const node2Fn = new WeakMap();
 
       return (props: P) => {
-        const node = refNode ? refNode : useRef(null);
-        let rFn = node2Fn.get(node);
+        const ref = refNode ? refNode : useRef(null);
+        let rFn = node2Fn.get(ref);
 
         if (rFn === undefined) {
-          const aFunc = AF(func, (r: any) => config.render(r, node));
+          const aFunc = AF(func, (r: any) => config.render(r, ref));
           
-          rFn = (p = props) => aFunc(p); // TODO: what has better performance? [ Reflect.apply(aFunc, this, [p]);  ||  pF(p); ]
+          rFn = (p = props) => Reflect.apply(aFunc, ref.current, [p]);
 
-          node2Fn.set(node, rFn);
+          node2Fn.set(ref, rFn);
         }
 
         return rFn(props);
