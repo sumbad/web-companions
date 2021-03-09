@@ -1,40 +1,15 @@
-import { EG, NG, useCallback, useEffect, useRef, useState } from '@web-companions/fc';
+import { EG, useCallback, useEffect, useRef, useState } from '@web-companions/fc';
 import { loadingProgressBarElement } from './loadingProgressBar';
-import { html, render } from 'uhtml';
+import { render } from 'uhtml';
 import { sumDeferred } from './sumDeferred';
 import { sumImmediate } from './sumImmediate';
+import { counterEl } from './counterEl';
+import { counterNode } from './counterNode';
 
 const css = String.raw;
 
-const counterNode = NG({
-  render: (t, n) => {
-    if (n.current instanceof Node) {
-      render(n.current, html`${t}`);
-      return undefined;
-    } else {
-      const a = html.for(n)`${t}`;
-      return a;
-    }
-  },
-})((prop: { msg: string }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    console.log('connected CounterVirtual');
-    return () => console.log('disconnected CounterVirtual');
-  }, []);
-
-  return (
-    <>
-      <button type="button" onclick={() => setCount(count + 1)}>
-        {prop?.msg}
-      </button>
-      <i>{count}</i>
-    </>
-  );
-});
-
 const CounterNode = counterNode();
+const CounterElement = counterEl('demo-counter-element');
 const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
 const SumDeferredElement = sumDeferred('sum-deferred');
 const SumImmediateElement = sumImmediate('sum-immediate');
@@ -43,8 +18,14 @@ const SumImmediateElement = sumImmediate('sum-immediate');
  * ROOT element
  */
 EG({
+  props:{
+    header: {
+      type: String,
+      attribute: 'header'
+    }
+  },
   render: (t, n) => render(n, t),
-})(() => {
+})((props) => {
   const myRef = useRef<{ generateProgress?: Generator }>({});
 
   const handleProgress = useCallback(() => {
@@ -80,6 +61,10 @@ EG({
         margin: 10px;
       `}
     >
+      <h3>{props.header}</h3>
+
+      <CounterElement msg={'Counter Element'}></CounterElement>
+      
       <section style={sectionStyle}>
         {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>}
       </section>

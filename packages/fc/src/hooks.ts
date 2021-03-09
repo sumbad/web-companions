@@ -25,9 +25,6 @@ type Bucket = {
   /** cleanups */
   c: (Function | undefined)[];
 
-  /** callback function */
-  cb: Function;
-
   /** articulated function */
   af: Function;
 };
@@ -75,11 +72,11 @@ function guardsChanged(guards1: any[] | undefined, guards2: any[] | undefined) {
 
 ////////////////////////////////////////////////////////
 
-export function AF<T extends Function>(fns: T, cb: Function) {
+export function AF<T extends Function, R>(fns: T, cb: (r: any) => R) {
   af.reset = reset;
   return af;
 
-  function af(this: any, ...args: any[]) {
+  function af(this: any, ...args: any[]): R {
     afStack.push(af);
 
     let bucket = buckets.get(af);
@@ -93,15 +90,14 @@ export function AF<T extends Function>(fns: T, cb: Function) {
         c: [],
         m: [],
         hUS: false,
-        cb,
-        af: () => af(...args),
+        af: af.bind(this, ...args),
       };
       buckets.set(af, bucket);
     } else {
       bucket.nSSI = 0;
       bucket.nEI = 0;
       bucket.nMI = 0;
-      bucket.af = () => af(...args);
+      bucket.af = af.bind(this, ...args);
     }
 
     let r;
@@ -112,7 +108,7 @@ export function AF<T extends Function>(fns: T, cb: Function) {
       try {
         runEffects(bucket);
 
-        return bucket.cb(r);
+        return cb(r);
       } finally {
         if (bucket.hUS) {
           bucket.hUS = false;
@@ -151,7 +147,7 @@ export function AF<T extends Function>(fns: T, cb: Function) {
       bucket.nSSI = 0;
       bucket.nEI = 0;
       bucket.nMI = 0;
-      //TODO: cleanup af and cb
+      //TODO: cleanup af
     }
   }
 }
