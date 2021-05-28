@@ -1,0 +1,28 @@
+{
+  "extends": "../babel.config.js",
+  "plugins": [
+    [
+      "babel-plugin-transform-jsx-to-tt",
+      {
+        "tag": "html",
+        "import": {
+          "module": "uhtml",
+          "export": "html"
+        },
+        "attributes": [
+          {
+            "preset": "global"
+          },
+          {
+            "prefix": "",
+            "attributes": ["ref"]
+          },
+          {
+            "prefix": ".",
+            "attributes": [".*"]
+          }          
+        ]
+      }
+    ]
+  ]
+}
