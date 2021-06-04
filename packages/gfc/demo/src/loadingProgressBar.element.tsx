@@ -1,21 +1,16 @@
 import style from './style.css';
-import { EG } from '@web-companions/gfc';
+import { EG, prop } from '@web-companions/gfc';
 import { render } from 'uhtml';
-import type { TypeConstructor } from '@web-companions/gfc/common.model';
 
 export const loadingProgressBarElement = EG({
   props: {
-    test: {
-      type: String,
-      default: undefined,
-    },
-    config: {
-      type: {} as TypeConstructor<{ a: number; b: string }>,
-      default: {
-        a: 2,
-        b: '3',
-      },
-    },
+    config: prop.req<{ a: number; b: string }>(),
+    test: prop.opt<string>(),
+    // ^ the same 
+    // test: {
+    //   type: {} as string,
+    //   optional: true,
+    // },
   },
 })(function* ({ config, test = '123' }) {
   let animationName = 'f0';
@@ -61,6 +56,6 @@ export const loadingProgressBarElement = EG({
     );
 
     config = props.config;
-    test = props.test;
+    test = props.test ?? test;
   }
 });

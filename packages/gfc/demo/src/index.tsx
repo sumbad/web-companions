@@ -1,15 +1,15 @@
-import { EG } from '@web-companions/gfc';
+import { EG, prop } from '@web-companions/gfc';
 import { loadingProgressBarElement } from './loadingProgressBar.element';
 import { render } from 'uhtml';
 import { sumDeferred } from './sumDeferred.element';
 import { sumImmediate } from './sumImmediate.element';
-import { counterEl } from './counter.element';
+import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
 
 const css = String.raw;
 
 const CounterNode = counterNode();
-const CounterElement = counterEl('demo-counter-element');
+const CounterElement = counterElement('demo-counter-element');
 const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
 const SumDeferredElement = sumDeferred('sum-deferred');
 const SumImmediateElement = sumImmediate('sum-immediate');
@@ -19,10 +19,7 @@ const SumImmediateElement = sumImmediate('sum-immediate');
  */
 EG({
   props: {
-    header: {
-      type: String,
-      attribute: 'header',
-    },
+    header: prop.req<string>('header'),
   },
 })(function* (props) {
   const myRef: { current: { generateProgress?: Generator } } = { current: {} };

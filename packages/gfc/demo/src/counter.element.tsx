@@ -1,15 +1,15 @@
-import { EG } from '@web-companions/gfc';
+import { EG, prop } from '@web-companions/gfc';
 import { render } from 'uhtml';
 
-export const counterEl = EG({
+export const counterElement = EG({
   props: {
-    msg: String,
+    msg: prop.req<string>(),
   },
-})(function* (prop: { msg: string }) {
+})(function* (props) {
   let count = 0;
 
   while (true) {
-    prop = yield render(
+    props = yield render(
       this,
       <>
         <button
@@ -19,7 +19,7 @@ export const counterEl = EG({
             this.next();
           }}
         >
-          {prop?.msg}
+          {props?.msg}
         </button>
         <i>{count}</i>
       </>

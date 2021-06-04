@@ -1,22 +1,11 @@
-interface Type<T> {
-  valueOf(): T;
-}
-
-export interface TypeConstructor<G> {
-  new (value?: any): Type<G>;
-  <T>(value?: T): G;
-}
-
-export type ConstructorTypes = StringConstructor | BooleanConstructor | NumberConstructor | ArrayConstructor; //| ObjectConstructor;
-
-export type ElementConfigProp<T extends TypeConstructor<PX>, PX> = {
-  type: TypeConstructor<PX> extends T ? T : TypeConstructor<PX>;
-  default?: PX extends ReturnType<T> ? PX : ReturnType<T>;
+export type ElementConfigProp<PX> = {
+  type: PX;
   attribute?: string;
+  optional?: boolean;
 };
 
 export type ElementProperties<P> = {
-  [x in keyof P]: ElementConfigProp<TypeConstructor<P[x]>, P[x]> | TypeConstructor<P[x]>;
+  [x in keyof P]: ElementConfigProp<P[x]>;
 };
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
@@ -28,7 +17,7 @@ export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
 export type ElementMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
 
-export interface ElementIniConfig<P, PP, RT> {
+export interface ElementIniConfig<P, PP> {
   props?: (ElementProperties<P> & PP) | undefined;
   mapper?: ElementMapper<P> | undefined;
 }

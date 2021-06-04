@@ -17,10 +17,10 @@ let isConnecting = true;
 /**
  * Initialize Element Generator
  */
-export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>, RT = any>(config?: ElementIniConfig<P, PP, RT>) {
+export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>>(config?: ElementIniConfig<P, PP>) {
   const mapper = config?.mapper || defMapper;
 
-  type OP = Optional<P, { [k in keyof PP]: PP[k] extends { default: any } ? k : never }[keyof P]>;
+  type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
   return (func: ComponentFunc<P>) => {
     const element = build(func, config?.props || {}, mapper);
@@ -51,7 +51,7 @@ export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>, RT
  * @param mapper
  * @param shadow
  */
-function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper: ElementMapper<P>) {
+function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, mapper: ElementMapper<P>) {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
@@ -71,19 +71,15 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper:
     }
 
     isScheduledNext = false;
-    gFunc: Promise<Generator<any, void, P>>;
-
-    async generatorNext(generator: Generator<any, void, P>) {
-      this.isScheduledNext = false;
-
-      generator.next(this.props);
-    }
+    generation: Generator<any, void, P> | undefined;
 
     async next() {
-      if (!this.isScheduledNext) {
+      if (!this.isScheduledNext && this.generation != null) {
         this.isScheduledNext = true;
-        const generator = await this.gFunc;
-        this.generatorNext(generator);
+
+        const generator = await Promise.resolve(this.generation);
+        this.isScheduledNext = false;
+        generator.next(this.props);
       }
     }
 
@@ -95,7 +91,6 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper:
         let attr: string | undefined = undefined;
 
         if ('type' in pV) {
-          this.props[pK] = pV.default;
           attr = pV.attribute;
         }
 
@@ -109,8 +104,6 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper:
           enumerable: true,
         });
       }
-
-      this.gFunc = Promise.resolve(func.apply(this, [this.props]));
     }
 
     /**
@@ -118,8 +111,10 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper:
      * Invoked when the custom element is first connected to the document's DOM.
      */
     connectedCallback(): void {
+      this.generation = func.apply(this, [this.props]);
+
       isConnecting = true;
-      this.next();
+      this.generation.next(this.props);
       isConnecting = false;
     }
 
@@ -168,12 +163,11 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<any>, mapper:
   return customEl;
 }
 
-
 /**
  * Set, check and return an Node ID in this Element
- * 
+ *
  * @param id - a Node ID
- * @returns 
+ * @returns
  */
 export function setElNode<Val extends object>(id: Val): Val {
   if (isConnecting) {

@@ -13,7 +13,6 @@
     // "experimentalDecorators": true,
     // "noImplicitAny": false,
     // "noImplicitThis": false,
-    // "strictNullChecks": true,
     "removeComments": true,
     // "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
