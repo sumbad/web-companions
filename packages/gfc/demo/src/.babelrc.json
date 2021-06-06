@@ -6,21 +6,13 @@
       {
         "tag": "html",
         "import": {
-          "module": "uhtml",
+          "module": "lit-html",
           "export": "html"
         },
         "attributes": [
           {
-            "preset": "global"
-          },
-          {
-            "prefix": "",
-            "attributes": ["ref"]
-          },
-          {
-            "prefix": ".",
-            "attributes": [".*"]
-          }          
+            "preset": "lit-html"
+          }
         ]
       }
     ]

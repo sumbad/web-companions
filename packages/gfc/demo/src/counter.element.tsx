@@ -1,5 +1,5 @@
 import { EG, prop } from '@web-companions/gfc';
-import { render } from 'uhtml';
+import { render } from 'lit-html';
 
 export const counterElement = EG({
   props: {
@@ -10,7 +10,6 @@ export const counterElement = EG({
 
   while (true) {
     props = yield render(
-      this,
       <>
         <button
           type="button"
@@ -22,7 +21,8 @@ export const counterElement = EG({
           {props?.msg}
         </button>
         <i>{count}</i>
-      </>
+      </>,
+      this
     );
   }
 });

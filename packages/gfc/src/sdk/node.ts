@@ -1,13 +1,13 @@
 import type { ComponentFunc } from '../common.model';
 import { setElNode } from './element';
 
-interface NodeRef<P> {
-  current: Node | null;
+export interface NodeRef<P = unknown, C = Node | null, V = any> {
+  current: C;
   generator: Generator<any, void, P | undefined>;
   next: (...args: [] | [P]) => Promise<void>;
   isScheduledNext: boolean;
   props: P;
-  value?: any;
+  value?: V;
 }
 
 /**

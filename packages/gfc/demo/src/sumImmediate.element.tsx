@@ -1,5 +1,5 @@
 import { EG } from '@web-companions/gfc';
-import { render } from 'uhtml';
+import { render } from 'lit-html';
 
 let sum = 0;
 
@@ -17,6 +17,6 @@ export const sumImmediate = EG()(function* () {
       setState(++sum);
     }
 
-    yield render(this, <div>Sum Immediate - {String(state)}</div>);
+    yield render(<div>Sum Immediate - {String(state)}</div>, this);
   }
 });

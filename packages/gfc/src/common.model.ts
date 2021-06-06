@@ -23,7 +23,7 @@ export interface ElementIniConfig<P, PP> {
 }
 
 export type ElementComponentProps<OP> = OP & {
-  ref?: { current: object | Node | null };
+  ref?: { current: object | Node | null } | any;
   // Global attributes
   accesskey?: string;
   autocapitalize?: string;

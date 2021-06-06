@@ -1,5 +1,5 @@
 import { EG } from '@web-companions/gfc';
-import { render } from 'uhtml';
+import { render } from 'lit-html';
 
 let sum = 0;
 
@@ -23,10 +23,10 @@ export const sumDeferred = EG()(function* () {
     }
 
     yield render(
-      this,
       <>
         <div>Sum Deferred - {String(state)}</div>
-      </>
+      </>,
+      this
     );
   }
 });

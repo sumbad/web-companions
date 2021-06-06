@@ -1,12 +1,12 @@
 import style from './style.css';
 import { EG, prop } from '@web-companions/gfc';
-import { render } from 'uhtml';
+import { render } from 'lit-html';
 
 export const loadingProgressBarElement = EG({
   props: {
     config: prop.req<{ a: number; b: string }>(),
     test: prop.opt<string>(),
-    // ^ the same 
+    // ^ the same
     // test: {
     //   type: {} as string,
     //   optional: true,
@@ -44,7 +44,6 @@ export const loadingProgressBarElement = EG({
 
   while (true) {
     const props = yield render(
-      this,
       <>
         <style>{style}</style>
         <div class={`animated yt-loader ${isPause ? 'pause' : ''}`} style={`animation-name: ${animationName}`}></div>
@@ -52,7 +51,8 @@ export const loadingProgressBarElement = EG({
         <div>{config.a}</div>
         <div>{config.b}</div>
         <div>{test}</div>
-      </>
+      </>,
+      this
     );
 
     config = props.config;
