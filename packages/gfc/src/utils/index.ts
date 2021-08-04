@@ -6,7 +6,7 @@ export function defMapper<P>(state: P, key: keyof P, value: any): P {
   }
 }
 
-export const prop = {
+export const p = {
   req<Type>(attribute?: string) {
     return {
       type: {} as Type,

@@ -11,3 +11,8 @@
 
 > Generator Functional Components. A wrapper for creating Web components through JS Generator function
 
+### Notice
+
+#### Node component
+- This type of components could be created only inside as Element component.
+- If some of Node component will be rendered by a condition we should create it with a prepared ref object. Otherwise, some of Nodes can start to use the same state inside.

@@ -44,5 +44,8 @@
     "skipLibCheck": true
   },
   "include": ["./src/**/*.ts"],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "exclude": [
+    "tests"
+  ]
 }

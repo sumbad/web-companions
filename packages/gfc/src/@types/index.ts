@@ -59,3 +59,18 @@ export interface ElementComponent<E, OP> {
   element: E;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }
+
+
+export interface NodeRef<P = unknown, C = Node | null, V = any> {
+  current: C;
+  generator: Generator<any, void, P | undefined>;
+  next: (...args: [] | [P]) => Promise<void>;
+  isScheduledNext: boolean;
+  props?: P;
+  value?: V;
+}
+
+
+export interface NodeComponent<P> {
+  (_p: P): any;
+}

@@ -1,9 +1,9 @@
-import { EG, prop } from '@web-companions/gfc';
+import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
 
 export const counterElement = EG({
   props: {
-    msg: prop.req<string>(),
+    msg: p.req<string>(),
   },
 })(function* (props) {
   let count = 0;

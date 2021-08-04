@@ -1,11 +1,11 @@
 import style from './style.css';
-import { EG, prop } from '@web-companions/gfc';
+import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
 
 export const loadingProgressBarElement = EG({
   props: {
-    config: prop.req<{ a: number; b: string }>(),
-    test: prop.opt<string>(),
+    config: p.req<{ a: number; b: string }>(),
+    test: p.opt<string>(),
     // ^ the same
     // test: {
     //   type: {} as string,

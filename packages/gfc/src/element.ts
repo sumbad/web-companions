@@ -7,8 +7,8 @@ import type {
   ElementIniConfig,
   ElementComponent,
   ElementComponentProps,
-} from '../common.model';
-import { defMapper } from '../utils';
+} from './@types';
+import { defMapper } from './utils';
 
 const nodes: unknown[] = [];
 let nodeIdx = -1;

@@ -10,9 +10,7 @@ export function NG<P extends {} = {}>(func: ComponentFunc<P>) {
     return (ref?: { current: Node | null }): NodeReturn<P> => {
       const node2Ref = new WeakMap<object, NodeRef<P>>();
 
-      return ((_props: P = {} as P) => {
-        const props: P = (_props as any) || {};
-
+      return ((props: P = {} as P) => {
         const nodeRef = ref == null ? setElNode({ current: null }) : ref;
         let node: NodeRef<P> | undefined = node2Ref.get(nodeRef);
 

@@ -1,4 +1,4 @@
-import { EG, prop } from '@web-companions/gfc';
+import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
 import { ref, createRef, Ref } from 'lit-html/directives/ref';
 import { loadingProgressBarElement } from './loadingProgressBar.element';
@@ -20,7 +20,7 @@ const SumImmediateElement = sumImmediate('sum-immediate');
  */
 EG({
   props: {
-    header: prop.req<string>('header'),
+    header: p.req<string>('header'),
   },
 })(function* (props) {
   const myRef: Ref<HTMLElement & { generateProgress?: Generator }> = createRef();
@@ -63,6 +63,7 @@ EG({
   `;
 
   const nodeCounterRef = { current: null };
+  const createCounterNode = (ref: { current: Element | null }) => (ref != null ? counterNode(ref) : () => null);
 
   while (true) {
     props = yield render(
@@ -77,7 +78,7 @@ EG({
 
         <section style={sectionStyle}>
           {/* {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>} @REVIEW: babel-plugin-transform-jsx-to-tt */}
-          {demoCounterPortalRef.current && CounterNode({ msg: 'Node Counter Portal', ref: demoCounterPortalRef })}
+          {demoCounterPortalRef.current && createCounterNode(demoCounterPortalRef)({ msg: 'Node Counter Portal' })}
         </section>
 
         <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={ref(myRef)}></LoadingProgressBarElement>
@@ -88,8 +89,12 @@ EG({
 
         <hr />
 
+        <section style={sectionStyle}>{CounterNode({ msg: 'Node Counter as Function' })}</section>
+        
         {state >= 20 && (
-          <section style={sectionStyle}>{CounterNode({ msg: `Node Counter as Expression ${state}`, ref: nodeCounterRef })}</section>
+          <section style={sectionStyle}>
+            {createCounterNode(nodeCounterRef)({ msg: 'Node Counter as Function after 20 (should use a ref to prevent conflicts)' })}
+          </section>
         )}
 
         <section style={sectionStyle}>
@@ -107,10 +112,6 @@ EG({
     );
   }
 })('demo-fc');
-
-
-
-
 
 // import { EG, prop } from '@web-companions/gfc';
 // import { loadingProgressBarElement } from './loadingProgressBar.element';
@@ -152,7 +153,7 @@ EG({
 //   };
 
 //   const demoCounterPortalRef: {current: Element | null }= {current: null};
-  
+
 //   requestAnimationFrame(() => {
 //     demoCounterPortalRef.current = document.querySelector('#demoCounterPortal');
 //   });
