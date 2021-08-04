@@ -69,8 +69,3 @@ export interface NodeRef<P = unknown, C = Node | null, V = any> {
   props?: P;
   value?: V;
 }
-
-
-export interface NodeComponent<P> {
-  (_p: P): any;
-}
