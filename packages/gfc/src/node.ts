@@ -1,4 +1,4 @@
-import type { ComponentFunc, NodeRef } from './@types';
+import type { NodeRef } from './@types';
 import { setElNode } from './element';
 
 /**

@@ -1,8 +1,8 @@
 import { NG } from '@web-companions/gfc';
 import { NodeRef } from '@web-companions/gfc/@types';
 import { render } from 'lit-html';
-import { AsyncDirective } from 'lit-html/async-directive';
-import { directive } from 'lit-html/directive';
+import { AsyncDirective } from 'lit-html/async-directive.js';
+import { directive } from 'lit-html/directive.js';
 
 class RenderNode extends AsyncDirective {
   render(tpl: any, ref: NodeRef<unknown, Node | null | RenderNode>) {

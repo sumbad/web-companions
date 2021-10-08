@@ -26,7 +26,14 @@ module.exports = {
   },
   module: {
     rules: [
-      require('@insum/webpack.config/loaders/css'),
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'raw-loader',
+          },
+        ],
+      },
       {
         test: /\.ts(x?)$/,
         use: [

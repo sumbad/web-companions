@@ -1,6 +1,6 @@
 import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
-import { ref, createRef, Ref } from 'lit-html/directives/ref';
+import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
 import { loadingProgressBarElement } from './loadingProgressBar.element';
 import { sumDeferred } from './sumDeferred.element';
 import { sumImmediate } from './sumImmediate.element';
