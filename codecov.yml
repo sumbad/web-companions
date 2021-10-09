@@ -1,0 +1,18 @@
+# adding Flags to your `layout` configuration to show up in the PR comment
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false  
+  require_base: yes
+  require_head: yes       
+  branches: null
+
+# new section in the root YAML, flag_management:
+flag_management:
+  default_rules:
+    carryforward: true
+
+flags:
+  gfc:
+    paths:
+      - packages/gfc/
