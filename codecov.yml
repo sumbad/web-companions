@@ -11,8 +11,11 @@ comment:
 flag_management:
   default_rules:
     carryforward: true
+    paths:
+      - packages/gfc/
 
 flags:
   gfc:
     paths:
       - packages/gfc/
+    carryforward: true
