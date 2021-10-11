@@ -114,7 +114,7 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, map
       this.generation = func.apply(this, [this.props]);
 
       isConnecting = true;
-      this.generation.next(this.props);
+      this.generation!.next(this.props);
       isConnecting = false;
     }
 

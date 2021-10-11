@@ -7,7 +7,7 @@ module.exports = {
     modules: ['dist', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js', '.json', '.css'],
     alias: {
-      '@web-companions/gfc': path.resolve(__dirname, '../lib'),
+      '@web-companions/gfc': path.resolve(__dirname, '../src'),
     },
   },
   mode: 'development',

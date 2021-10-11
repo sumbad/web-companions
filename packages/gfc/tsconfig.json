@@ -26,6 +26,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
+    "strictFunctionTypes": true,
 
     // Linter Checks
     // "noUnusedLocals": true,

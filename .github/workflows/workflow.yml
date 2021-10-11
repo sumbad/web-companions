@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - develop
+      - master
+    paths:
+      - 'packages/gfc/**'
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Move to the package directory
+        run: cd ./packages/gfc
+      - name: Install operating system dependencies
+        run: npx playwright install-deps
+      - name: Run your tests
+        run: npm run test:coveralls
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          files: ./coverage/lcov.info
+          flags: gfc
+          name: codecov-umbrella
+          path_to_write_report: ./coverage/codecov_report.txt
+          verbose: true
