@@ -20,7 +20,6 @@
 
 > Generator Functional Components. A wrapper for creating Web components with JS Generator function
 
-
 ## Features
 
 - 🚀 **Fast**: Built with standards based Custom Elements and JS Generator.
