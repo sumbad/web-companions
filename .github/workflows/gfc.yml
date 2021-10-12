@@ -30,8 +30,8 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
+          directory: ./packages/gfc
           files: ./coverage/lcov.info
           flags: gfc
           name: codecov-umbrella
-          path_to_write_report: ./coverage/codecov_report.txt
           verbose: true
