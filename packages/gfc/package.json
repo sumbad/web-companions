@@ -4,8 +4,8 @@
   "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
   "main": "index.js",
   "scripts": {
-    "test": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=html --reporter=lcov --reporter=text",
-    "test:coveralls": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=text-lcov",
+    "test": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=html --reporter=text",
+    "test:ci": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=lcov",
     "start": "node ./app",
     "build": "npm run transpile && node ./scripts/.make-lib",
     "transpile": "rimraf ./lib && tsc",

@@ -5,6 +5,9 @@
   <a href="https://bundlephobia.com/result?p=@web-companions/gfc">
     <img alt="gzip size" src="https://badgen.net/bundlephobia/minzip/@web-companions/gfc" />
   </a>
+  <a href="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml">
+    <img src="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml/badge.svg"/>
+  </a>
   <a href="https://codecov.io/gh/sumbad/web-companions/tree/master/packages/gfc">
     <img src="https://codecov.io/gh/sumbad/web-companions/master/devlop/graph/badge.svg?flag=gfc"/>
   </a>
