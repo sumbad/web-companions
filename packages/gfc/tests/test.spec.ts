@@ -42,7 +42,7 @@ test('test', async ({ page, baseURL }) => {
 
     if (typeof item['path'] === 'string') {
       item['path'] = `${item['path'].split('?')[0]}`.replace('@web-companions/gfc/', '');
-      console.log(item['path']);
+      // console.log(item['path']);
     }
   }
 
