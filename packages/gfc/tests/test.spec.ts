@@ -46,5 +46,11 @@ test('test', async ({ page, baseURL }) => {
     }
   }
 
-  fs.writeFileSync(path.join(__dirname, '../.nyc_output/coverage-final.json'), JSON.stringify(data));
+  const saveDir = path.join(__dirname, '../.nyc_output');
+  
+  if (!fs.existsSync(saveDir)) {
+    fs.mkdirSync(saveDir);
+  }
+
+  fs.writeFileSync(path.join(saveDir, 'coverage-final.json'), JSON.stringify(data));
 });
