@@ -24,6 +24,7 @@
 
 - **Fast**: Built with standards based Custom Elements and JS Generator.
 - **Typed**: Written in TypeScript.
+- **Flexible**: Can be used with or without JSX. Fit to different template libraries.
 - **No dependencies**
 
 ---
