@@ -1,12 +1,16 @@
 {
-  "name": "@web-companions/fc",
-  "version": "0.1.5-develop.1",
-  "description": "Functional Components. A wrapper for creating Web components like React.js components with hooks",
+  "name": "@web-companions/gfc",
+  "version": "0.0.1-develop.4",
+  "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
   "main": "index.js",
   "scripts": {
+    "test": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=html --reporter=text",
+    "test:ci": "CI=true npm run dev:build && playwright test && nyc report --reporter=lcov",
+    "start": "node ./app",
     "build": "npm run transpile && node ./scripts/.make-lib",
     "transpile": "rimraf ./lib && tsc",
-    "dev": "npm run transpile && concurrently --raw \"tsc -w\" \"webpack-dev-server --config ./demo/webpack.config.js\"",
+    "dev": "npm run transpile && webpack-dev-server --config ./demo/webpack.config.js",
+    "dev:build": "npm run transpile && webpack --config ./demo/webpack.config.js",
     "prepublishOnly": "node scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "npm publish ./lib --tag next"
@@ -17,7 +21,7 @@
   },
   "keywords": [
     "Web Components",
-    "hooks"
+    "Generator"
   ],
   "author": "sumbad",
   "license": "MIT",
@@ -32,6 +36,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.15.8",
     "@babel/runtime": "^7.15.4",
+    "@playwright/test": "^1.15.2",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-jsx-to-tt": "^0.3.0",
     "concurrently": "^6.3.0",
@@ -39,12 +44,14 @@
     "core-js": "^3.18.2",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
+    "lit-html": "^2.0.1",
+    "nyc": "^15.1.0",
     "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
     "terser": "^5.9.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.3",
-    "uhtml": "^2.7.6",
+    "v8-to-istanbul": "^8.1.0",
     "webpack": "^5.58.0",
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.1"

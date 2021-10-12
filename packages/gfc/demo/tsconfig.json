@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "paths": {
+      "@web-companions/gfc": ["../src"],
+      "@web-companions/gfc/*": ["../src/*"],
+    },
+    "isolatedModules": false,
+    // "experimentalDecorators": true,
+    // "noImplicitAny": false,
+    // "noImplicitThis": false,
+    "removeComments": true,
+    // "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    // "rootDir": "./",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    // "inlineSources": true,
+
+    // Strict Checks
+    // "strict": true,
+    // "noImplicitAny": true,
+    // "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+
+    // Linter Checks
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Experimental
+    "experimentalDecorators": true,
+
+    // Source Maps
+    "inlineSources": true,
+
+    // Advanced
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+
+    "jsx": "preserve"
+  },
+  "compileOnSave": false,
+  "exclude": ["node_modules"]
+}
