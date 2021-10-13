@@ -4,9 +4,9 @@
   "description": "To use web components as React components",
   "main": "index.js",
   "scripts": {
-    "build": "npm run transpile && node ./scripts/.make-lib",
+    "build": "npm run transpile && node ../../scripts/make-lib",
     "transpile": "rimraf ./lib && tsc",
-    "prepublishOnly": "node scripts/prepublish.js && npm run build",
+    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "npm publish ./lib --tag next"
   },
@@ -30,10 +30,7 @@
   "devDependencies": {
     "@types/react": "^17.0.27",
     "concurrently": "^6.3.0",
-    "fs-extra": "^10.0.0",
-    "glob": "^7.2.0",
     "rimraf": "^3.0.2",
-    "terser": "^5.9.0",
     "typescript": "^4.4.3"
   },
   "publishConfig": {

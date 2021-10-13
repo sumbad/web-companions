@@ -22,7 +22,7 @@ const cmd =
   branchName === 'master'
     ? process.argv.slice(2).length > 0
       ? `npx lerna publish --include-merged-tags --conventional-graduate ${process.argv.slice(2).join(' ')}`
-      : `npx lerna publish`
+      : `npx lerna publish --include-merged-tags --conventional-graduate`
     : `npx lerna publish --include-merged-tags --no-changelog --dist-tag next --conventional-prerelease --preid ${branchName.replace(
         '/',
         '-'
