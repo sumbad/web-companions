@@ -39,7 +39,7 @@ jsFiles.forEach(async (filePath) => {
 });
 
 // add package.json file to lib folder
-let pkg = require('../package.json');
+let pkg = require(path.resolve('./package.json'));
 
 delete pkg.devDependencies;
 pkg.private = false;
