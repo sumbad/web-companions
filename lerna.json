@@ -4,7 +4,14 @@
   ],
   "command": {
     "version": {
-      "allowBranch": ["master", "develop", "feature/*", "bug/*", "patch/*", "test/*"],
+      "allowBranch": [
+        "master",
+        "develop",
+        "feature/*",
+        "bug/*",
+        "patch/*",
+        "test/*"
+      ],
       "conventionalCommits": true,
       "exact": true,
       "gitRemote": "origin",
