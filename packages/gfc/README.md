@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://www.npmjs.com/package/@web-companions/gfc">
-    <img src="https://img.shields.io/npm/v/@web-companions/gfc.svg?logo=npm&maxAge=86400" alt="Last npm Registry Version">
+    <img src="https://img.shields.io/npm/v/@web-companions/gfc.svg?logo=npm" alt="Last npm Registry Version">
   </a>
   <a href="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml">
     <img src="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml/badge.svg"/>
