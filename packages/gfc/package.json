@@ -13,7 +13,7 @@
     "dev:build": "npm run transpile && webpack --config ./demo/webpack.config.js",
     "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
-    "release:next": "npm publish ./lib --tag next"
+    "release:next": "RELEASE_MODE=true  npm publish ./lib --tag next"
   },
   "repository": {
     "type": "git",

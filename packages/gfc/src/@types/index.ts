@@ -11,7 +11,10 @@ export type ElementProperties<P> = {
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 export type Filter<T, U> = T extends U ? T : never;
 
-export type ComponentFunc<P> = (props: P) => Generator<any, void, P>;
+
+export type ComponentFuncThis = HTMLElement & { next: () => void };
+
+export type ComponentFunc<P> = (this: ComponentFuncThis & any, props: P) => Generator<any, void, P>;
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
@@ -54,12 +57,11 @@ export type ElementComponentProps<OP> = OP & {
   translate?: string;
 } & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
 
-export interface ElementComponent<E, OP> {
-  (_p: ElementComponentProps<OP>): any;
-  element: E;
+export interface ElementComponent<E extends new (...args: any) => any, OP> {
+  new (): InstanceType<E>;
+  (_p: ElementComponentProps<OP>): Promise<CustomElementConstructor>;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }
-
 
 export interface NodeRef<P = unknown, C = Node | null, V = any> {
   current: C;

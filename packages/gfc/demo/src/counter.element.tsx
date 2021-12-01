@@ -7,22 +7,25 @@ export const counterElement = EG({
   },
 })(function* (props) {
   let count = 0;
-
-  while (true) {
-    props = yield render(
-      <>
-        <button
-          type="button"
-          onclick={() => {
-            count++;
-            this.next();
-          }}
-        >
-          {props?.msg}
-        </button>
-        <i>{count}</i>
-      </>,
-      this
-    );
+  try {
+    while (true) {
+      props = yield render(
+        <>
+          <button
+            type="button"
+            onclick={() => {
+              count++;
+              this.next();
+            }}
+          >
+            {props?.msg}
+          </button>
+          <i>{count}</i>
+        </>,
+        this
+      );
+    }
+  } finally {
+    console.log('A CounterElement was disconnected');
   }
 });

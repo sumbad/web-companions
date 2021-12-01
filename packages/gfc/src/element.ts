@@ -10,9 +10,9 @@ import type {
 } from './@types';
 import { defMapper } from './utils';
 
-const nodes: unknown[] = [];
+const nodes: object[] = [];
 let nodeIdx = -1;
-let isConnecting = true;
+let isConnected = false;
 
 /**
  * Initialize Element Generator
@@ -23,35 +23,39 @@ export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>>(co
   type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
   return (func: ComponentFunc<P>) => {
-    const element = build(func, config?.props || {}, mapper);
+    const constructor = construct(func, config?.props || {}, mapper);
 
-    return (name: string, options?: ElementDefinitionOptions): ElementComponent<typeof element, OP> => {
+    return (name: string, options?: ElementDefinitionOptions): ElementComponent<typeof constructor, OP> => {
       try {
-        customElements.define(name, element, options);
+        customElements.define(name, constructor, options);
       } catch (e) {
         console.warn(e);
       }
 
-      const component = async (_p: ElementComponentProps<OP>) => {
-        return customElements.whenDefined(name).then(() => customElements.get(name));
+      const component = function (this: any, _p: ElementComponentProps<OP>) {
+        if (new.target != null) {          
+          return new constructor();
+        } else {
+          return customElements.whenDefined(name).then(() => customElements.get(name));
+        }
       };
 
-      component.element = element;
       component.adapter = <T>(func: AdapterFunc<OP, T>, defaultProps?: OP) => func(name, defaultProps);
 
-      return component;
+      return component as ElementComponent<typeof constructor, OP>;
     };
   };
 }
 
 /**
- *  Build a new custom element class
+ * Build a new custom element class
+ *
  * @param func
  * @param props
  * @param mapper
  * @param shadow
  */
-function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, mapper: ElementMapper<P>) {
+function construct<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, mapper: ElementMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
@@ -113,9 +117,9 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, map
     connectedCallback(): void {
       this.generation = func.apply(this, [this.props]);
 
-      isConnecting = true;
+      isConnected = false;
       this.generation!.next(this.props);
-      isConnecting = false;
+      isConnected = true;
     }
 
     /**
@@ -139,6 +143,7 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, map
      */
     disconnectedCallback() {
       nodes.length = 0;
+      this.generation?.return();
     }
   };
 
@@ -169,13 +174,15 @@ function build<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, map
  * @param id - a Node ID
  * @returns
  */
-export function setElNode<Val extends object>(id: Val): Val {
-  if (isConnecting) {
-    nodes.push(id);
-    return id;
-  } else {
+export function setElNode(id: object): object {
+  if (isConnected && nodes.length > 0) {
     nodeIdx++;
     nodeIdx = nodeIdx >= nodes.length ? 0 : nodeIdx;
-    return nodes[nodeIdx] as Val;
+
+    return nodes[nodeIdx];
+  } else {
+    nodes.push(id);
+
+    return id;
   }
 }

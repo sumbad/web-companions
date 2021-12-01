@@ -1,6 +1,7 @@
 import style from './style.css';
 import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
+import { ComponentFuncThis } from '@web-companions/gfc/@types';
 
 export const loadingProgressBarElement = EG({
   props: {
@@ -12,7 +13,7 @@ export const loadingProgressBarElement = EG({
     //   optional: true,
     // },
   },
-})(function* ({ config, test = '123' }) {
+})(function* (this: ComponentFuncThis & {generateProgress: Generator<any, any, any>},{ config, test = '123' }) {
   let animationName = 'f0';
   let isPause = false;
 

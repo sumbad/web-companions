@@ -113,6 +113,9 @@ EG({
   }
 })('demo-fc');
 
+
+
+
 // import { EG, prop } from '@web-companions/gfc';
 // import { loadingProgressBarElement } from './loadingProgressBar.element';
 // import { render } from 'uhtml';
