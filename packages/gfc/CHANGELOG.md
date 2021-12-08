@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.0.2) (2021-12-08)
+
+
+### Bug Fixes
+
+* **gfc:** change jsx.d.ts to jsx.ts file ([2eb349d](https://github.com/sumbad/web-companions/commit/2eb349d34071a5918348dd98f5ce51e75df40f15))
+
+
+
+
+
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
