@@ -1,28 +1,29 @@
-export type ElementConfigProp<PX> = {
+/// <reference path="jsx.d.ts" />
+
+export type EGProperty<PX> = {
   type: PX;
   attribute?: string;
   optional?: boolean;
 };
 
-export type ElementProperties<P> = {
-  [x in keyof P]: ElementConfigProp<P[x]>;
+export type EGProps<P> = {
+  [x in keyof P]: EGProperty<P[x]>;
 };
 
-export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type Filter<T, U> = T extends U ? T : never;
-
 
 export type ComponentFuncThis = HTMLElement & { next: () => void };
 
-export type ComponentFunc<P> = (this: ComponentFuncThis & any, props: P) => Generator<any, void, P>;
+export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, void, P>;
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
-export type ElementMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
+export type EGMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
 
-export interface ElementIniConfig<P, PP> {
-  props?: (ElementProperties<P> & PP) | undefined;
-  mapper?: ElementMapper<P> | undefined;
+export interface EGIniConfig<P, PP> {
+  props?: (EGProps<P> & PP) | undefined;
+  mapper?: EGMapper<P> | undefined;
 }
 
 export type ElementComponentProps<OP> = OP & {
@@ -57,9 +58,9 @@ export type ElementComponentProps<OP> = OP & {
   translate?: string;
 } & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
 
-export interface ElementComponent<E extends new (...args: any) => any, OP> {
-  new (): InstanceType<E>;
-  (_p: ElementComponentProps<OP>): Promise<CustomElementConstructor>;
+export interface ElementComponent<E extends CustomElementConstructor, OP> {
+  new (): InstanceType<E> & {props: ElementComponentProps<OP>};
+  (_p: ElementComponentProps<OP>): Promise<E>;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }
 

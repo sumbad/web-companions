@@ -13,7 +13,7 @@ export const loadingProgressBarElement = EG({
     //   optional: true,
     // },
   },
-})(function* (this: ComponentFuncThis & {generateProgress: Generator<any, any, any>},{ config, test = '123' }) {
+})(function* (this: ComponentFuncThis & { generateProgress: Generator<any, any, any> }, { config, test = '123' }) {
   let animationName = 'f0';
   let isPause = false;
 

@@ -1,15 +1,17 @@
 import type {
   ComponentFunc,
-  ElementProperties,
+  EGProps,
   AdapterFunc,
   Optional,
-  ElementMapper,
-  ElementIniConfig,
-  ElementComponent,
+  EGMapper,
+  EGIniConfig,
   ElementComponentProps,
+  ComponentFuncThis,
+  ElementComponent,
 } from './@types';
 import { defMapper } from './utils';
 
+// Element's nodes
 const nodes: object[] = [];
 let nodeIdx = -1;
 let isConnected = false;
@@ -17,32 +19,34 @@ let isConnected = false;
 /**
  * Initialize Element Generator
  */
-export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>>(config?: ElementIniConfig<P, PP>) {
+export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P, PP>) {
   const mapper = config?.mapper || defMapper;
 
   type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
-  return (func: ComponentFunc<P>) => {
-    const constructor = construct(func, config?.props || {}, mapper);
+  // Create Element Component based on a generator function - func
+  return <This extends ComponentFuncThis = ComponentFuncThis>(func: ComponentFunc<P, This>) => {
+    const constructor = construct(func as ComponentFunc<P, ComponentFuncThis>, config?.props || {}, mapper);
 
-    return (name: string, options?: ElementDefinitionOptions): ElementComponent<typeof constructor, OP> => {
+    // Return Element Component
+    return (name: string, options?: ElementDefinitionOptions) => {
       try {
         customElements.define(name, constructor, options);
       } catch (e) {
         console.warn(e);
       }
 
-      const component = function (this: any, _p: ElementComponentProps<OP>) {
-        if (new.target != null) {          
+      const component = function (_props: ElementComponentProps<OP>) {
+        if (new.target != null) {
           return new constructor();
         } else {
           return customElements.whenDefined(name).then(() => customElements.get(name));
         }
-      };
+      } as ElementComponent<typeof constructor, OP>;
 
       component.adapter = <T>(func: AdapterFunc<OP, T>, defaultProps?: OP) => func(name, defaultProps);
 
-      return component as ElementComponent<typeof constructor, OP>;
+      return component;
     };
   };
 }
@@ -55,7 +59,7 @@ export function EG<P, PP extends ElementProperties<P> = ElementProperties<P>>(co
  * @param mapper
  * @param shadow
  */
-function construct<P>(func: ComponentFunc<P>, props: ElementProperties<unknown>, mapper: ElementMapper<P>): CustomElementConstructor {
+function construct<P>(func: ComponentFunc<P, ComponentFuncThis>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
