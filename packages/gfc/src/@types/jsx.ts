@@ -14,6 +14,6 @@ declare namespace JSX {
     [elemName: string]: Partial<HTMLElement> | HTMLGlobalAttributes;
   }
   interface ElementAttributesProperty {
-    props;
+    props: any;
   }
 }

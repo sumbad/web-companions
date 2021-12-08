@@ -1,4 +1,4 @@
-/// <reference path="jsx.d.ts" />
+import './jsx';
 
 export type EGProperty<PX> = {
   type: PX;
