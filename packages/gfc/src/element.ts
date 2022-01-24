@@ -25,8 +25,8 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
   type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
   // Create Element Component based on a generator function - func
-  return <This extends ComponentFuncThis = ComponentFuncThis>(func: ComponentFunc<P, This>) => {
-    const constructor = construct(func as ComponentFunc<P, ComponentFuncThis>, config?.props || {}, mapper);
+  return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(func: ComponentFunc<P, This>) => {
+    const constructor = construct(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, mapper);
 
     // Return Element Component
     return (name: string, options?: ElementDefinitionOptions) => {
@@ -59,7 +59,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param mapper
  * @param shadow
  */
-function construct<P>(func: ComponentFunc<P, ComponentFuncThis>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
+function construct<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
@@ -81,13 +81,13 @@ function construct<P>(func: ComponentFunc<P, ComponentFuncThis>, props: EGProps<
     isScheduledNext = false;
     generation: Generator<any, void, P> | undefined;
 
-    async next() {
+    async next(props = this.props) {
       if (!this.isScheduledNext && this.generation != null) {
         this.isScheduledNext = true;
 
         const generator = await Promise.resolve(this.generation);
         this.isScheduledNext = false;
-        generator.next(this.props);
+        generator.next(props);
       }
     }
 

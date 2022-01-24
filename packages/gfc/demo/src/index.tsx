@@ -6,6 +6,7 @@ import { sumDeferred } from './sumDeferred.element';
 import { sumImmediate } from './sumImmediate.element';
 import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
+import { updatePropsWithNextElement } from './updatePropsWithNext';
 
 const css = String.raw;
 
@@ -14,6 +15,7 @@ const CounterElement = counterElement('demo-counter-element');
 const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
 const SumDeferredElement = sumDeferred('sum-deferred');
 const SumImmediateElement = sumImmediate('sum-immediate');
+const UpdatePropsWithNextElement = updatePropsWithNextElement('update-props-with-next-element');
 
 /**
  * ROOT element
@@ -90,7 +92,7 @@ EG({
         <hr />
 
         <section style={sectionStyle}>{CounterNode({ msg: 'Node Counter as Function' })}</section>
-        
+
         {state >= 20 && (
           <section style={sectionStyle}>
             {createCounterNode(nodeCounterRef)({ msg: 'Node Counter as Function after 20 (should use a ref to prevent conflicts)' })}
@@ -104,6 +106,10 @@ EG({
         <section style={sectionStyle}>
           <SumDeferredElement></SumDeferredElement>
           <SumImmediateElement></SumImmediateElement>
+        </section>
+
+        <section style={sectionStyle}>
+          <UpdatePropsWithNextElement></UpdatePropsWithNextElement>
         </section>
 
         <hr />

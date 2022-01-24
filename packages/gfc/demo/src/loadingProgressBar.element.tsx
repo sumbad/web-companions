@@ -3,17 +3,29 @@ import { EG, p } from '@web-companions/gfc';
 import { render } from 'lit-html';
 import { ComponentFuncThis } from '@web-companions/gfc/@types';
 
-export const loadingProgressBarElement = EG({
+interface LoadingProgressBarElementProps {
+  config: {
+    a: number;
+    b: string;
+  };
+  test?: string;
+}
+
+type LoadingProgressBarElementThis = ComponentFuncThis<LoadingProgressBarElementProps> & {
+  generateProgress: Generator<unknown, unknown, unknown>;
+};
+
+export const loadingProgressBarElement = EG<LoadingProgressBarElementProps>({
   props: {
-    config: p.req<{ a: number; b: string }>(),
-    test: p.opt<string>(),
+    config: p.req(),
+    test: p.opt(),
     // ^ the same
     // test: {
     //   type: {} as string,
     //   optional: true,
     // },
   },
-})(function* (this: ComponentFuncThis & { generateProgress: Generator<any, any, any> }, { config, test = '123' }) {
+})(function* (this: LoadingProgressBarElementThis, { config, test = 'test value' }) {
   let animationName = 'f0';
   let isPause = false;
 
