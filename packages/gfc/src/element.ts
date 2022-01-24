@@ -16,8 +16,12 @@ const nodes: object[] = [];
 let nodeIdx = -1;
 let isConnected = false;
 
+
 /**
  * Initialize Element Generator
+ * 
+ * @param config - configuration
+ * @returns - a new Element Generator
  */
 export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P, PP>) {
   const mapper = config?.mapper || defMapper;
@@ -57,7 +61,6 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param func
  * @param props
  * @param mapper
- * @param shadow
  */
 function construct<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
@@ -87,7 +90,8 @@ function construct<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGPro
 
         const generator = await Promise.resolve(this.generation);
         this.isScheduledNext = false;
-        generator.next(props);
+        this.props = props;
+        generator.next(this.props);
       }
     }
 
