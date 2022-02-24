@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.1.0-develop.2...@web-companions/gfc@1.1.0) (2022-02-24)
+
+**Note:** Version bump only for package @web-companions/gfc
+
+
+
+
+
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
