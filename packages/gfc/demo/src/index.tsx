@@ -109,7 +109,7 @@ EG({
         </section>
 
         <section style={sectionStyle}>
-          <UpdatePropsWithNextElement></UpdatePropsWithNextElement>
+          <UpdatePropsWithNextElement p1={"initial value"}></UpdatePropsWithNextElement>
         </section>
 
         <hr />
@@ -117,7 +117,7 @@ EG({
       this
     );
   }
-})('demo-fc');
+})('demo-gfc');
 
 
 

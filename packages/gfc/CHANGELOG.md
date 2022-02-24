@@ -18,6 +18,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 <!-- ## Unreleased -->
 
+## Unreleased
+
+### Added
+  - Replace a component properties through the "next" function
+
 
 ## [1.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.0.2) (2021-12-08)
 

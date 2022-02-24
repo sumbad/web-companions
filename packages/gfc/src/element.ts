@@ -123,7 +123,7 @@ function construct<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGPro
      * Invoked when the custom element is first connected to the document's DOM.
      */
     connectedCallback(): void {
-      this.generation = func.apply(this, [this.props]);
+      this.generation = func.call(this, this.props);
 
       isConnected = false;
       this.generation!.next(this.props);

@@ -3,28 +3,19 @@ import { render } from 'lit-html';
 
 export const updatePropsWithNextElement = EG({
   props: {
-    p1: p.opt<string>(),
+    p1: p.req<string>(),
   },
-})(function* (params = { p1: 'initial value' }) {
-  setTimeout(() => {
-    this.next({
-      p1: 'new value after 1s'
-    });
-  }, 1000);
-
-  setTimeout(() => {
-    this.next({
-      p1: 'new value after 2s'
-    });
-  }, 2000);
-
-  setTimeout(() => {
-    this.next({
-      p1: 'new value after 3s'
-    });
-  }, 3000);
-
+})(function* (params) {
   for (;;) {
-    params = yield render(<div>{params.p1}</div>, this);
+    params = yield render(
+      <>
+        <span>Value p1 - {params.p1}</span>
+        <button id="test1" onclick={() => this.next({ p1: 'test1' })}>Set "test1"</button>
+        <button id="test2" onclick={() => this.next({ p1: 'test2' })}>Set "test2"</button>
+        <button id="test3" onclick={() => this.next({ p1: 'test3' })}>Set "test3"</button>
+        <button id="test4" onclick={() => this.next()}>Update without value change</button>
+      </>,
+      this
+    );
   }
 });
