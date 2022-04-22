@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/gfc",
-  "version": "1.1.0",
+  "version": "1.1.1-develop.0",
   "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
   "main": "index.js",
   "scripts": {
