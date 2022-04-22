@@ -58,8 +58,8 @@ export type ElementComponentProps<OP> = OP & {
   translate?: string;
 } & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
 
-export interface ElementComponent<E extends CustomElementConstructor, OP> {
-  new (): InstanceType<E> & {props: ElementComponentProps<OP>};
+export interface ElementComponent<E extends CustomElementConstructor, OP, This> {
+  new (): InstanceType<E> & {props: ElementComponentProps<OP>} & This;
   (_p: ElementComponentProps<OP>): Promise<E>;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }

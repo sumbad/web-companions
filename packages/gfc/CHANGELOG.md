@@ -15,9 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Bug Fixes -->
 <!-- ### Security -->
 
-<!-- ## Unreleased -->
+## Unreleased
 
-# [1.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.1.0-develop.2...@web-companions/gfc@1.1.0) (2022-02-24)
+### Bug Fixes
+  - Return a completed type for a component's element with replaced This type
+
+
+# [1.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.1.0) (2022-02-24)
 
 ### Added
   - Replace a component properties through the "next" function

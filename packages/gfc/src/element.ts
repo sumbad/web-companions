@@ -30,7 +30,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
 
   // Create Element Component based on a generator function - func
   return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(func: ComponentFunc<P, This>) => {
-    const constructor = construct(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, mapper);
+    const constructor = build(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, mapper);
 
     // Return Element Component
     return (name: string, options?: ElementDefinitionOptions) => {
@@ -46,7 +46,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
         } else {
           return customElements.whenDefined(name).then(() => customElements.get(name));
         }
-      } as ElementComponent<typeof constructor, OP>;
+      } as ElementComponent<typeof constructor, OP, This>;
 
       component.adapter = <T>(func: AdapterFunc<OP, T>, defaultProps?: OP) => func(name, defaultProps);
 
@@ -62,7 +62,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param props
  * @param mapper
  */
-function construct<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
+function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
