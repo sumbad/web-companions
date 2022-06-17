@@ -3,7 +3,7 @@
     <img src="https://img.shields.io/npm/v/@web-companions/gfc.svg?logo=npm" alt="Last npm Registry Version">
   </a>
   <a href="https://bundlephobia.com/result?p=@web-companions/gfc">
-    <img alt="gzip size" src="https://badgen.net/bundlephobia/minzip/@web-companions/gfc" />
+    <img alt="gzip size" src="https://img.shields.io/bundlephobia/minzip/@web-companions/gfc" />
   </a>
   <a href="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml">
     <img src="https://github.com/sumbad/web-companions/actions/workflows/gfc.yml/badge.svg"/>

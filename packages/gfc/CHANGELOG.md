@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Bug Fixes -->
 <!-- ### Security -->
 
-## Unreleased
+
+# [1.1.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.101...@web-companions/gfc@1.1.1) (2022-06-17)
 
 ### Bug Fixes
   - Return a completed type for a component's element with replaced This type
@@ -27,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Replace a component properties through the "next" function
 
 
-## [1.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.0.2) (2021-12-08)
+# [1.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.0.2) (2021-12-08)
 
 
 ### Bug Fixes
@@ -36,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [1.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.0...@web-companions/gfc@1.0.1) (2021-12-08)
+# [1.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.0...@web-companions/gfc@1.0.1) (2021-12-08)
 
 
 ### Bug Fixes
@@ -54,11 +55,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Update types for 'EG' functions.
 
 
-## [0.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1...@web-companions/gfc@0.0.2) (2021-10-13)
+# [0.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1...@web-companions/gfc@0.0.2) (2021-10-13)
 
 **Note:** Version bump only for package @web-companions/gfc
 
 
-## [0.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1-develop.4...@web-companions/gfc@0.0.1) (2021-10-12)
+# [0.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1-develop.4...@web-companions/gfc@0.0.1) (2021-10-12)
 
 **Note:** Version bump only for package @web-companions/gfc
