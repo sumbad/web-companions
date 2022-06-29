@@ -11,9 +11,11 @@ import type {
 } from './@types';
 import { defMapper } from './utils';
 
+
 // Element's nodes
-const nodes: object[] = [];
-let nodeIdx = -1;
+let nodes: {[key: string]: object} | null = {};
+let nodeDefaultKeyCount = 0;
+let nodeDefaultKey = -1;
 let isConnected = false;
 
 
@@ -150,7 +152,8 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
      * Invoked each time the custom element is disconnected from the document's DOM
      */
     disconnectedCallback() {
-      nodes.length = 0;
+      nodes = null;
+      nodeDefaultKeyCount = 0;
       this.generation?.return();
     }
   };
@@ -177,20 +180,28 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
 }
 
 /**
- * Set, check and return an Node ID in this Element
+ * Set and get an Node ID in this Element
  *
- * @param id - a Node ID
- * @returns
+ * @param key - a Node unique key
+ * @returns ID object
  */
-export function setElNode(id: object): object {
-  if (isConnected && nodes.length > 0) {
-    nodeIdx++;
-    nodeIdx = nodeIdx >= nodes.length ? 0 : nodeIdx;
+export function setGetElNode(key?: string): object {
+  let node: object = { current: null };
 
-    return nodes[nodeIdx];
+  if(key != null) {
+    if(nodes![key] == null){
+      nodes![key] = node;
+    }
+    node = nodes![key];
+  } else if (isConnected && nodeDefaultKeyCount > 0) {
+    nodeDefaultKey++;
+    nodeDefaultKey = nodeDefaultKey >= nodeDefaultKeyCount ? 0 : nodeDefaultKey;
+
+    node = nodes![nodeDefaultKey];
   } else {
-    nodes.push(id);
-
-    return id;
+    nodes![nodeDefaultKeyCount] = node;
+    nodeDefaultKeyCount++;
   }
+
+  return node;
 }

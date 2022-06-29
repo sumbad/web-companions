@@ -1,14 +1,16 @@
 {
   "name": "@web-companions/h",
-  "version": "0.0.1",
-  "description": "TODO",
+  "version": "0.1.0-develop.2",
+  "description": "Helper functions for using with @web-companions",
   "main": "index.js",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumbad/web-companions.git"
   },
-  "keywords": [],
+  "keywords": [
+    "helpers",
+    "Web Components"
+  ],
   "author": "sumbad",
   "license": "MIT",
   "bugs": {
@@ -18,5 +20,16 @@
   "publishConfig": {
     "access": "public",
     "directory": "lib"
+  },
+  "scripts": {
+    "build": "npm run transpile && node ../../scripts/make-lib",
+    "transpile": "rimraf ./lib && tsc",
+    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
+    "release": "RELEASE_MODE=true npm publish ./lib",
+    "release:next": "npm publish ./lib --tag next"
+  },
+  "devDependencies": {
+    "rimraf": "3.0.2",
+    "typescript": "4.7.4"
   }
 }

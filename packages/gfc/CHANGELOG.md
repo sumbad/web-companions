@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Removed -->
 <!-- ### Bug Fixes -->
 <!-- ### Security -->
+<!-- ## Unreleased -->
 
 
 # [1.1.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.101...@web-companions/gfc@1.1.1) (2022-06-17)
