@@ -5,10 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/h@0.1.0-develop.2...@web-companions/h@0.1.0) (2022-06-29)
 
-**Note:** Version bump only for package @web-companions/h
-
-
-
+### Added
+  - Add style helpers
 
 
 ## [0.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/h@0.1.0-develop.0...@web-companions/h@0.0.1) (2021-02-12)
