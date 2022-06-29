@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/fc",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Functional Components. A wrapper for creating Web components like React.js components with hooks",
   "main": "index.js",
   "scripts": {

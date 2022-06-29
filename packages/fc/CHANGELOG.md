@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/sumbad/web-companions/compare/@web-companions/fc@0.1.7...@web-companions/fc@0.1.8) (2022-06-29)
+
+**Note:** Version bump only for package @web-companions/fc
+
+
+
+
+
 ## [0.1.7](https://github.com/sumbad/web-companions/compare/@web-companions/fc@0.1.6...@web-companions/fc@0.1.7) (2022-02-24)
 
 **Note:** Version bump only for package @web-companions/fc
