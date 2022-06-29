@@ -100,7 +100,7 @@ EG({
         )}
 
         <section style={sectionStyle}>
-          <CounterNode msg="Node Counter as Element"></CounterNode>
+          <CounterNode msg="Node Counter as Element" key='nodeCounterAsElement'></CounterNode>
         </section>
 
         <section style={sectionStyle}>

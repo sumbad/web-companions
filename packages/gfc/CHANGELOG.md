@@ -14,8 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Removed -->
 <!-- ### Bug Fixes -->
 <!-- ### Security -->
+<!-- ## Unreleased -->
 
-## Unreleased
 
 ### Bug Fixes
   - Return a completed type for a component's element with replaced This type
