@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/h",
-  "version": "0.1.0",
+  "version": "0.2.0-develop.0",
   "description": "Helper functions for using with @web-companions",
   "main": "index.js",
   "repository": {
