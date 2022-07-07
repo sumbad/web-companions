@@ -9,7 +9,7 @@ type NodeDefaultProps = {
 /**
  * Initialize Node Generator
  */
-export function NG<P = {}, N = {}>(func: (props: P) => Generator<any, void, N>) {
+export function NG<P = {}>(func: (props: P) => Generator<any, void, P>) {
   type Prop = NodeDefaultProps & P;
   type NodeReturn = keyof Prop extends [] ? (p?: Prop) => Prop : (p: Prop) => Prop;
 

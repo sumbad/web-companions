@@ -19,7 +19,12 @@ export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, vo
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
-export type EGMapper<P> = (state: P, key: keyof P, value: any, attribute?: string | undefined) => P;
+export type EGMapper<P, Key extends keyof P = keyof P> = (
+  this: { props: P },
+  key: keyof P,
+  value: P[Key],
+  attribute?: string | undefined
+) => void;
 
 export interface EGIniConfig<P, PP> {
   props?: (EGProps<P> & PP) | undefined;
@@ -59,7 +64,7 @@ export type ElementComponentProps<OP> = OP & {
 } & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
 
 export interface ElementComponent<E extends CustomElementConstructor, OP, This> {
-  new (): InstanceType<E> & {props: ElementComponentProps<OP>} & This;
+  new (): InstanceType<E> & { props: ElementComponentProps<OP> } & This;
   (_p: ElementComponentProps<OP>): Promise<E>;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;
 }

@@ -9,30 +9,25 @@ import type {
   ComponentFuncThis,
   ElementComponent,
 } from './@types';
-import { defMapper } from './utils';
-
 
 // Element's nodes
-let nodes: {[key: string]: object} | null = {};
+let nodes: { [key: string]: object } | null = {};
 let nodeDefaultKeyCount = 0;
 let nodeDefaultKey = -1;
 let isConnected = false;
 
-
 /**
  * Initialize Element Generator
- * 
+ *
  * @param config - configuration
  * @returns - a new Element Generator
  */
 export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P, PP>) {
-  const mapper = config?.mapper || defMapper;
-
   type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
   // Create Element Component based on a generator function - func
   return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(func: ComponentFunc<P, This>) => {
-    const constructor = build(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, mapper);
+    const constructor = build(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, config?.mapper);
 
     // Return Element Component
     return (name: string, options?: ElementDefinitionOptions) => {
@@ -64,7 +59,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param props
  * @param mapper
  */
-function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P>): CustomElementConstructor {
+function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper?: EGMapper<P>): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
@@ -97,8 +92,38 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
       }
     }
 
+    private _changes: Partial<P> | null = null;
+    _mapper: EGMapper<P> = <Key extends keyof P>(key: Key, value: P[Key]) => {
+      if (!this.isConnected) {
+        this.props[key] = value;
+        return;
+      }
+
+      if (value !== this.props[key]) {
+        this._changes = {
+          ...this._changes,
+          [key]: value,
+        };
+      }
+
+      Promise.resolve({
+        then: () => {
+          if (this._changes != null) {
+            this.props = {
+              ...this.props,
+              ...this._changes,
+            };
+          }
+
+          this._changes = null;
+        },
+      });
+    };
+
     constructor() {
       super();
+
+      this._mapper = mapper ?? this._mapper;
 
       for (const pK in props) {
         const pV = props[pK];
@@ -112,8 +137,8 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
           get: () => {
             return this.props[pK];
           },
-          set: (value: keyof P) => {
-            this.props = mapper.apply(this, [this.props, pK as keyof P, value, attr]);
+          set: (value) => {
+            this._mapper.apply(this, [pK as keyof P, value, attr]);
           },
           enumerable: true,
         });
@@ -137,6 +162,7 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
      * Invoked when one of the custom element's attributes is added, removed, or changed.
      */
     attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+      // TODO: need to use the same logic as for props with mapping
       if (oldValue !== newValue) {
         for (const [attrKey, attrName] of Object.entries(this.constructor['attributes'])) {
           if (attrName === name && this[attrKey] !== newValue) {
@@ -188,8 +214,8 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
 export function setGetElNode(key?: string): object {
   let node: object = { current: null };
 
-  if(key != null) {
-    if(nodes![key] == null){
+  if (key != null) {
+    if (nodes![key] == null) {
       nodes![key] = node;
     }
     node = nodes![key];

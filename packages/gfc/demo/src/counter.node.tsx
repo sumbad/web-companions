@@ -27,7 +27,7 @@ const renderNode = (tpl: any, ref: NodeRef<unknown, Node | null | RenderNode>) =
   return renderNodeDirective(tpl, ref);
 };
 
-export const counterNode = NG(function* (props: { msg: string }) {
+export const counterNode = NG<{ msg: string }>(function* (props) {
   let count = 0;
 
   this.next(); // just for tests
@@ -49,8 +49,6 @@ export const counterNode = NG(function* (props: { msg: string }) {
     );
   }
 });
-
-
 
 // import { NG } from '@web-companions/gfc';
 // import { html, render } from 'uhtml';
