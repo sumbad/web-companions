@@ -16,6 +16,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Security -->
 <!-- ## Unreleased -->
 
+## Unreleased
+
+### Added
+
+  - Create a new "smart" mapper - setProp function. 
+    It will update Element's properties inside a Micro Task. So that all new values which were sent at once will be updated together.
+
+### Changed
+
+  - Set the new mapper for a component's properties as a default mapper
+  - The state property was removed from EGMapper type
+
+### Removed
+
+  - The defMapper function was deleted
+
+
+
 # [1.2.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.2.0-develop.0...@web-companions/gfc@1.2.0) (2022-06-29)
 
 ### Added

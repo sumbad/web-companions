@@ -1,3 +1,4 @@
+import { setProp } from './utils';
 import type {
   ComponentFunc,
   EGProps,
@@ -59,7 +60,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param props
  * @param mapper
  */
-function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper?: EGMapper<P>): CustomElementConstructor {
+function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P> = setProp): CustomElementConstructor {
   const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
@@ -67,7 +68,7 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
       return Object.values(this.attributes);
     }
 
-    _props: Partial<P> = {};
+    private _props: Partial<P> = {};
     public set props(newProps) {
       if (newProps !== undefined && this.props !== newProps) {
         this._props = newProps;
@@ -92,38 +93,8 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
       }
     }
 
-    private _changes: Partial<P> | null = null;
-    _mapper: EGMapper<P> = <Key extends keyof P>(key: Key, value: P[Key]) => {
-      if (!this.isConnected) {
-        this.props[key] = value;
-        return;
-      }
-
-      if (value !== this.props[key]) {
-        this._changes = {
-          ...this._changes,
-          [key]: value,
-        };
-      }
-
-      Promise.resolve({
-        then: () => {
-          if (this._changes != null) {
-            this.props = {
-              ...this.props,
-              ...this._changes,
-            };
-          }
-
-          this._changes = null;
-        },
-      });
-    };
-
     constructor() {
       super();
-
-      this._mapper = mapper ?? this._mapper;
 
       for (const pK in props) {
         const pV = props[pK];
@@ -138,7 +109,7 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
             return this.props[pK];
           },
           set: (value) => {
-            this._mapper.apply(this, [pK as keyof P, value, attr]);
+            mapper.apply(this, [pK as keyof P, value, attr]);
           },
           enumerable: true,
         });

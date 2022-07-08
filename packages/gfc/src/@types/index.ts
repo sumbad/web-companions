@@ -20,7 +20,10 @@ export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, vo
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
 export type EGMapper<P, Key extends keyof P = keyof P> = (
-  this: { props: P },
+  this: {
+    props: P;
+    isConnected: boolean;
+  },
   key: keyof P,
   value: P[Key],
   attribute?: string | undefined
