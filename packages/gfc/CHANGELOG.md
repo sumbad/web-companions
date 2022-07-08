@@ -3,12 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.0-develop.2...@web-companions/gfc@2.0.0) (2022-07-08)
-
-**Note:** Version bump only for package @web-companions/gfc
-
-
-
 
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
@@ -24,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Security -->
 <!-- ## Unreleased -->
 
-## Unreleased
+# [2.0.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.3.0...@web-companions/gfc@2.0.0) (2022-07-08)
 
 ### Added
 
@@ -42,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-# [1.2.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.2.0-develop.0...@web-companions/gfc@1.2.0) (2022-06-29)
+# [1.2.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.1.1...@web-companions/gfc@1.2.0) (2022-06-29)
 
 ### Added
   - Add a new special attribute 'key' for Nodes to identify different Nodes within conditions
