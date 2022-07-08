@@ -1,6 +1,6 @@
 /**
  * The default mapper for Elements
- * 
+ *
  * It will update Element's properties inside a Micro Task.
  * So that all new values which were sent at once will be updated together
  *
@@ -8,20 +8,16 @@
  * @param key - a property key
  * @param value - a property value
  */
-export function setProp<P, Key extends keyof P = keyof P>(
-  this: { props: P; isConnected: boolean; },
-  key: Key,
-  value: P[Key]
-) {
+export function setProp<P, Key extends keyof P = keyof P>(this: { props: P; isConnected: boolean }, key: Key, value: P[Key]) {
   if (!this.isConnected) {
     this.props[key] = value;
     return;
   }
 
-  // Stashed changed properties between updates
-  let stash: Partial<P> | null = this['__stash__'];
-
   if (value !== this.props[key]) {
+    // Stashed changed properties between updates
+    let stash: Partial<P> | null = this['__stash__'];
+
     stash = {
       ...stash,
       [key]: value,
@@ -30,6 +26,9 @@ export function setProp<P, Key extends keyof P = keyof P>(
 
   Promise.resolve({
     then: () => {
+      // Stashed changed properties between updates
+      let stash: Partial<P> | null = this['__stash__'];
+
       if (stash != null) {
         this.props = {
           ...this.props,
