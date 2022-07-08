@@ -15,18 +15,16 @@ export function setProp<P, Key extends keyof P = keyof P>(this: { props: P; isCo
   }
 
   if (value !== this.props[key]) {
-    // Stashed changed properties between updates
-    let stash: Partial<P> | null = this['__stash__'];
-
-    stash = {
-      ...stash,
+    // Stash changed properties between updates
+    this['__stash__'] = {
+      ...this['__stash__'],
       [key]: value,
     };
   }
 
   Promise.resolve({
     then: () => {
-      // Stashed changed properties between updates
+      // Stashed changed properties
       let stash: Partial<P> | null = this['__stash__'];
 
       if (stash != null) {
@@ -34,9 +32,9 @@ export function setProp<P, Key extends keyof P = keyof P>(this: { props: P; isCo
           ...this.props,
           ...stash,
         };
-      }
 
-      stash = null;
+        stash = null;
+      }
     },
   });
 }
