@@ -1,5 +1,8 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 <!-- ## [X.Y.Z] - YYYY-MM-DD -->
 
 <!-- ### Added -->
@@ -10,7 +13,8 @@
 <!-- ### Security -->
 <!-- ## Unreleased -->
 
-## Unreleased
+
+## [2.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.0...@web-companions/gfc@2.0.1) (2022-07-16)
 
 ### Bug Fixes
 
@@ -94,11 +98,6 @@
 ---
 ---
 ---
-
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
 
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
