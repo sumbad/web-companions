@@ -1,103 +1,18 @@
 # Change Log
 
-<!-- ## [X.Y.Z] - YYYY-MM-DD -->
-
-<!-- ### Added -->
-<!-- ### Changed -->
-<!-- ### Deprecated -->
-<!-- ### Removed -->
-<!-- ### Bug Fixes -->
-<!-- ### Security -->
-<!-- ## Unreleased -->
-
-## Unreleased
-
-### Bug Fixes
-
-  - Operate Nodes inside Elements independently
-
-  
-
-# [2.0.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.3.0...@web-companions/gfc@2.0.0) (2022-07-08)
-
-### Added
-
-  - Create a new "smart" mapper - setProp function. 
-    It will update Element's properties inside a Micro Task. So that all new values which were sent at once will be updated together.
-
-### Changed
-
-  - Set the new mapper for a component's properties as a default mapper
-  - The state property was removed from EGMapper type
-
-### Removed
-
-  - The defMapper function was deleted
-
-
-
-# [1.2.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.1.1...@web-companions/gfc@1.2.0) (2022-06-29)
-
-### Added
-  - Add a new special attribute 'key' for Nodes to identify different Nodes within conditions
-
-
-# [1.1.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.101...@web-companions/gfc@1.1.1) (2022-06-17)
-
-### Bug Fixes
-  - Return a completed type for a component's element with replaced This type
-
-
-# [1.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.1.0) (2022-02-24)
-
-### Added
-  - Replace a component properties through the "next" function
-
-
-# [1.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.1...@web-companions/gfc@1.0.2) (2021-12-08)
-
-
-### Bug Fixes
-
-* **gfc:** change jsx.d.ts to jsx.ts file ([2eb349d](https://github.com/sumbad/web-companions/commit/2eb349d34071a5918348dd98f5ce51e75df40f15))
-
-
-
-# [1.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.0.0...@web-companions/gfc@1.0.1) (2021-12-08)
-
-
-### Bug Fixes
-
-* Return strict checks for JSX elements ([f89ada2](https://github.com/sumbad/web-companions/commit/f89ada2bc41726c25fe87e4dc1aa57ea31d6691c))
-
-
-# [1.0.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.2...@web-companions/gfc@1.0.0) (2021-12-02)
-
-### Added
-  - Support 'finally' block inside components. This code will be run on 'disconnectedCallback' lifecycle callback.
-
-### Changed
-  - New API for element constructor. Improve DX.
-  - Update types for 'EG' functions.
-
-
-# [0.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1...@web-companions/gfc@0.0.2) (2021-10-13)
-
-**Note:** Version bump only for package @web-companions/gfc
-
-
-# [0.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1-develop.4...@web-companions/gfc@0.0.1) (2021-10-12)
-
-**Note:** Version bump only for package @web-companions/gfc
-
-
----
----
----
-
-
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [2.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.0...@web-companions/gfc@2.0.1) (2022-07-16)
+
+
+### Bug Fixes
+
+* **gfc:** Operate Nodes inside Elements independently ([cee0694](https://github.com/sumbad/web-companions/commit/cee0694453661b3483d59217ee2f9f237e011d0c))
+
+
+
+
 
 
 
