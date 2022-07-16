@@ -67,6 +67,13 @@ EG({
   const nodeCounterRef = { current: null };
   const createCounterNode = (ref: { current: Element | null }) => (ref != null ? counterNode(ref) : () => null);
 
+  let isVisibleTemporalElement = true;
+
+  setTimeout(() => {
+    isVisibleTemporalElement = false;
+    this.next();
+  }, 30000);
+
   while (true) {
     props = yield render(
       <div
@@ -76,11 +83,11 @@ EG({
       >
         <h3>{props.header}</h3>
 
-        <CounterElement msg={'Counter Element'}></CounterElement>
+        {isVisibleTemporalElement ? <CounterElement msg={'Temporal Counter Element'}></CounterElement> : ''}
 
         <section style={sectionStyle}>
           {/* {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>} @REVIEW: babel-plugin-transform-jsx-to-tt */}
-          {demoCounterPortalRef.current && createCounterNode(demoCounterPortalRef)({ msg: 'Node Counter Portal' })}
+          {demoCounterPortalRef.current && createCounterNode(demoCounterPortalRef)({ msg: 'CounterNode as a Portal' })}
         </section>
 
         <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={ref(myRef)}></LoadingProgressBarElement>
@@ -91,7 +98,7 @@ EG({
 
         <hr />
 
-        <section style={sectionStyle}>{CounterNode({ msg: 'Node Counter as Function' })}</section>
+        <section style={sectionStyle}>{CounterNode({ msg: 'CounterNode as a function' })}</section>
 
         {state >= 20 && (
           <section style={sectionStyle}>
@@ -100,7 +107,7 @@ EG({
         )}
 
         <section style={sectionStyle}>
-          <CounterNode msg="Node Counter as Element" key='nodeCounterAsElement'></CounterNode>
+          <CounterNode msg="CounterNode as JSX Tag" key="nodeCounterAsElement"></CounterNode>
         </section>
 
         <section style={sectionStyle}>
@@ -109,7 +116,7 @@ EG({
         </section>
 
         <section style={sectionStyle}>
-          <UpdatePropsWithNextElement p1={"initial value"}></UpdatePropsWithNextElement>
+          <UpdatePropsWithNextElement p1={'initial value'}></UpdatePropsWithNextElement>
         </section>
 
         <hr />
@@ -118,9 +125,6 @@ EG({
     );
   }
 })('demo-gfc');
-
-
-
 
 // import { EG, prop } from '@web-companions/gfc';
 // import { loadingProgressBarElement } from './loadingProgressBar.element';

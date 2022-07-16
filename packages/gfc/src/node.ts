@@ -1,10 +1,11 @@
 import type { NodeRef } from './@types';
-import { setGetElNode } from './element';
-
+import { setElNode } from './element';
 
 type NodeDefaultProps = {
   key?: string;
-}
+};
+
+const ref2Node = new WeakMap<object, NodeRef<any>>();
 
 /**
  * Initialize Node Generator
@@ -14,15 +15,18 @@ export function NG<P = {}>(func: (props: P) => Generator<any, void, P>) {
   type NodeReturn = keyof Prop extends [] ? (p?: Prop) => Prop : (p: Prop) => Prop;
 
   return (ref?: { current: Node | null }): NodeReturn => {
-    const node2Ref = new WeakMap<object, NodeRef<Prop>>();
-
     return (props: Prop = {} as Prop) => {
-      const nodeRef = ref == null ? setGetElNode(props.key) : ref;
-      let node: NodeRef<Prop> | undefined = node2Ref.get(nodeRef);
+      const _ref = ref != null ? ref : setElNode(props.key);
+
+      if (_ref == null) {
+        throw new Error('A ref node does not exist');
+      }
+
+      let node = ref2Node.get(_ref) as NodeRef<Prop> | undefined;
 
       if (node == null) {
         const _node: Partial<NodeRef<Prop>> = {
-          ...nodeRef,
+          ..._ref,
           props,
           isScheduledNext: false,
         };
@@ -42,7 +46,7 @@ export function NG<P = {}>(func: (props: P) => Generator<any, void, P>) {
 
         node = _node as NodeRef<Prop>;
 
-        node2Ref.set(nodeRef, node);
+        ref2Node.set(_ref, node);
       }
 
       node.props = props;

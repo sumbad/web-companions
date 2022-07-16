@@ -9,13 +9,12 @@ import type {
   ElementComponentProps,
   ComponentFuncThis,
   ElementComponent,
+  ElementWithNodes,
+  ElementNodeItem,
 } from './@types';
 
-// Element's nodes
-let nodes: { [key: string]: object } | null = {};
-let nodeDefaultKeyCount = 0;
-let nodeDefaultKey = -1;
-let isConnected = false;
+
+let actualEl: ElementWithNodes | undefined = undefined;
 
 /**
  * Initialize Element Generator
@@ -60,8 +59,24 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
  * @param props
  * @param mapper
  */
-function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<unknown>, mapper: EGMapper<P> = setProp): CustomElementConstructor {
-  const customEl = class extends HTMLElement {
+function build<P>(
+  func: ComponentFunc<P, ComponentFuncThis<P>>,
+  props: EGProps<unknown>,
+  mapper: EGMapper<P> = setProp
+): CustomElementConstructor {
+  const customEl = class extends HTMLElement implements ElementWithNodes {
+    /** A flag will be true after connectedCallback hook */
+    wasConnected: boolean = false;
+
+    /** Nodes inside the Element */
+    __N__ = {
+      nodes: {},
+      self: {
+        count: 0,
+        runKey: -1,
+      },
+    };
+
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
@@ -89,6 +104,9 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
         const generator = await Promise.resolve(this.generation);
         this.isScheduledNext = false;
         this.props = props;
+
+        actualEl = this;
+
         generator.next(this.props);
       }
     }
@@ -123,9 +141,9 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
     connectedCallback(): void {
       this.generation = func.call(this, this.props);
 
-      isConnected = false;
+      actualEl = this;
       this.generation!.next(this.props);
-      isConnected = true;
+      this.wasConnected = true;
     }
 
     /**
@@ -149,8 +167,6 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
      * Invoked each time the custom element is disconnected from the document's DOM
      */
     disconnectedCallback() {
-      nodes = null;
-      nodeDefaultKeyCount = 0;
       this.generation?.return();
     }
   };
@@ -177,27 +193,35 @@ function build<P>(func: ComponentFunc<P, ComponentFuncThis<P>>, props: EGProps<u
 }
 
 /**
- * Set and get an Node ID in this Element
+ * Set and return a node ID in an actual Element
  *
- * @param key - a Node unique key
+ * @param key - a node unique key
  * @returns ID object
  */
-export function setGetElNode(key?: string): object {
-  let node: object = { current: null };
+export function setElNode(key?: string) {
+  if (actualEl == null) {
+    return;
+  }
+
+  const nodes = actualEl.__N__.nodes;
+  const self = actualEl.__N__.self;
+
+  let node: ElementNodeItem = { current: null };
 
   if (key != null) {
-    if (nodes![key] == null) {
-      nodes![key] = node;
+    if (nodes[key] == null) {
+      nodes[key] = node;
     }
-    node = nodes![key];
-  } else if (isConnected && nodeDefaultKeyCount > 0) {
-    nodeDefaultKey++;
-    nodeDefaultKey = nodeDefaultKey >= nodeDefaultKeyCount ? 0 : nodeDefaultKey;
 
-    node = nodes![nodeDefaultKey];
+    node = nodes[key];
+  } else if (actualEl.wasConnected && self.count > 0) {
+    self.runKey++;
+    self.runKey = self.runKey >= self.count ? 0 : self.runKey;
+
+    node = nodes[self.runKey];
   } else {
-    nodes![nodeDefaultKeyCount] = node;
-    nodeDefaultKeyCount++;
+    nodes[self.count] = node;
+    self.count++;
   }
 
   return node;

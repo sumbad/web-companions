@@ -1,13 +1,5 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
-
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
 <!-- ## [X.Y.Z] - YYYY-MM-DD -->
 
 <!-- ### Added -->
@@ -17,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- ### Bug Fixes -->
 <!-- ### Security -->
 <!-- ## Unreleased -->
+
+## Unreleased
+
+### Bug Fixes
+
+  - Operate Nodes inside Elements independently
+
+  
 
 # [2.0.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@1.3.0...@web-companions/gfc@2.0.0) (2022-07-08)
 
@@ -89,3 +89,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 # [0.0.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@0.0.1-develop.4...@web-companions/gfc@0.0.1) (2021-10-12)
 
 **Note:** Version bump only for package @web-companions/gfc
+
+
+---
+---
+---
+
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
