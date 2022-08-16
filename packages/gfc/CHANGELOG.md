@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.2...@web-companions/gfc@2.0.3) (2022-08-16)
+
+
+### Bug Fixes
+
+* **gfc:** Set a default 'ref' object for each new Node component ([b534775](https://github.com/sumbad/web-companions/commit/b534775a0edabe834e4084256fc429121a3ff156))
+
+
+
+
+
 ## [2.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.0...@web-companions/gfc@2.0.2) (2022-08-16)
 
 
