@@ -7,10 +7,12 @@ import { sumImmediate } from './sumImmediate.element';
 import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
 import { updatePropsWithNextElement } from './updatePropsWithNext';
+import { iconNote } from './icon.node';
 
 const css = String.raw;
 
 const CounterNode = counterNode();
+const IconNote = iconNote();
 const CounterElement = counterElement('demo-counter-element');
 const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-bar');
 const SumDeferredElement = sumDeferred('sum-deferred');
@@ -117,6 +119,10 @@ EG({
 
         <section style={sectionStyle}>
           <UpdatePropsWithNextElement p1={'initial value'}></UpdatePropsWithNextElement>
+        </section>
+
+        <section style={sectionStyle}>
+          <IconNote/>
         </section>
 
         <hr />

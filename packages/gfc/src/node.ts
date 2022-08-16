@@ -5,17 +5,19 @@ type NodeDefaultProps = {
   key?: string;
 };
 
+type NodeFuncGenerator<P, TNext = {}> = (props: P) => Generator<unknown, void, TNext>;
+
 const ref2Node = new WeakMap<object, NodeRef<any>>();
 
 /**
  * Initialize Node Generator
  */
-export function NG<P = {}>(func: (props: P) => Generator<any, void, P>) {
-  type Prop = NodeDefaultProps & P;
-  type NodeReturn = keyof Prop extends [] ? (p?: Prop) => Prop : (p: Prop) => Prop;
-
-  return (ref?: { current: Node | null }): NodeReturn => {
-    return (props: Prop = {} as Prop) => {
+export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>) {
+  // create a new Node instance
+  return (ref?: { current: Node | null }) => {
+    type FuncProp = NodeDefaultProps & Prop;
+    // invoke the new Node instance
+    return (props: FuncProp = {} as FuncProp): unknown => {
       const _ref = ref != null ? ref : setElNode(props.key);
 
       if (_ref == null) {
@@ -31,7 +33,7 @@ export function NG<P = {}>(func: (props: P) => Generator<any, void, P>) {
           isScheduledNext: false,
         };
 
-        const generator = Reflect.apply(func, _node, [props]);
+        const generator: ReturnType<NodeFuncGenerator<Prop>> = Reflect.apply(func, _node, [props]);
 
         _node.generator = generator;
 

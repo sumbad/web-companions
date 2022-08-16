@@ -74,10 +74,10 @@ export interface ElementComponent<E extends CustomElementConstructor, OP, This> 
 
 export interface NodeRef<P = unknown, C = Node | null, V = any> {
   current: C;
-  generator: Generator<any, void, P | undefined>;
+  generator: Generator<any, void, P>;
   next: (...args: [] | [P]) => Promise<void>;
   isScheduledNext: boolean;
-  props?: P;
+  props: P;
   value?: V;
 }
 
