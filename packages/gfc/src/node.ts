@@ -13,16 +13,14 @@ const ref2Node = new WeakMap<object, NodeRef<any>>();
  * Initialize Node Generator
  */
 export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>) {
-  // create a new Node instance
-  return (ref?: { current: Node | null }) => {
+  // Create a new Node instance
+  return (ref: { current: Node | null } = { current: null }) => {
+    const nodesSymbol = Symbol('nodes');
     type FuncProp = NodeDefaultProps & Prop;
-    // invoke the new Node instance
-    return (props: FuncProp = {} as FuncProp): unknown => {
-      const _ref = ref != null ? ref : setElNode(props.key);
 
-      if (_ref == null) {
-        throw new Error('A ref node does not exist');
-      }
+    // Invoke the Node instance
+    return (props: FuncProp = {} as FuncProp): unknown => {
+      const _ref = props.key != null ? setElNode(nodesSymbol, props.key) : ref;
 
       let node = ref2Node.get(_ref) as NodeRef<Prop> | undefined;
 

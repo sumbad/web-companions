@@ -9,12 +9,10 @@ import type {
   ElementComponentProps,
   ComponentFuncThis,
   ElementComponent,
-  ElementWithNodes,
   ElementNodeItem,
 } from './@types';
 
-
-let actualEl: ElementWithNodes | undefined = undefined;
+let actualEl: HTMLElement | undefined = undefined;
 
 /**
  * Initialize Element Generator
@@ -64,19 +62,7 @@ function build<P>(
   props: EGProps<unknown>,
   mapper: EGMapper<P> = setProp
 ): CustomElementConstructor {
-  const customEl = class extends HTMLElement implements ElementWithNodes {
-    /** A flag will be true after connectedCallback hook */
-    wasConnected: boolean = false;
-
-    /** Nodes inside the Element */
-    __N__ = {
-      nodes: {},
-      self: {
-        count: 0,
-        runKey: -1,
-      },
-    };
-
+  const customEl = class extends HTMLElement {
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
@@ -143,7 +129,6 @@ function build<P>(
 
       actualEl = this;
       this.generation!.next(this.props);
-      this.wasConnected = true;
     }
 
     /**
@@ -193,36 +178,30 @@ function build<P>(
 }
 
 /**
- * Set and return a node ID in an actual Element
+ * Set and return a node ID in a current Element
  *
- * @param key - a node unique key
+ * @param key - a node's unique key
  * @returns ID object
  */
-export function setElNode(key?: string) {
-  if (actualEl == null) {
-    return;
-  }
-
-  const nodes = actualEl.__N__.nodes;
-  const self = actualEl.__N__.self;
-
+export function setElNode(nodesSymbol: symbol, key: string) {
   let node: ElementNodeItem = { current: null };
 
-  if (key != null) {
-    if (nodes[key] == null) {
-      nodes[key] = node;
-    }
-
-    node = nodes[key];
-  } else if (actualEl.wasConnected && self.count > 0) {
-    self.runKey++;
-    self.runKey = self.runKey >= self.count ? 0 : self.runKey;
-
-    node = nodes[self.runKey];
-  } else {
-    nodes[self.count] = node;
-    self.count++;
+  // Return a new object every time if a Node was created outside any Element
+  if (actualEl == null) {
+    return node;
   }
+
+  if (actualEl[nodesSymbol] == null) {
+    actualEl[nodesSymbol] = {};
+  }
+
+  const nodes = actualEl[nodesSymbol];
+
+  if (nodes[key] == null) {
+    nodes[key] = node;
+  }
+
+  node = nodes[key];
 
   return node;
 }

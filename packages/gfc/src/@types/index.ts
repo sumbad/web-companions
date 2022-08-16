@@ -84,13 +84,3 @@ export interface NodeRef<P = unknown, C = Node | null, V = any> {
 
 // Elements nodes
 export type ElementNodeItem = { current: Node | null };
-export type ElementWithNodes = {
-  wasConnected: boolean;
-  __N__: {
-    nodes: { [key: string]: ElementNodeItem };
-    self: {
-      count: number;
-      runKey: number;
-    };
-  };
-};
