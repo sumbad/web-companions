@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.0...@web-companions/gfc@2.0.2) (2022-08-16)
+
+
+### Bug Fixes
+
+* Don't show a TypeScript error for Nodes without parameters ([f5eb835](https://github.com/sumbad/web-companions/commit/f5eb835d5a18928b76edf8a38ec1669c85f8b363))
+* **gfc:** Operate Nodes inside Elements independently ([cee0694](https://github.com/sumbad/web-companions/commit/cee0694453661b3483d59217ee2f9f237e011d0c))
+
+
+
+
+
 <!-- ## [X.Y.Z] - YYYY-MM-DD -->
 
 <!-- ### Added -->
