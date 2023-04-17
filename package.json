@@ -8,7 +8,7 @@
   "devDependencies": {
     "fs-extra": "10.1.0",
     "glob": "7.2.0",
-    "lerna": "4.0.0",
+    "lerna": "6.6.1",
     "terser": "5.14.2"
   }
 }
