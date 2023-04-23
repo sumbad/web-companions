@@ -8,6 +8,7 @@ import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
 import { updatePropsWithNextElement } from './updatePropsWithNext';
 import { iconNote } from './icon.node';
+import { litView } from './utils/lit.view';
 
 const css = String.raw;
 
@@ -22,7 +23,7 @@ const UpdatePropsWithNextElement = updatePropsWithNextElement('update-props-with
 /**
  * ROOT element
  */
-EG({
+litView.element({
   props: {
     header: p.req<string>('header'),
   },
@@ -77,7 +78,7 @@ EG({
   }, 30000);
 
   while (true) {
-    props = yield render(
+    props = yield (
       <div
         style={css`
           margin: 10px;
@@ -122,15 +123,124 @@ EG({
         </section>
 
         <section style={sectionStyle}>
-          <IconNote/>
+          <IconNote />
         </section>
 
         <hr />
-      </div>,
-      this
+      </div>
     );
   }
 })('demo-gfc');
+
+// EG({
+//   props: {
+//     header: p.req<string>('header'),
+//   },
+// })(function* (props) {
+//   const myRef: Ref<HTMLElement & { generateProgress?: Generator }> = createRef();
+
+//   const handleProgress = () => {
+//     const loadingEl = myRef.value;
+//     if (loadingEl != null && loadingEl.generateProgress != null) {
+//       const r = loadingEl.generateProgress.next();
+//       console.log(JSON.stringify(r));
+//     }
+//   };
+
+//   let state = 1;
+//   const setState = (newState: number) => {
+//     state = newState;
+//     this.next();
+//   };
+
+//   const demoCounterPortalRef: { current: Element | null } = { current: null };
+
+//   requestAnimationFrame(() => {
+//     demoCounterPortalRef.current = document.querySelector('#demoCounterPortal');
+//     this.next();
+//   });
+
+//   setTimeout(() => {
+//     setState(20);
+//   }, 2000);
+
+//   setTimeout(() => {
+//     setState(30);
+//   }, 3000);
+
+//   setTimeout(() => {
+//     setState(40);
+//   }, 5000);
+
+//   const sectionStyle = css`
+//     margin-top: 10px;
+//   `;
+
+//   const nodeCounterRef = { current: null };
+//   const createCounterNode = (ref: { current: Element | null }) => (ref != null ? counterNode(ref) : () => null);
+
+//   let isVisibleTemporalElement = true;
+
+//   setTimeout(() => {
+//     isVisibleTemporalElement = false;
+//     this.next();
+//   }, 30000);
+
+//   while (true) {
+//     props = yield render(
+//       <div
+//         style={css`
+//           margin: 10px;
+//         `}
+//       >
+//         <h3>{props.header}</h3>
+
+//         {isVisibleTemporalElement ? <CounterElement msg={'Temporal Counter Element'}></CounterElement> : ''}
+
+//         <section style={sectionStyle}>
+//           {/* {DemoCounterPortalEl && <DemoCounterPortalEl msg={'Node Counter Portal'}></DemoCounterPortalEl>} @REVIEW: babel-plugin-transform-jsx-to-tt */}
+//           {demoCounterPortalRef.current && createCounterNode(demoCounterPortalRef)({ msg: 'CounterNode as a Portal' })}
+//         </section>
+
+//         <LoadingProgressBarElement config={{ a: state, b: '1' }} ref={ref(myRef)}></LoadingProgressBarElement>
+
+//         <button onclick={handleProgress} style={sectionStyle}>
+//           Progress loading
+//         </button>
+
+//         <hr />
+
+//         <section style={sectionStyle}>{CounterNode({ msg: 'CounterNode as a function' })}</section>
+
+//         {state >= 20 && (
+//           <section style={sectionStyle}>
+//             {createCounterNode(nodeCounterRef)({ msg: 'Node Counter as Function after 20 (should use a ref to prevent conflicts)' })}
+//           </section>
+//         )}
+
+//         <section style={sectionStyle}>
+//           <CounterNode msg="CounterNode as JSX Tag" key="nodeCounterAsElement"></CounterNode>
+//         </section>
+
+//         <section style={sectionStyle}>
+//           <SumDeferredElement></SumDeferredElement>
+//           <SumImmediateElement></SumImmediateElement>
+//         </section>
+
+//         <section style={sectionStyle}>
+//           <UpdatePropsWithNextElement p1={'initial value'}></UpdatePropsWithNextElement>
+//         </section>
+
+//         <section style={sectionStyle}>
+//           <IconNote/>
+//         </section>
+
+//         <hr />
+//       </div>,
+//       this
+//     );
+//   }
+// })('demo-gfc');
 
 // import { EG, prop } from '@web-companions/gfc';
 // import { loadingProgressBarElement } from './loadingProgressBar.element';

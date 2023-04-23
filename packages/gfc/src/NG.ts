@@ -1,24 +1,33 @@
+import { View } from './View';
 import type { NodeRef } from './@types';
-import { setElNode } from './element';
+import { setElNode } from './EG';
 
 type NodeDefaultProps = {
   key?: string;
 };
 
-type NodeFuncGenerator<P, TNext = {}> = (props: P) => Generator<unknown, void, TNext>;
+type NodeFuncGenerator<P, TNext> = (props: P) => Generator<unknown, void, TNext>;
 
 const ref2Node = new WeakMap<object, NodeRef<any>>();
 
 /**
  * Initialize Node Generator
  */
-export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>) {
+export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func: NodeFuncGenerator<Prop, TNext>) {
+  const render = (result: IteratorResult<any, void>, container: NodeRef<Prop>) => {
+    if (this?.render.node != null && !result.done) {
+      return this.render.node(container, result.value);
+    } else {
+      return result.value;
+    }
+  }
+
   // Create a new Node instance
   return (ref: { current: Node | null } = { current: null }) => {
     const nodesSymbol = Symbol('nodes');
     type FuncProp = NodeDefaultProps & Prop;
 
-    // Invoke the Node instance
+    // Return the Node instance's runner function
     return (props: FuncProp = {} as FuncProp): unknown => {
       const _ref = props.key != null ? setElNode(nodesSymbol, props.key) : ref;
 
@@ -31,7 +40,7 @@ export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>
           isScheduledNext: false,
         };
 
-        const generator: ReturnType<NodeFuncGenerator<Prop>> = Reflect.apply(func, _node, [props]);
+        const generator: ReturnType<NodeFuncGenerator<Prop, unknown>> = Reflect.apply(func, _node, [props]);
 
         _node.generator = generator;
 
@@ -40,7 +49,7 @@ export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>
             this.isScheduledNext = true;
             const g = await Promise.resolve(generator);
             this.isScheduledNext = false;
-            this.value = g.next(this.props).value;
+            this.value = render(g.next(this.props), this);
           }
         };
 
@@ -50,7 +59,7 @@ export function NG<Prop = {}, TNext = Prop>(func: NodeFuncGenerator<Prop, TNext>
       }
 
       node.props = props;
-      node.value = node.generator.next(props).value;
+      node.value = render(node.generator.next(props), node);
       return node.value;
     };
   };

@@ -1,13 +1,14 @@
 import { NG } from '@web-companions/gfc';
 import { renderNode } from './utils/directives';
+import { litView } from './utils/lit.view';
 
-export const counterNode = NG<{ msg: string }>(function* (props) {
+export const counterNode = litView.node(function* (props: { msg: string }) {
   let count = 0;
 
   this.next(); // just for tests
 
   while (true) {
-    props = yield renderNode(
+    props = yield (
       <>
         <button
           type="button"
@@ -18,8 +19,7 @@ export const counterNode = NG<{ msg: string }>(function* (props) {
           {props?.msg}
         </button>
         <i>{count}</i>
-      </>,
-      this
+      </>
     );
   }
 });
