@@ -2,17 +2,39 @@
   "name": "@web-companions/gfc",
   "version": "2.1.0-develop.0",
   "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
-  "main": "index.js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/*.js",
+    "./@types/*": "./.build/@types/*.js",
+    "./@types": "./.build/@types/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "/*": [
+        "lib/*.d.ts"
+      ],
+      "@types": [
+        "lib/@types/index.d.ts"
+      ],
+      "@types/*": [
+        "lib/@types/*.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "./lib"
+  ],
   "scripts": {
     "test": "rimraf ./coverage && npm run dev:build && playwright test && nyc report --reporter=html --reporter=text",
     "test:ci": "CI=true npm run dev:build && playwright test && nyc report --reporter=lcov",
     "test:report": "open ./coverage/index.html",
     "test:debug": "PWDEBUG=1 npm run test",
     "start": "node ./app",
-    "build": "npm run transpile && node ../../scripts/make-lib",
-    "transpile": "rimraf ./lib && tsc",
-    "dev": "npm run transpile && webpack-dev-server --config ./demo/webpack.config.js",
-    "dev:build": "npm run transpile && webpack --config ./demo/webpack.config.js",
+    "clean": "tsc --build --clean && rimraf ./lib",
+    "build": "npm run clean && tsc --build",
+    "dev": "npm run build && webpack-dev-server --config ./demo/webpack.config.cjs",
+    "dev:build": "npm run build && webpack --config ./demo/webpack.config.cjs",
     "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "RELEASE_MODE=true  npm publish ./lib --tag next"
@@ -32,6 +54,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "devDependencies": {
+    "@web-companions/lit": "*",
     "@babel/core": "7.18.5",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-transform-runtime": "7.18.5",
@@ -45,15 +68,14 @@
     "nyc": "15.1.0",
     "raw-loader": "4.0.2",
     "rimraf": "3.0.2",
-    "ts-loader": "9.3.0",
-    "typescript": "4.7.3",
+    "ts-loader": "9.4.2",
+    "typescript": "5.0.4",
     "v8-to-istanbul": "9.0.0",
-    "webpack": "5.76.0",
-    "webpack-cli": "4.10.0",
-    "webpack-dev-server": "4.9.2"
+    "webpack": "5.80.0",
+    "webpack-cli": "5.0.2",
+    "webpack-dev-server": "4.13.3"
   },
   "publishConfig": {
-    "access": "public",
-    "directory": "lib"
+    "access": "public"
   }
 }

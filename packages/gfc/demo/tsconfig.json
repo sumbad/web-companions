@@ -2,12 +2,11 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "ES2020",
-    "moduleResolution": "node",
     "sourceMap": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
       "@web-companions/gfc": ["../src"],
-      "@web-companions/gfc/*": ["../src/*"],
+      "@web-companions/gfc/*": ["../src/*"]
     },
     "isolatedModules": false,
     // "experimentalDecorators": true,
@@ -15,7 +14,6 @@
     // "noImplicitThis": false,
     "removeComments": true,
     // "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
     // "rootDir": "./",
     "baseUrl": "./",
     "outDir": "./dist",
@@ -44,8 +42,20 @@
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
 
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "typeRoots": [],
+    "ignoreDeprecations": "5.0",
+
+    "importsNotUsedAsValues": "preserve",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "compileOnSave": false,
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "references": [
+    {
+      "path": "../../lit/tsconfig.json"
+    }
+  ]
 }
