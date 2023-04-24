@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/lit",
-  "version": "0.0.0",
+  "version": "0.1.0-develop.0",
   "description": "Lit helpers",
   "type": "module",
   "main": "./lib/index.js",
