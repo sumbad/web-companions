@@ -8,7 +8,7 @@ import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
 import { updatePropsWithNextElement } from './updatePropsWithNext';
 import { iconNote } from './icon.node';
-import { litView } from './utils/lit.view';
+import { litView } from '@web-companions/lit';
 
 const css = String.raw;
 

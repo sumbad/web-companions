@@ -1,9 +1,10 @@
 import { p } from '@web-companions/gfc';
 import { counterNode } from './counter.node';
-import { litView } from './utils/lit.view';
+import { litView } from '@web-companions/lit';
 
 const CounterNode = counterNode();
 const CounterNode1 = counterNode();
+
 
 export const counterElement = litView.element({
   props: {

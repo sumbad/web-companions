@@ -1,6 +1,4 @@
-import { NG } from '@web-companions/gfc';
-import { renderNode } from './utils/directives';
-import { litView } from './utils/lit.view';
+import { litView } from '@web-companions/lit';
 
 export const counterNode = litView.node(function* (props: { msg: string }) {
   let count = 0;
