@@ -6,9 +6,9 @@ export class View {
   element = EG;
   node = NG;
 
-  get render() {
+  constructor(private _render: ViewRender) {}
+
+  getRenderFn() {
     return this._render;
   }
-
-  constructor(private _render: ViewRender) {}
 }

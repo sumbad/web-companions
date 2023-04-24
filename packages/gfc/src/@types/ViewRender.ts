@@ -1,6 +1,6 @@
-import { NodeRef } from './index';
+import { ComponentFuncThis, NodeRef } from './index';
 
 export interface ViewRender {
-    element: (container: HTMLElement | DocumentFragment, value: unknown) => any;
-    node: (container: NodeRef<any>, value: unknown) => any;
+  element: (this: ComponentFuncThis<any>, result: IteratorResult<any, void>) => void;
+  node: (this: { container: NodeRef<any> }, result: IteratorResult<any, void>) => object | undefined;
 }

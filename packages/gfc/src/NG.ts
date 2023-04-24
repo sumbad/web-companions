@@ -14,13 +14,7 @@ const ref2Node = new WeakMap<object, NodeRef<any>>();
  * Initialize Node Generator
  */
 export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func: NodeFuncGenerator<Prop, TNext>) {
-  const render = (result: IteratorResult<any, void>, container: NodeRef<Prop>) => {
-    if (this?.render.node != null && !result.done) {
-      return this.render.node(container, result.value);
-    } else {
-      return result.value;
-    }
-  }
+  const render = this?.getRenderFn().node ?? ((result: IteratorResult<any, void>) => result.value);
 
   // Create a new Node instance
   return (ref: { current: Node | null } = { current: null }) => {
@@ -49,7 +43,7 @@ export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func:
             this.isScheduledNext = true;
             const g = await Promise.resolve(generator);
             this.isScheduledNext = false;
-            this.value = render(g.next(this.props), this);
+            this.value = render.call({ container: this }, g.next(this.props));
           }
         };
 
@@ -59,7 +53,7 @@ export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func:
       }
 
       node.props = props;
-      node.value = render(node.generator.next(props), node);
+      node.value = render.call({ container: node }, node.generator.next(props));
       return node.value;
     };
   };

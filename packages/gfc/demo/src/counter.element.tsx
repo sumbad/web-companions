@@ -10,6 +10,8 @@ export const counterElement = litView.element({
     msg: p.req<string>(),
   },
 })(function* (props) {
+  this.container = this.attachShadow({ mode: 'open' });
+
   let count = 0;
   let isShowingTempEl = false;
 

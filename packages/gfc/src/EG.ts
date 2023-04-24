@@ -27,7 +27,12 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(this: View | void | un
 
   // Create Element Component based on a generator function - func
   return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(func: ComponentFunc<P, This>) => {
-    const constructor = build(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, config?.mapper, this?.render.element);
+    const constructor = build(
+      func as ComponentFunc<P, ComponentFuncThis<P>>,
+      config?.props || {},
+      config?.mapper,
+      this?.getRenderFn().element
+    );
 
     // Return Element Component
     return (name: string, options?: ElementDefinitionOptions) => {
@@ -63,9 +68,10 @@ function build<P>(
   func: ComponentFunc<P, ComponentFuncThis<P>>,
   props: EGProps<unknown>,
   mapper: EGMapper<P> = setProp,
-  render?: ViewRender['element']
+  render: ViewRender['element'] = (result) => result.value
 ): CustomElementConstructor {
   const customEl = class extends HTMLElement {
+    container = this;
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
@@ -96,7 +102,7 @@ function build<P>(
 
         actualEl = this;
 
-        this.render(generator.next(this.props));
+        render.call(this, generator.next(this.props));
       }
     }
 
@@ -131,7 +137,7 @@ function build<P>(
       this.generation = func.call(this, this.props);
 
       actualEl = this;
-      this.render(this.generation!.next(this.props));
+      render.call(this, this.generation!.next(this.props));
     }
 
     /**
@@ -156,12 +162,6 @@ function build<P>(
      */
     disconnectedCallback() {
       this.generation?.return();
-    }
-
-    render(result: IteratorResult<any, void>) {
-      if (render != null && !result.done) {
-        render(this, result.value);
-      }
     }
   };
 
