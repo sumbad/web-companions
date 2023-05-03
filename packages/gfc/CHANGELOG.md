@@ -1,8 +1,16 @@
 # Change Log
 
-<!-- 
 All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines. 
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [2.1.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.0-develop.1...@web-companions/gfc@2.1.0) (2023-05-03)
+
+**Note:** Version bump only for package @web-companions/gfc
+
+
+
+
+
 -->
 
 ## [2.0.3](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.0.2...@web-companions/gfc@2.0.3) (2022-08-16)

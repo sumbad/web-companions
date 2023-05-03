@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/lit",
-  "version": "0.1.0-develop.0",
+  "version": "0.1.0",
   "description": "A View with lit-html as a render",
   "type": "module",
   "main": "./lib/index.js",

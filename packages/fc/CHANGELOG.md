@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.9-develop.1](https://github.com/sumbad/web-companions/compare/@web-companions/fc@0.1.9-develop.0...@web-companions/fc@0.1.9-develop.1) (2023-05-03)
+
+
+### Bug Fixes
+
+* additionally check the value for 'fc' project ([fcb2753](https://github.com/sumbad/web-companions/commit/fcb2753070346bb65d6b0a599599ab4a305e3d38))
+
+
+
+
+
 ## [0.1.8](https://github.com/sumbad/web-companions/compare/@web-companions/fc@0.1.7...@web-companions/fc@0.1.8) (2022-06-29)
 
 **Note:** Version bump only for package @web-companions/fc
