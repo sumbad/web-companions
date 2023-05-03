@@ -1,4 +1,4 @@
-import { setProp } from './utils';
+import { setProp } from './utils/p';
 import type {
   ComponentFunc,
   EGProps,
@@ -11,6 +11,8 @@ import type {
   ElementComponent,
   ElementNodeItem,
 } from './@types';
+import { ViewRender } from './@types/ViewRender';
+import { View } from './View';
 
 let actualEl: HTMLElement | undefined = undefined;
 
@@ -20,12 +22,17 @@ let actualEl: HTMLElement | undefined = undefined;
  * @param config - configuration
  * @returns - a new Element Generator
  */
-export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P, PP>) {
+export function EG<P, PP extends EGProps<P> = EGProps<P>>(this: View | void | undefined, config?: EGIniConfig<P, PP>) {
   type OP = Optional<P, { [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never }[keyof P]>;
 
   // Create Element Component based on a generator function - func
   return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(func: ComponentFunc<P, This>) => {
-    const constructor = build(func as ComponentFunc<P, ComponentFuncThis<P>>, config?.props || {}, config?.mapper);
+    const constructor = build(
+      func as ComponentFunc<P, ComponentFuncThis<P>>,
+      config?.props || {},
+      config?.mapper,
+      this?.getRenderFn().element
+    );
 
     // Return Element Component
     return (name: string, options?: ElementDefinitionOptions) => {
@@ -60,9 +67,11 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(config?: EGIniConfig<P
 function build<P>(
   func: ComponentFunc<P, ComponentFuncThis<P>>,
   props: EGProps<unknown>,
-  mapper: EGMapper<P> = setProp
+  mapper: EGMapper<P> = setProp,
+  render: ViewRender['element'] = (result) => result.value
 ): CustomElementConstructor {
   const customEl = class extends HTMLElement {
+    container = this;
     // TODO: change to Symbol
     static attributes: { [x: string]: string } = {};
     static get observedAttributes() {
@@ -93,7 +102,7 @@ function build<P>(
 
         actualEl = this;
 
-        generator.next(this.props);
+        render.call(this, generator.next(this.props));
       }
     }
 
@@ -128,7 +137,7 @@ function build<P>(
       this.generation = func.call(this, this.props);
 
       actualEl = this;
-      this.generation!.next(this.props);
+      render.call(this, this.generation!.next(this.props));
     }
 
     /**

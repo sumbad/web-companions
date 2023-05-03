@@ -8,6 +8,7 @@ import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
 import { updatePropsWithNextElement } from './updatePropsWithNext';
 import { iconNote } from './icon.node';
+import { litView } from '@web-companions/lit';
 
 const css = String.raw;
 
@@ -22,7 +23,7 @@ const UpdatePropsWithNextElement = updatePropsWithNextElement('update-props-with
 /**
  * ROOT element
  */
-EG({
+litView.element({
   props: {
     header: p.req<string>('header'),
   },
@@ -77,7 +78,7 @@ EG({
   }, 30000);
 
   while (true) {
-    props = yield render(
+    props = yield (
       <div
         style={css`
           margin: 10px;
@@ -122,12 +123,11 @@ EG({
         </section>
 
         <section style={sectionStyle}>
-          <IconNote/>
+          <IconNote />
         </section>
 
         <hr />
-      </div>,
-      this
+      </div>
     );
   }
 })('demo-gfc');

@@ -1,15 +1,18 @@
-import { EG, p } from '@web-companions/gfc';
-import { render } from 'lit-html';
+import { p } from '@web-companions/gfc';
 import { counterNode } from './counter.node';
+import { litView } from '@web-companions/lit';
 
 const CounterNode = counterNode();
 const CounterNode1 = counterNode();
 
-export const counterElement = EG({
+
+export const counterElement = litView.element({
   props: {
     msg: p.req<string>(),
   },
 })(function* (props) {
+  this.container = this.attachShadow({ mode: 'open' });
+
   let count = 0;
   let isShowingTempEl = false;
 
@@ -20,7 +23,7 @@ export const counterElement = EG({
 
   try {
     while (true) {
-      props = yield render(
+      props = yield (
         <>
           <button
             type="button"
@@ -40,8 +43,7 @@ export const counterElement = EG({
           <CounterNode msg="CounterNode as JSX Tag3"></CounterNode>
 
           {isShowingTempEl && <CounterNode1 msg="CounterNode as JSX Tag4"></CounterNode1>}
-        </>,
-        this
+        </>
       );
     }
   } finally {

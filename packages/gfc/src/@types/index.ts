@@ -13,7 +13,10 @@ export type EGProps<P> = {
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type Filter<T, U> = T extends U ? T : never;
 
-export type ComponentFuncThis<P> = HTMLElement & { next: (props?: P) => void };
+export type ComponentFuncThis<P> = HTMLElement & {
+  container: HTMLElement | ShadowRoot;
+  next: (props?: P) => void;
+};
 
 export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, void, P>;
 
@@ -80,7 +83,6 @@ export interface NodeRef<P = unknown, C = Node | null, V = any> {
   props: P;
   value?: V;
 }
-
 
 // Elements nodes
 export type ElementNodeItem = { current: Node | null };

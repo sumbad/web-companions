@@ -11,22 +11,21 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/gfc
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: '18.x'
       - name: Install dependencies
-        run: npm ci
-      - name: Install Playwright
+        run: npm ci --workspaces=true && npm ci
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Build
+        run: npm run build --workspace=@web-companions/gfc --workspace=@web-companions/lit
       - name: Run tests
-        run: npm run test:ci
+        run: npm run test:ci --workspaces --if-present
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./packages/gfc/coverage/lcov.info

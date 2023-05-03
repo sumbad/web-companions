@@ -1,7 +1,10 @@
 import { expect, Page, test } from '@playwright/test';
 import v8toIstanbul from 'v8-to-istanbul';
 import fs from 'fs';
-import path from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 test.describe('Test demo components', () => {
   let page: Page;
@@ -53,37 +56,37 @@ test.describe('Test demo components', () => {
         }
       }
 
-      const saveDir = path.join(__dirname, '../.nyc_output');
+      const saveDir = join(__dirname, '../.nyc_output');
 
       if (!fs.existsSync(saveDir)) {
         fs.mkdirSync(saveDir);
       }
 
-      fs.writeFileSync(path.join(saveDir, 'coverage-final.json'), JSON.stringify(data));
+      fs.writeFileSync(join(saveDir, 'coverage-final.json'), JSON.stringify(data));
     }
   });
 
   test(`${MAIN_COMPONENT_TAG} should be rendered`, async () => {
     const elementHandle = await page.$(`${MAIN_COMPONENT_TAG}`);
 
-    expect(elementHandle.asElement()).toBeDefined();
+    expect(elementHandle!.asElement()).toBeDefined();
   });
 
   test(`${UPDATE_PROPS_COMPONENT_TAG} should work`, async () => {
     const elementHandle = await page.$(`${UPDATE_PROPS_COMPONENT_TAG}`);
 
-    expect(elementHandle.asElement()).toBeDefined();
+    expect(elementHandle!.asElement()).toBeDefined();
 
-    await (await elementHandle.$('id=test1')).click();
-    expect(await (await elementHandle.$('span')).asElement().textContent()).toBe('Value p1 - test1');
+    await (await elementHandle!.$('id=test1'))!.click();
+    expect(await (await elementHandle!.$('span'))!.asElement().textContent()).toBe('Value p1 - test1');
 
-    await (await elementHandle.$('id=test2')).click();
-    expect(await (await elementHandle.$('span')).asElement().textContent()).toBe('Value p1 - test2');
+    await (await elementHandle!.$('id=test2'))!.click();
+    expect(await (await elementHandle!.$('span'))!.asElement().textContent()).toBe('Value p1 - test2');
 
-    await (await elementHandle.$('id=test3')).click();
-    expect(await (await elementHandle.$('span')).asElement().textContent()).toBe('Value p1 - test3');
+    await (await elementHandle!.$('id=test3'))!.click();
+    expect(await (await elementHandle!.$('span'))!.asElement().textContent()).toBe('Value p1 - test3');
 
-    await (await elementHandle.$('id=test4')).click();
-    expect(await (await elementHandle.$('span')).asElement().textContent()).toBe('Value p1 - test3');    
+    await (await elementHandle!.$('id=test4'))!.click();
+    expect(await (await elementHandle!.$('span'))!.asElement().textContent()).toBe('Value p1 - test3');
   });
 });
