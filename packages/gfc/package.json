@@ -60,7 +60,7 @@
     "@babel/preset-env": "7.18.2",
     "@babel/runtime": "7.18.3",
     "@playwright/test": "1.33.0",
-    "@web-companions/lit": "0.1.0-develop.0",
+    "@web-companions/lit": "*",
     "babel-loader": "8.2.5",
     "babel-plugin-transform-jsx-to-tt": "0.3.1",
     "copy-webpack-plugin": "11.0.0",

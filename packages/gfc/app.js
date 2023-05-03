@@ -1,13 +1,14 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const hostname = '127.0.0.1';
 const port = 8081;
 
 const server = http.createServer((req, res) => {
   console.log(req.url);
-  const baseDir = path.join(__dirname, './demo/dist');
+  const baseDir = join(dirname(fileURLToPath(import.meta.url)), './demo/dist');
 
   let filePath = '';
 
