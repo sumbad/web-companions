@@ -10,13 +10,13 @@
   },
   "typesVersions": {
     "*": {
-      "/*": [
+      "/": [
         "lib/index.d.ts"
       ]
     }
   },
   "files": [
-    "lib"
+    "./lib"
   ],
   "scripts": {
     "clean": "tsc --build --clean && rimraf ./lib",

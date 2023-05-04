@@ -5,13 +5,13 @@
   "type": "module",
   "main": "./lib/index.js",
   "exports": {
-    ".": "./lib/*.js",
-    "./@types/*": "./.build/@types/*.js",
-    "./@types": "./.build/@types/index.js"
+    ".": "./lib/index.js",
+    "./@types/*": "./lib/@types/*.js",
+    "./@types": "./lib/@types/index.js"
   },
   "typesVersions": {
     "*": {
-      "/*": [
+      "/": [
         "lib/*.d.ts"
       ],
       "@types": [
