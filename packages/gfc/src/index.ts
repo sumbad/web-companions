@@ -1,4 +1,4 @@
-export { EG } from './EG';
-export { NG } from './NG';
-export { View } from './View';
-export { p } from './utils/p';
+export { EG } from './EG.js';
+export { NG } from './NG.js';
+export { View } from './View.js';
+export { p } from './utils/p.js';

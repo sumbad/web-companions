@@ -1,6 +1,6 @@
 import { ViewRender } from './@types/ViewRender';
-import { EG } from './EG';
-import { NG } from './NG';
+import { EG } from './EG.js';
+import { NG } from './NG.js';
 
 export class View {
   element = EG;

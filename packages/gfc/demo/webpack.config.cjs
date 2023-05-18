@@ -6,9 +6,9 @@ module.exports = {
   resolve: {
     modules: ['dist', 'node_modules'],
     extensions: ['.tsx', '.ts', '.js', '.json', '.css'],
-    alias: {
-      '@web-companions/gfc': path.resolve(__dirname, '../src'),
-    },
+    // alias: {
+    //   '@web-companions/gfc': path.resolve(__dirname, '../src'),
+    // },
   },
   mode: 'development',
   devServer: {
@@ -45,6 +45,7 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               configFile: path.join(__dirname, 'tsconfig.json'),
+              projectReferences: true // @see https://github.com/TypeStrong/ts-loader#projectreferences
             },
           },
         ],

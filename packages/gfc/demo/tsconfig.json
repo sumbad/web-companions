@@ -4,10 +4,10 @@
     "module": "ES2020",
     "sourceMap": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "paths": {
-      "@web-companions/gfc": ["../src"],
-      "@web-companions/gfc/*": ["../src/*"]
-    },
+    // "paths": {
+    //   "@web-companions/gfc": ["../src"],
+    //   "@web-companions/gfc/*": ["../src/*"]
+    // },
     "isolatedModules": false,
     // "experimentalDecorators": true,
     // "noImplicitAny": false,
@@ -56,6 +56,9 @@
   "references": [
     {
       "path": "../../lit/tsconfig.json"
+    },
+    {
+      "path": "../tsconfig.json"
     }
   ]
 }

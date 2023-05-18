@@ -1,6 +1,6 @@
-import { View } from './View';
+import { View } from './View.js';
 import type { NodeRef } from './@types';
-import { setElNode } from './EG';
+import { setElNode } from './EG.js';
 
 type NodeDefaultProps = {
   key?: string;

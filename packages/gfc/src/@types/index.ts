@@ -1,4 +1,4 @@
-import './jsx';
+import './jsx.js';
 
 export type EGProperty<PX> = {
   type: PX;

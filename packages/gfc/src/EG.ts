@@ -1,4 +1,4 @@
-import { setProp } from './utils/p';
+import { setProp } from './utils/p.js';
 import type {
   ComponentFunc,
   EGProps,
@@ -12,7 +12,7 @@ import type {
   ElementNodeItem,
 } from './@types';
 import { ViewRender } from './@types/ViewRender';
-import { View } from './View';
+import { View } from './View.js';
 
 let actualEl: HTMLElement | undefined = undefined;
 
