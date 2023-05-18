@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.1...@web-companions/gfc@2.1.2) (2023-05-18)
+
+
+### Bug Fixes
+
+* **gfc:** replace commonjs imports to es imports ([6f53fb3](https://github.com/sumbad/web-companions/commit/6f53fb3a3c626895809a1ec3e4b25d59622b3c34))
+
+
+
+
+
 ## [2.1.1](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.0...@web-companions/gfc@2.1.1) (2023-05-04)
 
 
