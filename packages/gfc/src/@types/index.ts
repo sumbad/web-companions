@@ -16,6 +16,8 @@ export type Filter<T, U> = T extends U ? T : never;
 export type ComponentFuncThis<P> = HTMLElement & {
   container: HTMLElement | ShadowRoot;
   next: (props?: P) => void;
+  // TODO: add onready:
+  // onready: () => void;
 };
 
 export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, void, P>;

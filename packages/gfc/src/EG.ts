@@ -92,13 +92,13 @@ function build<P>(
     isScheduledNext = false;
     generation: Generator<any, void, P> | undefined;
 
-    async next(props = this.props) {
+    async next(props?: P) {
+      this.props = props || this.props;
+
       if (!this.isScheduledNext && this.generation != null) {
         this.isScheduledNext = true;
-
         const generator = await Promise.resolve(this.generation);
         this.isScheduledNext = false;
-        this.props = props;
 
         actualEl = this;
 
