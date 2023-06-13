@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/react-adapter",
-  "version": "0.1.5-develop.0",
+  "version": "0.1.5",
   "description": "To use web components as React components",
   "main": "index.js",
   "scripts": {

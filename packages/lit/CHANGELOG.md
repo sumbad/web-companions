@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/sumbad/web-companions/compare/@web-companions/lit@0.1.2...@web-companions/lit@0.1.3) (2023-06-13)
+
+**Note:** Version bump only for package @web-companions/lit
+
+
+
+
+
 ## [0.1.2](https://github.com/sumbad/web-companions/compare/@web-companions/lit@0.1.1...@web-companions/lit@0.1.2) (2023-05-18)
 
 **Note:** Version bump only for package @web-companions/lit

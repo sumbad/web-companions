@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.2...@web-companions/gfc@2.1.3) (2023-06-13)
+
+
+### Bug Fixes
+
+* **gfc:** Use always last instance of properties for updating ([1c4c60a](https://github.com/sumbad/web-companions/commit/1c4c60abbe5d5aad471fbd56200f4cc66fe105fc))
+
+
+
+
+
 ## [2.1.2](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.1...@web-companions/gfc@2.1.2) (2023-05-18)
 
 
