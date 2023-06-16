@@ -38,3 +38,7 @@ spawn(cmd, { stdio: 'inherit', shell: true });
 //
 // Commit message with both ! and BREAKING CHANGE footer for major updates
 // https://www.conventionalcommits.org/en/v1.0.0/#commit-message-with-both--and-breaking-change-footer
+
+// Publishing:
+// 1) npx lerna version
+// 2) npx lerna publish from-package
