@@ -10,7 +10,7 @@
         "patch/*",
         "test/*"
       ],
-      "conventionalCommits": true,
+      "conventionalCommits": false,
       "exact": true,
       "gitRemote": "origin",
       "message": "chore(release): publish"
