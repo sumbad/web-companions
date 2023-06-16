@@ -11,6 +11,8 @@
 
 > Functional Components. A wrapper for creating Web components like React.js components with hooks
 
+This library is just an experiment inspired by React.js and [TNG-Hooks](https://github.com/getify/TNG-Hooks). If you are looking for a simple and universal library for creating UI elements please see on [@web-companions/gfc](https://github.com/sumbad/web-companions/tree/master/packages/gfc) and its preset [@web-companions/lit](https://github.com/sumbad/web-companions/tree/master/packages/lit)
+
 - [Installation](#installation)
 - [Usage](#usage)
 

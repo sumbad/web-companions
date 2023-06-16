@@ -2,12 +2,13 @@
 export const css = String.raw;
 
 /**
- * Add or update style to an Element
- * 
+ * Add or update a DOM element style
+ *
  * @param style - element styles
  * @param node - the element
+ * @param styleId - an optional parameter to create or recreate a style tag by id
  */
-export function setStyle(style: string, node: ShadowRoot | Element) {
+export function setStyle(style: string, node: ShadowRoot | Element, styleId?: string) {
   if (
     window.ShadowRoot &&
     'adoptedStyleSheets' in Document.prototype &&
@@ -18,9 +19,16 @@ export function setStyle(style: string, node: ShadowRoot | Element) {
     sheet['replaceSync'](style);
     node['adoptedStyleSheets'] = [sheet];
   } else {
-    let styleEl = node.querySelector('style');
+    const selector = `style${styleId != null ? `#${styleId}` : ''}`;
+    let styleEl = node.querySelector(selector);
+
     if (styleEl == null) {
       styleEl = document.createElement('style');
+
+      if (styleId != null) {
+        styleEl.setAttribute('id', styleId);
+      }
+
       styleEl.innerHTML = style;
       node.insertBefore(styleEl, node.firstChild);
     } else {
