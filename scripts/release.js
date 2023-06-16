@@ -42,3 +42,6 @@ spawn(cmd, { stdio: 'inherit', shell: true });
 // Publishing:
 // 1) npx lerna version
 // 2) npx lerna publish from-package
+// 3) git checkout master
+// 4) npx lerna version --force-publish=@web-companions/fc,@web-companions/h
+// 5) npx lerna publish from-package
