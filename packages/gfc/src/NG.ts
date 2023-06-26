@@ -6,7 +6,7 @@ type NodeDefaultProps = {
   key?: string;
 };
 
-type NodeFuncGenerator<P, TNext> = (props: P) => Generator<unknown, void, TNext>;
+type NodeFuncGenerator<P, TNext> = (this: NodeRef<P>, props: P) => Generator<unknown, void, TNext>;
 
 const ref2Node = new WeakMap<object, NodeRef<any>>();
 
