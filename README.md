@@ -4,6 +4,63 @@
 
 ### 🧰 Tools to simplify web development process
 
+The main purpose of this library is to make it easier to use Web Specifications and perform simple, straightforward tasks.
+
+1. Write native UI components in a clear way.
+2. No extra knowledge. Learn language, learn specifications and platforms.
+3. Without frameworks with minimum of dependencies.
+
+## Use cases
+
+1. Create a simple view:
+[demo](https://codesandbox.io/s/web-companions-create-a-simple-view-xhxm3h?file=/src/index.js)
+
+```js
+import { EG } from '@web-companions/gfc';
+
+function innerRender(template, container) {
+  container.innerHTML = template;
+}
+
+EG()(function* () {
+  console.log("Create a view");
+  let time = new Date().toLocaleTimeString();
+
+  setInterval(() => {
+    time = new Date().toLocaleTimeString();
+    this.next();
+  }, 1000);
+
+  try {
+    while (true) {
+      console.log("Update view");
+
+      yield innerRender(
+        `
+        <h1>Hello web-companions!</h1>
+        <div>
+          Current local time is ${time}
+        </div>
+        `,
+        this
+      );
+    }
+  } finally {
+    console.log("Destroy view");
+  }
+})("app-root");
+```
+
+## Theory
+
+The base part is view. A view could be rendered as an HTML element or an HTML node inside an element in a web page. Any view is building on two parts: lifecycle and render. In turn, the lifecycle is built on [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) and [Custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2). That's all!
+
+To use lifecycle convenient way, it was wrapped inside `@web-companions/gfc` package. So that we can just write a generator function for `EG` or `NG` functions, that will use it inside a custom element. Generator function in JS is a function that can run it part and return values several times without rerun the whole function. We create an infinity part that render a new HTML with updated values each time when we produce them.
+
+
+
+No magic, no compilations, no hacks and hooks.As you can see, it's easy to repeat these libraries using JavaScript generator functions and Web Specifications.
+
 ---
 
 ## List of packages
