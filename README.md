@@ -53,11 +53,11 @@ EG()(function* () {
 
 ## Theory
 
-The base part is view. A view could be rendered as an HTML element or an HTML node inside an element in a web page. Any view is building on two parts: lifecycle and render. In turn, the lifecycle is built on [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) and [Custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2). That's all!
+The base part is `view`. A `view` could be rendered as an HTML element or an HTML node inside an element in a web page. Any `view` is building on two parts: lifecycle and render. In turn, the lifecycle is built on [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) and [Custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2). That's all!
 
 To use lifecycle convenient way, it was wrapped inside `@web-companions/gfc` package. So that we can just write a generator function for `EG` or `NG` functions, that will use it inside a custom element. Generator function in JS is a function that can run it part and return values several times without rerun the whole function. We create an infinity part that render a new HTML with updated values each time when we produce them.
 
-
+![Alt text](doc/schema.png)
 
 No magic, no compilations, no hacks and hooks.As you can see, it's easy to repeat these libraries using JavaScript generator functions and Web Specifications.
 
