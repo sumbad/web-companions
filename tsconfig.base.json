@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    // Project Options
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedModules": false,
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "module": "ESNext",
+    "outDir": "lib",
+    "rootDir": "src",
+    "sourceMap": true,
+    "target": "ES2020",
+
+    // Module Resolution
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    // Strict Checks
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+
+    // Linter Checks
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Experimental
+    "experimentalDecorators": true,
+
+    // Source Maps
+    "inlineSources": true,
+
+    // Advanced
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+
+    "importsNotUsedAsValues": "preserve",
+
+    "ignoreDeprecations": "5.0"
+  },
+  "compileOnSave": false,
+  "exclude": ["node_modules"]
+}

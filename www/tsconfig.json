@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.base.json",
+  "references": [
+    {
+      "path": "../packages/gfc/tsconfig.json"
+    },
+    {
+      "path": "../packages/lit/tsconfig.json"
+    },
+    {
+      "path": "../packages/h/tsconfig.json"
+    },
+  ],
+  "compilerOptions": {
+    "outDir": "./.build",
+    "rootDir": "./src",
+    "sourceRoot": "./src",
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "typeRoots": ["../../node_modules/@web-companions"],
+  }
+}

@@ -21,9 +21,25 @@
     "access": "public",
     "directory": "lib"
   },
+  "exports": {
+    "./*": "./lib/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "/": [
+        "lib/index.d.ts"
+      ],
+      "*": [
+        "lib/*.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "lib"
+  ],
   "scripts": {
-    "build": "npm run transpile && node ../../scripts/make-lib",
-    "transpile": "rimraf ./lib && tsc",
+    "clean": "tsc --build --clean && rimraf ./lib",
+    "build": "npm run clean && tsc --build",
     "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "npm publish ./lib --tag next"
