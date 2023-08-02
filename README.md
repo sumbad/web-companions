@@ -53,7 +53,31 @@ EG()(function* () {
 
 ## Theory
 
-The base part is `view`. A `view` could be rendered as an HTML element or an HTML node inside an element in a web page. Any `view` is building on two parts: lifecycle and render. In turn, the lifecycle is built on [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) and [Custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2). That's all!
+In general, any UI component has two things:
+1. Lifecycle – to control how a component will be created, updated and destroyed.
+2. Render – to visually present a component in a platform, for web it will be HTML, CSS, SVG.
+
+```
+<UI Component> = <Lifecycle> + <Render>;
+
+// where:
+
+<Lifecycle> = @web-companions/gfc;
+
+<Render> =  lit-html | uhtml | hyperHTML | @github/jtml | <any other, even innerHTML if you need something very simple>;
+```
+
+<!-- So, you can always write your oun Render or you one of already exist:
+- `@web-companions/lit` - lit-html render -->
+
+To simplify the development process and increase DX we combined Lifecycle and Render inside `view`. A `view` could be rendered as an HTML element or an HTML node inside an element in a web page. Any `view` is building on two parts: lifecycle and render. In turn, the lifecycle is built on [Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) and [Custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components#custom_elements_2). That's all!
+
+
+Provided Views:
+1. @web-companions/lit - a view with lit-html render;
+
+
+### More details
 
 To use lifecycle convenient way, it was wrapped inside `@web-companions/gfc` package. So that we can just write a generator function for `EG` or `NG` functions, that will use it inside a custom element. Generator function in JS is a function that can run it part and return values several times without rerun the whole function. We create an infinity part that render a new HTML with updated values each time when we produce them.
 
