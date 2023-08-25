@@ -1,87 +1,90 @@
-const path = require('path');
-const fs = require('fs');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const fs = require("fs");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const swcrc = fs.readFileSync(path.join(__dirname, '../.swcrc'), 'utf-8');
+const swcrc = fs.readFileSync(path.join(__dirname, "../.swcrc"), "utf-8");
 
-const isDevMode = process.env.NODE_ENV !== 'production';
+const isDevMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
-  mode: isDevMode ? 'development' : 'production',
+  mode: isDevMode ? "development" : "production",
   resolve: {
-    modules: ['dist', 'node_modules'],
-    extensions: ['.tsx', '.ts', '.js', '.json', '.css'],
+    modules: ["dist", "node_modules"],
+    extensions: [".tsx", ".ts", ".js", ".json", ".css"],
   },
   devServer: {
     historyApiFallback: true,
     port: 8080,
-    host: '0.0.0.0',
+    host: "0.0.0.0",
   },
-  devtool: 'eval-cheap-source-map',
+  devtool: "eval-cheap-source-map",
   entry: {
-    index: path.join(__dirname, 'src', 'main.tsx'),
+    index: path.join(__dirname, "src", "main.tsx"),
   },
   output: {
-    path: path.join(__dirname, 'dist'),
-    publicPath: '/',
-    filename: '[name].js',
+    path: path.join(__dirname, "dist"),
+    publicPath: "/",
+    filename: "[name].js",
   },
   module: {
     rules: [
       {
-        test: /\.m?js|ts(x?)$/,
-        exclude: /(node_modules)/,
+        test: /\.m?js(x?)$/,
+        loader: "babel-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.ts(x?)$/,
         use: [
           {
-            loader: 'swc-loader',
-            options: {
-              ...JSON.parse(swcrc),
-              // jsc: {
-              //   parser: {
-              //     syntax: 'typescript',
-              //     tsx: false,
-              //     decorators: false,
-              //     dynamicImport: false,
-              //     target: 'es2020',
-              //   },
-              // },
-            },
+            loader: "babel-loader",
+            options: require("./babel.config"),
           },
           {
-            loader: 'babel-loader',
-            options: require('./babel.config')
+            loader: "ts-loader",
+            options: {
+              configFile: path.join(__dirname, "tsconfig.json"),
+            },
           },
         ],
-        resolve: {
-          fullySpecified: false,
-        },
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
         use: [
-          'style-loader',
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: { importLoaders: 1 },
           },
-          'postcss-loader',
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-nesting",
+                  ],
+                ],
+              },
+            },
+          },
         ],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'www/index.html',
-      scriptLoading: 'module',
-      publicPath: '/',
+      template: "www/index.html",
+      scriptLoading: "module",
+      publicPath: "/",
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.join(__dirname, 'public'),
-          to: path.join(__dirname, 'dist'),
-          toType: 'dir',
+          from: path.join(__dirname, "public"),
+          to: path.join(__dirname, "dist"),
+          toType: "dir",
         },
       ],
     }),

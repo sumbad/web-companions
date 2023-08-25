@@ -1,6 +1,7 @@
 {
   "name": "web-companions",
   "private": true,
+  "type": "module",
   "scripts": {
     "prepublishOnly": "node scripts/prepublish.js",
     "release": "RELEASE_MODE=true node scripts/release.js",
@@ -29,9 +30,14 @@
     "html-webpack-plugin": "5.5.3",
     "lerna": "7.0.2",
     "lit-html": "2.7.5",
+    "postcss-loader": "7.3.3",
+    "postcss-nesting": "12.0.1",
+    "prettier": "3.0.2",
     "style-loader": "3.3.3",
+    "stylelint-config-standard": "34.0.0",
     "swc-loader": "0.2.3",
     "terser": "5.18.0",
+    "ts-loader": "9.4.4",
     "typescript": "5.1.6",
     "webpack": "5.88.2",
     "webpack-cli": "5.1.4",

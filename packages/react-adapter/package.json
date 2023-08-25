@@ -4,7 +4,7 @@
   "description": "To use web components as React components",
   "main": "index.js",
   "scripts": {
-    "build": "npm run transpile && node ../../scripts/make-lib",
+    "build": "npm run transpile && node ../../scripts/make-lib.cjs",
     "transpile": "rimraf ./lib && tsc",
     "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",

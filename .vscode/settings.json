@@ -1,3 +1,10 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  // Disable the built-in linter, use stylelint with this plugin https://marketplace.visualstudio.com/items?itemName=hex-ci.stylelint-plus
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "files.associations": {
+    "*.css": "postcss"
+  }
 }
