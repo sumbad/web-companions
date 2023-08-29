@@ -117,9 +117,9 @@ More examples are [here](https://github.com/sumbad/web-companions/tree/master/pa
 
 ### Notice
 
-#### Node component
-- This type of components could be created only inside an Element component.
-- If some of Node components will be rendered by a condition we should create them with prepared ref objects. Otherwise, some of Nodes can start to use the same inner state.
+#### Node view
+- This type of view could be created only inside an Element view.
+- If some of Node view will be rendered by a condition we should create them with prepared ref objects. Otherwise, some of Nodes can start to use the same inner state.
 
 
 ## License

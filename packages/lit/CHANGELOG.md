@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4]
+
+### Bug Fixes:
+- A workflow where we want to create a Node, remove it and create again will throw the error `This 'ChildPart' has no 'parentNode'`. The reason of this error is a way how the Node was created. Usually, a Node connects to a parent Element and saves a link to it inside. This fix is faces to re-create a Node again later if its parent is not connected.
+
+
 ## [0.1.3](https://github.com/sumbad/web-companions/compare/@web-companions/lit@0.1.2...@web-companions/lit@0.1.3) (2023-06-13)
 
 **Note:** Version bump only for package @web-companions/lit

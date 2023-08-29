@@ -20,7 +20,7 @@ function renderNode(tpl: any, ref: NodeRef<unknown, Node | null | RenderNode>) {
 		return undefined;
 	}
 
-	if (ref.current instanceof RenderNode) {
+	if (ref.current instanceof RenderNode && ref.current.isConnected) {
 		ref.current.setValue(tpl);
 	}
 
