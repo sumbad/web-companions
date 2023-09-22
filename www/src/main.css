@@ -1,0 +1,31 @@
+@import "./skeleton.css";
+
+@font-face {
+  font-family: Raleway;
+  src: url('../public/fonts/Raleway/Raleway-VariableFont_wght.ttf') format("truetype-variations");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.demo-content {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: auto;
+  margin-left: 200px;
+}
+
+footer {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.page-content {
+  padding: 20px;
+}

@@ -1,0 +1,13 @@
+/* .gist-meta {
+  display: none;
+}
+
+.gist .blob-code {
+  line-height: 25px !important;
+  font-size: 14px !important;
+}
+*/
+
+.gist-data {
+    max-height: 400px;
+}

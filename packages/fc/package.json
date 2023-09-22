@@ -4,7 +4,7 @@
   "description": "Functional Components. A wrapper for creating Web components like React.js components with hooks",
   "main": "index.js",
   "scripts": {
-    "build": "npm run transpile && node ../../scripts/make-lib",
+    "build": "npm run transpile && node ../../scripts/make-lib.cjs",
     "transpile": "rimraf ./lib && tsc",
     "dev": "npm run transpile && concurrently --raw \"tsc -w\" \"webpack-dev-server --config ./demo/webpack.config.js\"",
     "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
