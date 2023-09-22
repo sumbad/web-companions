@@ -24,6 +24,16 @@ footer {
   flex-direction: column;
   justify-content: flex-end;
   padding: 5px;
+
+  a {
+    margin-left: 10px;
+    font-weight: 100;
+    text-decoration: unset;
+
+    svg {
+      vertical-align: bottom;
+    }
+  }
 }
 
 .page-content {
