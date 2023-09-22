@@ -24,7 +24,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    publicPath: "/",
+    publicPath: isDevMode ? "/" : "",
     filename: "[name].js",
   },
   module: {
@@ -77,7 +77,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "www/index.html",
       scriptLoading: "module",
-      publicPath: "/",
+      publicPath: isDevMode ? "/" : "",
     }),
     new CopyWebpackPlugin({
       patterns: [
