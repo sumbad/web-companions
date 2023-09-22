@@ -15,6 +15,8 @@ export interface SideMenuItem {
   hide?: boolean;
 }
 
+type MenuItems = { [x: string]: SideMenuItem };
+
 /**
  * Side menu web component
  */
@@ -23,12 +25,16 @@ export const sidemenuElement = litView.element({
     /** placeholder text for search input */
     searchPlaceholder: p.opt<string>("search-placeholder"),
     /** menu data */
-    data: p.req<{ [x: string]: SideMenuItem }>(),
+    data: p.req<MenuItems>(),
     /** last selected menu item */
-    activeMenuItem: p.req<string>(),
+    activeMenuItem: p.req<keyof MenuItems>(),
+    // EVENTS:
+    onchangeActive:
+      p.opt<(event: { detail: { key: keyof MenuItems } }) => void>(),
   },
 })(function* (params) {
   this.container = this.attachShadow({ mode: "open" });
+
   setStyle(style, this.container);
 
   const inputElRef: Ref<HTMLDivElement> = createRef();
@@ -46,7 +52,7 @@ export const sidemenuElement = litView.element({
     event.stopPropagation();
 
     console.log(itemKey);
-    
+
     if (params.data[itemKey].available) {
       params.activeMenuItem = itemKey;
       const changeActiveEvent = new CustomEvent("changeActive", {
@@ -55,7 +61,8 @@ export const sidemenuElement = litView.element({
           key: itemKey,
         },
       });
-      dispatchEvent(changeActiveEvent);
+
+      this.dispatchEvent(changeActiveEvent);
     }
   };
 
