@@ -1,13 +1,12 @@
-/* .gist-meta {
-  display: none;
-}
+.gist-meta {
+  pointer-events: none;
+  font-size: 0 !important;
 
-.gist .blob-code {
-  line-height: 25px !important;
-  font-size: 14px !important;
+  :nth-child(2) {
+    font-size: 12px;
+  }
 }
-*/
 
 .gist-data {
-    max-height: 400px;
+  max-height: 400px;
 }
