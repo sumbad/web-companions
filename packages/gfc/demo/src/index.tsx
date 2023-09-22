@@ -1,14 +1,14 @@
-import { EG, p } from '@web-companions/gfc';
-import { render } from 'lit-html';
+import { p } from '@web-companions/gfc';
 import { ref, createRef, Ref } from 'lit-html/directives/ref.js';
 import { loadingProgressBarElement } from './loadingProgressBar.element';
 import { sumDeferred } from './sumDeferred.element';
 import { sumImmediate } from './sumImmediate.element';
 import { counterElement } from './counter.element';
 import { counterNode } from './counter.node';
-import { updatePropsWithNextElement } from './updatePropsWithNext';
+import { updatePropsWithNextElement } from './updatePropsWithNext.element';
 import { iconNote } from './icon.node';
 import { litView } from '@web-companions/lit';
+import { updatePropsWithNextNode } from './updatePropsWithNext.node';
 
 const css = String.raw;
 
@@ -19,6 +19,7 @@ const LoadingProgressBarElement = loadingProgressBarElement('loading-progress-ba
 const SumDeferredElement = sumDeferred('sum-deferred');
 const SumImmediateElement = sumImmediate('sum-immediate');
 const UpdatePropsWithNextElement = updatePropsWithNextElement('update-props-with-next-element');
+const UpdatePropsWithNextNode = updatePropsWithNextNode();
 
 /**
  * ROOT element
@@ -120,6 +121,10 @@ litView.element({
 
         <section style={sectionStyle}>
           <UpdatePropsWithNextElement p1={'initial value'}></UpdatePropsWithNextElement>
+        </section>
+
+        <section style={sectionStyle}>
+          <UpdatePropsWithNextNode p1={'initial value'}></UpdatePropsWithNextNode>
         </section>
 
         <section style={sectionStyle}>

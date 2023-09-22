@@ -25,20 +25,22 @@ export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func:
     return (props: FuncProp = {} as FuncProp): unknown => {
       const _ref = props.key != null ? setElNode(nodesSymbol, props.key) : ref;
 
-      let node = ref2Node.get(_ref) as NodeRef<Prop> | undefined;
+      let node = ref2Node.get(_ref) as NodeRef<FuncProp> | undefined;
 
       if (node == null) {
-        const _node: Partial<NodeRef<Prop>> = {
+        const _node: Partial<NodeRef<FuncProp>> = {
           ..._ref,
           props,
           isScheduledNext: false,
         };
 
-        const generator: ReturnType<NodeFuncGenerator<Prop, unknown>> = Reflect.apply(func, _node, [props]);
+        const generator: ReturnType<NodeFuncGenerator<FuncProp, unknown>> = Reflect.apply(func, _node, [props]);
 
         _node.generator = generator;
 
-        _node.next = async function (this: NodeRef<Prop>) {
+        _node.next = async function (this: NodeRef<FuncProp>, _props?: FuncProp) {
+          this.props = _props || this.props;
+
           if (!this.isScheduledNext) {
             this.isScheduledNext = true;
             const g = await Promise.resolve(generator);
@@ -47,7 +49,7 @@ export function NG<Prop = {}, TNext = Prop>(this: View | void | undefined, func:
           }
         };
 
-        node = _node as NodeRef<Prop>;
+        node = _node as NodeRef<FuncProp>;
 
         ref2Node.set(_ref, node);
       }
