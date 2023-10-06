@@ -6,5 +6,8 @@
   "scss.validate": false,
   "files.associations": {
     "*.css": "postcss"
-  }
+  },
+  "cSpell.words": [
+    "jtml"
+  ]
 }
