@@ -1,12 +1,11 @@
-import { p } from "@web-companions/gfc";
 import { counterNode } from "./counter.node";
-import { litView } from "@web-companions/lit";
+import { view, p } from "@web-companions/jtml";
 import { is } from "@web-companions/h/template";
 
 const CounterNode = counterNode();
 const CounterNode1 = counterNode();
 
-export const counterElement = litView.element({
+export const counterElement = view.element({
   props: {
     msg: p.req<string>(),
   },
@@ -51,6 +50,6 @@ export const counterElement = litView.element({
       );
     }
   } finally {
-    console.log("A CounterElement with lit-html render was disconnected");
+    console.log("A CounterElement with jtml render was disconnected");
   }
 });

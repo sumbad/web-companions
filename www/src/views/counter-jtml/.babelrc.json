@@ -1,0 +1,18 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-transform-jsx-to-tt",
+      {
+        "tag": "html",
+        "import": {
+          "module": "@github/jtml",
+          "export": "html"
+        },
+        "quotedAttributes": true,
+        "attributes": [
+        ]
+      }
+    ]
+  ],
+  "inputSourceMap": true
+}

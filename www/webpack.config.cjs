@@ -39,7 +39,7 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
-            options: require("./babel.config"),
+            // options: require("./babel.config"),
           },
           {
             loader: "ts-loader",
