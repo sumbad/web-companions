@@ -35,7 +35,7 @@
     "build": "npm run clean && tsc --build",
     "dev": "npm run build && webpack-dev-server --config ./demo/webpack.config.cjs --progress --stats-children --stats-error-details",
     "dev:build": "npm run build && webpack --config ./demo/webpack.config.cjs",
-    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
+    "prepublishOnly": "npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "RELEASE_MODE=true  npm publish ./lib --tag next"
   },
