@@ -5,6 +5,9 @@
       "path": "../packages/gfc/tsconfig.json"
     },
     {
+      "path": "../packages/jtml/tsconfig.json"
+    },
+    {
       "path": "../packages/lit/tsconfig.json"
     },
     {

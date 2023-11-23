@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/gfc",
-  "version": "2.1.6",
+  "version": "2.2.0-0",
   "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
   "type": "module",
   "main": "./lib/index.js",
@@ -35,7 +35,7 @@
     "build": "npm run clean && tsc --build",
     "dev": "npm run build && webpack-dev-server --config ./demo/webpack.config.cjs --progress --stats-children --stats-error-details",
     "dev:build": "npm run build && webpack --config ./demo/webpack.config.cjs",
-    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
+    "prepublishOnly": "npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "RELEASE_MODE=true  npm publish ./lib --tag next"
   },
@@ -76,6 +76,7 @@
     "webpack-dev-server": "4.15.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

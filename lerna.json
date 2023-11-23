@@ -13,11 +13,11 @@
       "exact": true,
       "gitRemote": "origin",
       "message": "chore(release): publish"
+    },
+    "publish": {
+      "registry": "https://registry.npmjs.org"
     }
   },
-  "ignoreChanges": [
-    "**/__fixtures__/**",
-    "**/__tests__/**"
-  ],
+  "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**"],
   "version": "independent"
 }
