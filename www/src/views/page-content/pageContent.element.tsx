@@ -1,23 +1,33 @@
 import { p } from "@web-companions/gfc";
 import { litView } from "@web-companions/lit";
-import { counterElement as counterLitElement } from "../counter/counter.element";
+import { counterElement as counterLitElement } from "../counter-lit/counter.element";
 import { counterElement as counterJtmlElement } from "../counter-jtml/counter.element";
 import { DemoMenuItem } from "../../main";
 import { ghGistElement } from "../gh-gist/ghGist.element";
+import { getStartedElement } from "../get-started/getStarted.element";
+import { is } from "@web-companions/h/template";
+import { introductionElement } from '../introduction/Introduction.element';
 
 const CounterJtmlElement = counterJtmlElement("demo-counter-jtml");
 const CounterLitElement = counterLitElement("demo-counter-lit");
 const GhGistElement = ghGistElement("demo-gh-gist");
+const GetStartedElement = getStartedElement("get-started");
+const IntroductionElement = introductionElement("companions-introduction");
 
 export const pageContentElement = litView.element({
   props: {
     activePage: p.req<DemoMenuItem>(),
   },
 })(function* (params) {
-  let demo = {
+  let demo: {
+    title: () => object;
+    content: () => object;
+    menu?: () => object;
+    gists?: () => object;
+  } = {
     title: () => <></>,
-    menu: () => <></>,
     content: () => <></>,
+    menu: () => <></>,
     gists: () => <></>,
   };
 
@@ -47,19 +57,23 @@ export const pageContentElement = litView.element({
 
   while (true) {
     switch (params.activePage) {
+      case "introduction":
+        demo = {
+          title: () => <h1>🤔 Introduction</h1>,
+          content: () => <IntroductionElement></IntroductionElement>,
+        };
+        break;
       case "get_started":
         demo = {
-          title: () => <h1>🚧 WIP</h1>,
-          content: () => <></>,
-          menu: () => <></>,
-          gists: () => <></>,
+          title: () => <h1>🎬 Get started</h1>,
+          content: () => <GetStartedElement></GetStartedElement>,
         };
         break;
       case "counter":
         demo = {
           ...demo,
           title: () => <h2>▶️ Demo. Counter</h2>,
-          menu: MenuTemplateRenders,
+          // menu: MenuTemplateRenders,
           content: () => (
             <CounterJtmlElement msg={"Counter Element"}></CounterJtmlElement>
           ),
@@ -100,11 +114,17 @@ export const pageContentElement = litView.element({
     params = yield (
       <div class="page-content">
         {demo.title()}
-        {demo.menu()}
+        {demo.menu?.()}
         {demo.content()}
-        <hr></hr>
-        <h3>🛠️ Source code</h3>
-        {demo.gists()}
+        {is(
+          demo.gists != null,
+          <>
+            <hr></hr>
+            <hr></hr>
+            <h3>🛠️ Source code</h3>
+            {demo.gists?.()}
+          </>,
+        )}
       </div>
     );
   }
