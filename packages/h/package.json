@@ -40,7 +40,7 @@
   "scripts": {
     "clean": "tsc --build --clean && rimraf ./lib",
     "build": "npm run clean && tsc --build",
-    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
+    "prepublishOnly": "npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "npm publish ./lib --tag next"
   },

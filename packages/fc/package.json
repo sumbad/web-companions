@@ -7,7 +7,7 @@
     "build": "npm run transpile && node ../../scripts/make-lib.cjs",
     "transpile": "rimraf ./lib && tsc",
     "dev": "npm run transpile && concurrently --raw \"tsc -w\" \"webpack-dev-server --config ./demo/webpack.config.js\"",
-    "prepublishOnly": "node ../../scripts/prepublish.js && npm run build",
+    "prepublishOnly": "npm run build",
     "release": "RELEASE_MODE=true npm publish ./lib",
     "release:next": "npm publish ./lib --tag next"
   },

@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepublishOnly": "node scripts/prepublish.js",
     "release": "RELEASE_MODE=true node scripts/release.js",
     "dev": "npm run build && concurrently \"npm:watch\" \"npm run build:views -- --watch\" \"npm:www\"",
     "build": "npm run build --workspaces --if-present",
