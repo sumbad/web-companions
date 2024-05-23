@@ -30,6 +30,11 @@ const gitHubIcon = litView.node(function* () {
 });
 
 const menu = {
+  introduction: {
+    label: "Introduction",
+    category: true,
+    available: true,
+  },
   get_started: {
     label: "Get started",
     category: true,
@@ -54,7 +59,7 @@ export type DemoMenuItem = keyof typeof menu;
 litView.element()(function* () {
   setStyle(mainCss, this.container);
 
-  let activePage: DemoMenuItem = "counter";
+  let activePage: DemoMenuItem = "introduction";
 
   const onchangeActive = (event: { detail: { key: string | number } }) => {
     console.log(event.detail.key);
@@ -68,13 +73,15 @@ litView.element()(function* () {
     yield (
       <>
         <SidemenuElement
-          searchPlaceholder="Поиск"
+          searchPlaceholder="Search"
           data={menu}
-          activeMenuItem="get_started"
+          activeMenuItem="introduction"
           onchangeActive={onchangeActive}
         >
           <footer>
-            <a href="https://github.com/sumbad/web-companions">{gitHubIcon()()} web-companions</a>
+            <a href="https://github.com/sumbad/web-companions">
+              {gitHubIcon()()} web-companions
+            </a>
           </footer>
         </SidemenuElement>
 

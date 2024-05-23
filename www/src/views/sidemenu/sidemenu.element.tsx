@@ -74,7 +74,9 @@ export const sidemenuElement = litView.element({
   const handleSearchKeyup = (event: KeyboardEvent) => {
     event.preventDefault();
     if (event && event.target) {
-      search(event.target["value"]);
+      const value =
+        "value" in event.target ? String(event.target["value"]) : "";
+      search(value);
     }
   };
 

@@ -44,12 +44,13 @@
 
     "jsx": "preserve",
     "typeRoots": [],
-    "ignoreDeprecations": "5.0",
 
     "importsNotUsedAsValues": "preserve",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+
+    "ignoreDeprecations": "5.0"
   },
   "compileOnSave": false,
   "exclude": ["node_modules"],

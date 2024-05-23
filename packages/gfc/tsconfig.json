@@ -45,11 +45,10 @@
     "skipLibCheck": true,
     "composite": true,
     "typeRoots": [],
-    "ignoreDeprecations": "5.0",
+
+    "ignoreDeprecations": "5.0"
   },
   "include": ["./src/**/*.ts"],
   "compileOnSave": false,
-  "exclude": [
-    "tests"
-  ]
+  "exclude": ["tests"]
 }

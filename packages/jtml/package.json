@@ -1,0 +1,56 @@
+{
+  "name": "@web-companions/jtml",
+  "version": "0.0.0",
+  "description": "A View with @github/jtml as a render",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "typesVersions": {
+    "*": {
+      "/": [
+        "lib/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean && rimraf ./lib",
+    "build": "npm run clean && tsc --build",
+    "prepublishOnly": "npm run build",
+    "release": "RELEASE_MODE=true npm publish ./lib",
+    "release:next": "npm publish ./lib --tag next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumbad/web-companions.git"
+  },
+  "keywords": [
+    "Web Components",
+    "@github/jtml",
+    "@web-companions"
+  ],
+  "author": "sumbad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumbad/web-companions/issues"
+  },
+  "homepage": "https://github.com/sumbad/web-companions#readme",
+  "dependencies": {
+    "@web-companions/gfc": "2.1.6"
+  },
+  "peerDependencies": {
+    "@github/jtml": "0.4.x"
+  },
+  "devDependencies": {
+    "rimraf": "3.0.2",
+    "typescript": "5.0.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

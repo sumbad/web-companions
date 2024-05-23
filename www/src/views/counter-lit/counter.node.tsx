@@ -5,20 +5,24 @@ export const counterNode = litView.node(function* (props: { msg: string }) {
 
   this.next(); // just for tests
 
-  while (true) {
-    props = yield (
-      <>
-        <button
-          type="button"
-          onclick={() => {
-            count++, this.next();
-          }}
-        >
-          {props?.msg}
-        </button>
-        <i>{count}</i>
-      </>
-    );
+  try {
+    while (true) {
+      props = yield (
+        <>
+          <button
+            type="button"
+            onclick={() => {
+              count++, this.next();
+            }}
+          >
+            {props?.msg}
+          </button>
+          <i>{count}</i>
+        </>
+      );
+    }    
+  } finally {
+    console.log("A CounterNode with lit-html render was disconnected");
   }
 });
 
