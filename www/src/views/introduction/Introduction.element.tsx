@@ -9,8 +9,12 @@ export const introductionElement = litView.element()(function* () {
         </h5>
         <p>
           At its core, <code>web-companions</code> is a set of tools to simplify
-          the web development process with <b>concentration on creating atomic view
-          components using Web Specifications</b>.
+          the web development process with{" "}
+          <b>
+            concentration on creating atomic view components using Web
+            Specifications
+          </b>
+          .
         </p>
         <p>
           These libraries are not a framework and not need to learn it
@@ -87,7 +91,7 @@ export const introductionElement = litView.element()(function* () {
 
         <img
           alt="Web-companions work schema"
-          scr="https://github.com/sumbad/web-companions/blob/master/doc/schema.png?raw=true"
+          src="https://raw.githubusercontent.com/sumbad/web-companions/master/doc/schema.png"
         />
 
         <p>
