@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/jtml",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A View with @github/jtml as a render",
   "type": "module",
   "main": "./lib/index.js",
