@@ -92,6 +92,7 @@ export const introductionElement = litView.element()(function* () {
         <img
           alt="Web-companions work schema"
           src="https://raw.githubusercontent.com/sumbad/web-companions/master/doc/schema.png"
+          width="100%"
         />
 
         <p>
