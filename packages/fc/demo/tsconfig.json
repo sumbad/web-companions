@@ -15,7 +15,6 @@
     // "noImplicitThis": false,
     // "strictNullChecks": true,
     "removeComments": true,
-    // "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "rootDir": "./",
     "baseUrl": "./",
@@ -45,7 +44,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
 
-    "jsx": "preserve"
+    "jsx": "preserve",
+
+    "ignoreDeprecations": "5.0"
   },
   "compileOnSave": false,
   "exclude": ["node_modules"]

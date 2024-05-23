@@ -34,13 +34,13 @@
     "inlineSources": true,
 
     // Advanced
-    "suppressImplicitAnyIndexErrors": true,
+    // "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
 
-    "importsNotUsedAsValues": "preserve",
+    "forceConsistentCasingInFileNames": true,
 
-    "ignoreDeprecations": "5.0"
+    // "importsNotUsedAsValues": "preserve"
   },
   "compileOnSave": false,
-  "exclude": ["node_modules", "crates"],
+  "exclude": ["node_modules", "crates"]
 }
