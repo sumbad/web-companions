@@ -18,8 +18,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "publishConfig": {
-    "access": "public",
-    "directory": "lib"
+    "access": "public"
   },
   "exports": {
     ".": "./lib/index.js",
