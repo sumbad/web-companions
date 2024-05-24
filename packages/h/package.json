@@ -22,13 +22,11 @@
     "directory": "lib"
   },
   "exports": {
+    ".": "./lib/index.js",
     "./*": "./lib/*.js"
   },
   "typesVersions": {
     "*": {
-      "/": [
-        "lib/index.d.ts"
-      ],
       "*": [
         "lib/*.d.ts"
       ]
