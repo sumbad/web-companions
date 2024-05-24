@@ -2,7 +2,6 @@
   "name": "@web-companions/h",
   "version": "0.3.2",
   "description": "Helper functions for using with @web-companions",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sumbad/web-companions.git"
@@ -20,6 +19,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": "./lib/index.js",
     "./*": "./lib/*.js"
@@ -28,11 +30,14 @@
     "*": {
       "*": [
         "lib/*.d.ts"
+      ],
+      "/": [
+        "lib/index.d.ts"
       ]
     }
   },
   "files": [
-    "lib"
+    "./lib"
   ],
   "scripts": {
     "clean": "tsc --build --clean && rimraf ./lib",
