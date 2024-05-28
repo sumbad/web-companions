@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/gfc",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Generator Functional Components. A wrapper for creating Web components through JS Generator function",
   "type": "module",
   "main": "./lib/index.js",
@@ -60,7 +60,7 @@
     "@babel/preset-env": "7.18.2",
     "@babel/runtime": "7.18.3",
     "@playwright/test": "1.33.0",
-    "@web-companions/lit": "0.1.7",
+    "@web-companions/lit": "0.1.8",
     "babel-loader": "8.2.5",
     "babel-plugin-transform-jsx-to-tt": "0.4.0",
     "copy-webpack-plugin": "11.0.0",
