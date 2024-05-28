@@ -1,4 +1,4 @@
-import './jsx.js';
+import "./jsx.js";
 
 export type EGProperty<PX> = {
   type: PX;
@@ -20,7 +20,10 @@ export type ComponentFuncThis<P> = HTMLElement & {
   // onready: () => void;
 };
 
-export type ComponentFunc<P, This> = (this: This, props: P) => Generator<any, void, P>;
+export type ComponentFunc<P, This> = (
+  this: This,
+  props: P,
+) => Generator<any, void, P>;
 
 export type AdapterFunc<P, T> = (elTagName: string, props?: P) => T;
 
@@ -31,12 +34,15 @@ export type EGMapper<P, Key extends keyof P = keyof P> = (
   },
   key: keyof P,
   value: P[Key],
-  attribute?: string | undefined
+  attribute?: string | undefined,
 ) => void;
 
-export interface EGIniConfig<P, PP> {
+export interface EGIniConfig<P, PP, BE extends typeof HTMLElement = typeof HTMLElement> {
   props?: (EGProps<P> & PP) | undefined;
   mapper?: EGMapper<P> | undefined;
+  options?: ElementDefinitionOptions & {
+    BaseElement?: BE;
+  };
 }
 
 export type ElementComponentProps<OP> = OP & {
@@ -69,9 +75,15 @@ export type ElementComponentProps<OP> = OP & {
   tabindex?: number;
   title?: string;
   translate?: string;
-} & Partial<Omit<GlobalEventHandlers, 'addEventListener' | 'removeEventListener'>>;
+} & Partial<
+    Omit<GlobalEventHandlers, "addEventListener" | "removeEventListener">
+  >;
 
-export interface ElementComponent<E extends CustomElementConstructor, OP, This> {
+export interface ElementComponent<
+  E extends CustomElementConstructor,
+  OP,
+  This,
+> {
   new (): InstanceType<E> & { props: ElementComponentProps<OP> } & This;
   (_p: ElementComponentProps<OP>): Promise<E>;
   adapter<T>(func: AdapterFunc<OP, T>, defaultProps?: OP): T;

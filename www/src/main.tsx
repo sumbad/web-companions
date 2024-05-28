@@ -75,7 +75,7 @@ litView.element()(function* () {
         <SidemenuElement
           searchPlaceholder="Search"
           data={menu}
-          activeMenuItem="introduction"
+          activeMenuItem={activePage}
           onchangeActive={onchangeActive}
         >
           <footer>
