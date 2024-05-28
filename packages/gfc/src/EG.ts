@@ -38,17 +38,19 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(
   return <This extends ComponentFuncThis<P> = ComponentFuncThis<P>>(
     func: ComponentFunc<P, This>,
   ) => {
+    const BaseEl = config?.options?.BaseElement ?? HTMLElement;
     const constructor = build(
       func as ComponentFunc<P, ComponentFuncThis<P>>,
       config?.props || {},
       config?.mapper,
       this?.getRenderFn().element,
+      BaseEl,
     );
 
     // Return Element Component
-    return (name: string, options?: ElementDefinitionOptions) => {
+    return (name: string) => {
       try {
-        customElements.define(name, constructor, options);
+        customElements.define(name, constructor, config?.options);
       } catch (e) {
         console.warn(e);
       }
@@ -78,13 +80,17 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(
  * @param props
  * @param mapper
  */
-function build<P>(
+function build<P, BE extends typeof HTMLElement>(
   func: ComponentFunc<P, ComponentFuncThis<P>>,
   props: EGProps<unknown>,
   mapper: EGMapper<P> = setProp,
   render: ViewRender["element"] = (result) => result.value,
+  BaseElement: BE,
 ): CustomElementConstructor {
-  const customEl = class extends HTMLElement {
+  console.log(BaseElement);
+  // There is Typescript issue for error "A mixin class must have a constructor with a single rest parameter of type 'any[]'."
+  // @see: https://github.com/microsoft/TypeScript/issues/37142
+  const customEl = class extends (BaseElement as unknown as typeof HTMLElement) {
     container = this;
     __innerNodes = new Set<object>();
     // TODO: change to Symbol

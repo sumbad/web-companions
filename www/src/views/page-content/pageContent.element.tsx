@@ -6,7 +6,7 @@ import { DemoMenuItem } from "../../main";
 import { ghGistElement } from "../gh-gist/ghGist.element";
 import { getStartedElement } from "../get-started/getStarted.element";
 import { is } from "@web-companions/h/template";
-import { introductionElement } from '../introduction/Introduction.element';
+import { introductionElement } from "../introduction/Introduction.element";
 
 const CounterJtmlElement = counterJtmlElement("demo-counter-jtml");
 const CounterLitElement = counterLitElement("demo-counter-lit");
@@ -31,7 +31,7 @@ export const pageContentElement = litView.element({
     gists: () => <></>,
   };
 
-  let selectedItem: string | null = null;
+  let selectedItem: string = "lit";
 
   const handleSelectedItem = (item: string) => () => {
     selectedItem = item;
@@ -70,33 +70,38 @@ export const pageContentElement = litView.element({
         };
         break;
       case "counter":
-        demo = {
-          ...demo,
-          title: () => <h2>▶️ Demo. Counter</h2>,
-          // menu: MenuTemplateRenders,
-          content: () => (
-            <CounterJtmlElement msg={"Counter Element"}></CounterJtmlElement>
-          ),
-          gists: () => (
-            <GhGistElement
-              sharedLink={
-                "https://gist.github.com/sumbad/7d0ee6ad3f9282cfd3c99cb6ddbedc6b"
-              }
-            ></GhGistElement>
-          ),
-        };
+        if (selectedItem === "jtml") {
+          demo = {
+            title: () => <h2>▶️ Demo. Counter</h2>,
+            // menu: MenuTemplateRenders,
+            content: () => (
+              <CounterJtmlElement msg={"Counter Element"}></CounterJtmlElement>
+            ),
+            gists: () => (
+              <GhGistElement
+                sharedLink={
+                  "https://gist.github.com/sumbad/7d0ee6ad3f9282cfd3c99cb6ddbedc6b"
+                }
+              ></GhGistElement>
+            ),
+          };
+        }
 
         if (selectedItem === "lit") {
-          demo.content = () => (
-            <CounterLitElement msg={"Counter Element"}></CounterLitElement>
-          );
-          demo.gists = () => (
-            <GhGistElement
-              sharedLink={
-                "https://gist.github.com/sumbad/7d0ee6ad3f9282cfd3c99cb6ddbedc6b"
-              }
-            ></GhGistElement>
-          );
+          demo = {
+            title: () => <h2>▶️ Demo. Counter</h2>,
+            // menu: MenuTemplateRenders,
+            content: () => (
+              <CounterLitElement msg={"Counter Element"}></CounterLitElement>
+            ),
+            gists: () => (
+              <GhGistElement
+                sharedLink={
+                  "https://gist.github.com/sumbad/7d0ee6ad3f9282cfd3c99cb6ddbedc6b"
+                }
+              ></GhGistElement>
+            ),
+          };
         }
 
         break;

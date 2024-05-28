@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "dependencies": {
-    "@web-companions/gfc": "2.2.1"
+    "@web-companions/gfc": "*"
   },
   "peerDependencies": {
     "lit-html": "2.x"
