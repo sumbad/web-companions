@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/lit",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A View with lit-html as a render",
   "type": "module",
   "main": "./lib/index.js",
@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "dependencies": {
-    "@web-companions/gfc": "2.3.0"
+    "@web-companions/gfc": "2.3.1"
   },
   "peerDependencies": {
     "lit-html": "2.x"
