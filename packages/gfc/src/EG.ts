@@ -87,7 +87,6 @@ function build<P, BE extends typeof HTMLElement>(
   render: ViewRender["element"] = (result) => result.value,
   BaseElement: BE,
 ): CustomElementConstructor {
-  console.log(BaseElement);
   // There is Typescript issue for error "A mixin class must have a constructor with a single rest parameter of type 'any[]'."
   // @see: https://github.com/microsoft/TypeScript/issues/37142
   const customEl = class extends (BaseElement as unknown as typeof HTMLElement) {
