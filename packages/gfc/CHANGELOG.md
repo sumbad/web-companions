@@ -1,9 +1,10 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+<!-- All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines. -->
 
-### MINOR
+
+## [2.4.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.4.0) (2024-08-31)
 
 - Validate required properties on connected callback
 
