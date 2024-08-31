@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/jtml",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A View with @github/jtml as a render",
   "type": "module",
   "main": "./lib/index.js",
@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "dependencies": {
-    "@web-companions/gfc": "2.1.6"
+    "@web-companions/gfc": "2.4.0"
   },
   "peerDependencies": {
     "@github/jtml": "0.4.x"
