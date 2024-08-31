@@ -10,6 +10,7 @@ import type {
   ComponentFuncThis,
   ElementComponent,
   ElementNodeItem,
+  EGProperty,
 } from "./@types";
 import { ViewRender } from "./@types/ViewRender";
 import { View } from "./View.js";
@@ -30,7 +31,7 @@ export function EG<P, PP extends EGProps<P> = EGProps<P>>(
   type OP = Optional<
     P,
     {
-      [k in keyof PP]: PP[k] extends { optional: boolean } ? k : never;
+      [k in keyof PP]: PP[k] extends { isReq: false } ? k : never;
     }[keyof P]
   >;
 
@@ -109,6 +110,9 @@ function build<P, BE extends typeof HTMLElement>(
       return this._props as P;
     }
 
+    /** A list of required properties */
+    private _reqProps: string[] = [];
+
     isScheduledNext = false;
     generation: Generator<any, void, P> | undefined;
 
@@ -130,11 +134,11 @@ function build<P, BE extends typeof HTMLElement>(
       super();
 
       for (const pK in props) {
-        const pV = props[pK];
-        let attr: string | undefined = undefined;
+        const pV: EGProperty<unknown> = props[pK];
+        const attr: string | undefined = pV.attribute;
 
-        if ("type" in pV) {
-          attr = pV.attribute;
+        if (pV.isReq) {
+          this._reqProps.push(pK);
         }
 
         Reflect.defineProperty(this, pK, {
@@ -154,6 +158,14 @@ function build<P, BE extends typeof HTMLElement>(
      * Invoked when the custom element is first connected to the document's DOM.
      */
     connectedCallback(): void {
+      const isNotReqProp = this._reqProps.some(
+        (it) => this.props[it] === undefined,
+      );
+
+      if (isNotReqProp) {
+        return;
+      }
+
       this.generation = func.call(this, this.props);
 
       actualEl = this;

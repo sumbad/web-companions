@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### MINOR
+
+- Validate required properties on connected callback
+
+
 ## [2.1.3](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.1.2...@web-companions/gfc@2.1.3) (2023-06-13)
 
 

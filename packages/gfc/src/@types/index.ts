@@ -3,7 +3,7 @@ import "./jsx.js";
 export type EGProperty<PX> = {
   type: PX;
   attribute?: string;
-  optional?: boolean;
+  isReq?: boolean;
 };
 
 export type EGProps<P> = {
