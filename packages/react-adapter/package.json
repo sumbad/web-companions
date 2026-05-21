@@ -36,5 +36,8 @@
   "publishConfig": {
     "access": "public",
     "directory": "lib"
+  },
+  "dependencies": {
+    "webpack-dev-server": "^5.2.4"
   }
 }

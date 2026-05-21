@@ -44,7 +44,7 @@
     "uhtml": "^2.7.6",
     "webpack": "5.104.1",
     "webpack-cli": "5.1.4",
-    "webpack-dev-server": "5.2.1"
+    "webpack-dev-server": "5.2.4"
   },
   "publishConfig": {
     "access": "public",
