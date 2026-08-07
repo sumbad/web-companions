@@ -38,6 +38,7 @@
     "directory": "lib"
   },
   "dependencies": {
+    "@babel/core": "^7.29.6",
     "webpack-dev-server": "^5.2.4"
   }
 }

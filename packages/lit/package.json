@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "dependencies": {
+    "@babel/core": "^7.29.6",
     "@web-companions/gfc": "2.4.0",
     "webpack-dev-server": "^5.2.4"
   },
