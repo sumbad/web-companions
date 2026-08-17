@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/h",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Helper functions for using with @web-companions",
   "repository": {
     "type": "git",
@@ -49,8 +49,5 @@
   "devDependencies": {
     "rimraf": "3.0.2",
     "typescript": "5.4.5"
-  },
-  "dependencies": {
-    "webpack-dev-server": "^5.2.4"
   }
 }
