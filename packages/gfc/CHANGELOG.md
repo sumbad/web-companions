@@ -3,6 +3,11 @@
 <!-- All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines. -->
 
+## [2.5.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.5.0) (2026-08-17)
+
+### Fixed
+- Set JSX Element type to `unknown` instead of `any` type (which makes type-aware linters report `unsafe-return`)
+
 
 ## [2.4.0](https://github.com/sumbad/web-companions/compare/@web-companions/gfc@2.4.0) (2024-08-31)
 
