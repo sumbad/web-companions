@@ -1,6 +1,6 @@
 {
   "name": "@web-companions/react-adapter",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "To use web components as React components",
   "main": "index.js",
   "scripts": {
@@ -36,8 +36,5 @@
   "publishConfig": {
     "access": "public",
     "directory": "lib"
-  },
-  "dependencies": {
-    "webpack-dev-server": "^5.2.4"
   }
 }
