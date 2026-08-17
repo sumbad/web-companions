@@ -41,8 +41,7 @@
   },
   "homepage": "https://github.com/sumbad/web-companions#readme",
   "dependencies": {
-    "@web-companions/gfc": "2.4.0",
-    "webpack-dev-server": "^5.2.4"
+    "@web-companions/gfc": "2.4.0"
   },
   "peerDependencies": {
     "@github/jtml": "0.4.x"
