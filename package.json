@@ -7,7 +7,7 @@
     "url": "https://github.com/sumbad/web-companions.git"
   },
   "scripts": {
-    "release": "RELEASE_MODE=true node scripts/release.js",
+    "release": "RELEASE_MODE=true node scripts/release.cjs",
     "dev": "npm run build && concurrently \"npm:watch\" \"npm run build:views -- --watch\" \"npm:www\"",
     "build": "npm run build --workspaces --if-present",
     "watch": "cd ./www && tsc --build --watch",
