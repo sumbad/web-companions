@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/sumbad/web-companions/compare/@web-companions/lit@0.2.1) (2026-08-17)
+
+### Chore
+- Clean up develop dependencies
+
+---
+
+
 ## 0.1.5 (2023-08-29)
 
 ### Bug Fixes:
