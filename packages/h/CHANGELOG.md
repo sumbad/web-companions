@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/sumbad/web-companions/compare/@web-companions/h@0.3.4) (2026-08-17)
+
+### Chore
+- Clean up develop dependencies
+
+---
+
 ## [0.2.3](https://github.com/sumbad/web-companions/compare/@web-companions/h@0.2.3-develop.0...@web-companions/h@0.2.3) (2023-06-13)
 
 **Note:** Version bump only for package @web-companions/h
