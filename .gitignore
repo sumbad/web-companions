@@ -109,3 +109,6 @@ codecov
 
 # Build folders
 .build
+
+# Local registry
+.kley
